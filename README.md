@@ -1,2 +1,1 @@
-<<<<<<< HEAD
-#  Tailor Mind
+# Tailor Mind

@@ -1,9 +1,17 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 import os
  
 app = FastAPI()
- 
+app.add_middleware(
+    CORSMiddleware,    
+    allow_origins= "http://localhost:5173/",    
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],    
+)
+
 @app.post("/upload")
 async def create_upload_file(file: UploadFile = File(...)):
     dirs = 'uploads'

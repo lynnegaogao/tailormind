@@ -32,7 +32,7 @@ export default {
       const formData = new FormData();
       formData.append('file', file); // 添加这一行
       console.log(file)
-      axios.post('http://localhost:8000/upload', formData, {
+      axios.post('http://localhost:8000/uploadfile', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

@@ -12,7 +12,7 @@ app.add_middleware(
     allow_headers=["*"],    
 )
 
-@app.post("/upload")
+@app.post("/uploadfile")
 async def create_upload_file(file: UploadFile = File(...)):
     dirs = 'uploads'
     # 判断uploads目录是否存在，否则新建uploads目录
@@ -23,3 +23,4 @@ async def create_upload_file(file: UploadFile = File(...)):
     with open(file_location, "wb") as file_object:
         file_object.write(file.file.read())
     return {"filename": file.filename}
+

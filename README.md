@@ -1,17 +1,25 @@
 # Tailor Mind
 
 Runing scripts
-- back
 
-conda activate [your own virtual environment]
+## backend
 
-npm run api
+### 可能需要额外安装
 
-- front
+`pip install fastapi`
 
-source ~/.bash_profile
+`pip install python-multipart`
 
-nvm use 18
+### script
 
-npm run dev
+`conda activate [your own virtual environment]`
 
+`npm run api`
+
+## frontend
+
+`source ~/.bash_profile`
+
+`nvm use 18`
+
+`npm run dev`

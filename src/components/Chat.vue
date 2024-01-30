@@ -1,24 +1,38 @@
 <template>
     <div class="chat">
         <div class="chat-window">
-            <div v-for="message in messages" :key="message.id" class="message"
-                :class="{ 'user-message': message.own, 'system-message': !message.own }">
-                <div>
-                    {{ message.text }}
-                </div>
-            </div>
+
+            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" :directConnection='{
+                "openAI": {
+                    "key": "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",
+                    "chat": { "max_tokens": 2000, "system_prompt": "Assist me with anything you can" }
+                }
+            }' :initialMessages='[
+    { "text": "Hey, who are you?", "role": "user" },
+    { "text": "I am your AI self-regulated learning assistant. It is nice to meet you and help you with your studies~", "role": "ai" },
+]' :messageStyles='{
+    "default": {
+        "shared": { "bubble": { "color": "black" } },
+        "user": { "bubble": { "backgroundColor": "#EEE1C7A2" } },
+    },
+    "file": {
+        "shared": {
+            "bubble": { "backgroundColor": "grey" }
+        }
+    }
+}' :inputAreaStyle='{ "backgroundColor": "#EEE1C7A2" }' style="border-radius: 5px;width:30vw;height:93vh">
+            </deep-chat>
+
         </div>
-        <div class="input-area">
-            <br />
-            <a-textarea rows="4" placeholder="enter your question~" v-model:value="newMessage"
-                @keydown="handleCommandEnter" />
-        </div>
+
     </div>
 </template>
   
 <script>
+import { ref } from "vue";
 import { Textarea } from 'ant-design-vue';
 import { Button } from 'ant-design-vue';
+import 'deep-chat';
 
 export default {
     name: 'ChatComponent',
@@ -26,34 +40,51 @@ export default {
         'a-textarea': Textarea,
         'a-button': Button,
     },
+    setup() {
+
+    },
     data() {
         return {
             messages: [],
-            newMessage: ''
+            newMessage: '',
         };
     },
+    watch: {
+
+    },
+    mounted() {
+        this.setupDeepChat();
+        //this.$nextTick(() => {
+        //    setTimeout(() => {
+        //        this.fetchHistoryMessages();
+        //    }, 1000);
+        //})
+
+    },
+
     methods: {
-        handleCommandEnter(event) {
-            // 在 Mac 上，metaKey 是 Command 键，在 Windows/Linux 上通常是 Windows 键
-            if (event.metaKey && event.key === 'Enter') {
-                this.sendMessage()
+        setupDeepChat() {
+            const deepChatComponent = this.$refs.chatElementRef;
+            if (deepChatComponent) {
+                // 设置新消息处理器
+                deepChatComponent.onNewMessage = this.handleNewMessage;
+            }
+        },
+        handleNewMessage(message) {
+            console.log("新消息: ", message);
+            // 在这里处理新消息，例如将其添加到显示消息的数组中
+        },
+        fetchHistoryMessages() {
+            const deepChatComponent = this.$refs.chatElementRef;
+            if (deepChatComponent) {
+                const messages = deepChatComponent.getMessages();
+                console.log("历史消息: ", messages);
+                // 在这里处理历史消息，例如将其保存到组件的数据属性中
             }
         },
 
-        sendMessage() {
-            //console.log("triggered!")
-            console.log(this.newMessage)
-            if (this.newMessage.trim() !== '') {
-                console.log("triggered!")
-                this.messages.push({
-                    id: this.messages.length + 1,
-                    text: this.newMessage,
-                    own: true
-                });
-                console.log(this.messages)
-                this.newMessage = '';
-            }
-        }
+
+
     }
 };
 </script>
@@ -69,6 +100,11 @@ export default {
 .chat-window {
     flex-grow: 1;
     overflow-y: auto;
+}
+
+.chat-area {
+    width: 100%;
+    height: 100%;
 }
 
 .input-area {

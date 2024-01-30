@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+left to right direction
+
+'泛化和实现'
+abstract class AbstractList extends AbstractCollection implements List{
+    + add():boolean
+}
+abstract class AbstractCollection<E> implements Collection
+{
+    + add():boolean
+}
+interface List<E> extends Collection {
+    + add():boolean
+}
+interface Collection{
+    + add():boolean
+}
+
+'关联'
+class LoginForm {
+ JButton loginButton;
+}
+class JButton {
+}
+LoginForm --> JButton:关联
+ClassOne -- ClassTwo:关联
+
+'聚合'
+class Car {
+	+ Engine engine;
+	+ Car(Engine engine):void
+    + setEngine(Engine engine):void
+
+}
+class Engine {
+}
+Car o--Engine:聚合
+
+'组合'
+class Head {
+	- Mouth mouth;
+	+ Head();
+}
+class Mouth {
+}
+Head *--Mouth:拥有
+
+'依赖'
+class Driver {
+	+ drive(Car car):void
+}
+class Car {
+	+ move():void
+}
+Driver ..> Car:依赖
+
+@enduml
+————————————————
+版权声明：本文为CSDN博主「全栈程序员」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/qq_37248504/article/details/124523542

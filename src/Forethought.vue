@@ -1,9 +1,3 @@
-<script setup>
-import uploadFile from './components/UploadFile.vue'
-import fileStruct from './components/FileStruct.vue'
-import chat from './components/Chat.vue'
-</script>
-
 <template>
   <div id="container">
 
@@ -21,7 +15,7 @@ import chat from './components/Chat.vue'
             UPLOAD FILE
           </div>
           <div class="module-component">
-            <uploadFile />
+            <uploadFile @getFileContent="onGetFileContent"/>
           </div>
         </div>
 
@@ -141,6 +135,46 @@ import chat from './components/Chat.vue'
   </div>
 </template>
 
+<script>
+import uploadFile from './components/UploadFile.vue'
+import fileStruct from './components/FileStruct.vue'
+import chat from './components/Chat.vue'
+
+import DataService from "./utils/data-service"
+
+export default {
+
+  name: 'forethought',
+  components: {
+    uploadFile,
+    chat,
+  },
+  data() {
+    return {
+      getFileStatus:false,
+
+
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+
+    onGetFileContent(file) {
+      var formData=new FormData()
+      formData.append('file', file)
+      DataService.constructor()
+      DataService.getFileContent(formData,(backendData) => {
+        console.log('backendData:', backendData);
+        this.getFileStatus=true;
+      })
+    },
+
+  },
+
+}
+</script>
 
 <style scoped>
 #container {
@@ -184,7 +218,7 @@ import chat from './components/Chat.vue'
   color: #aaa;
   font-size: 0.8em;
   margin-top: 5px;
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;*/
   width: 100%;
   font-weight: bold;
   display: flex;
@@ -205,11 +239,12 @@ import chat from './components/Chat.vue'
   margin-right: 3px;
   background: #fff;
   flex-direction: column;
-  height:100%
+  height: 100%
 }
-.module-component{
-  width:100%;
-  height:100%;
+
+.module-component {
+  width: 100%;
+  height: 100%;
 }
 
 .icon {
@@ -250,8 +285,8 @@ import chat from './components/Chat.vue'
   flex: 1;
 }
 
-#learning-path-view{
-  flex:1;
+#learning-path-view {
+  flex: 1;
 }
 
 #question-recommendation-view {

@@ -1,6 +1,6 @@
 <template>
   <div class="upload-file">
-    <a-upload action="http://localhost:8000/upload" v-model:file-list="fileList" :custom-request="handleUpload">
+    <a-upload v-model:file-list="fileList" :custom-request="handleUpload">
       <a-button>
         <upload-outlined />
         Upload Your Learning Material~
@@ -20,39 +20,32 @@ export default {
     'a-upload': Upload,
     'a-button': Button
   },
+  props: {
+    //formData: {
+    //  type: FormData,
+    //  required: true
+    //}
+  },
   data() {
     return {
       fileList: [],
     };
   },
+  emits: ["getFileContent"],
   methods: {
     handleUpload(options) {
-      console.log(options)
       const { onSuccess, onError, file } = options;
-      const formData = new FormData();
-      formData.append('file', file); // 添加这一行
-      console.log(file)
-      axios.post('http://localhost:8000/uploadfile', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-        .then(response => {
-          // 调用 onSuccess 来告知上传成功  
-          onSuccess(response.data, file);
-        })
-        .catch(error => {
-          // 调用 onError 来告知上传失败
-          onError(error);
-          console.log(error)
-        });
+      console.log("front gets file!",file)
+      this.$emit('getFileContent', file)
+      onSuccess(file);
     },
 
-  }
-};
+  },
+}
 </script>
 
 <style scoped>
-
-
+.upload-file {
+  margin-top: 15px;
+}
 </style>

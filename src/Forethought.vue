@@ -1,5 +1,6 @@
 <script setup>
 import uploadFile from './components/UploadFile.vue'
+import fileStruct from './components/FileStruct.vue'
 import chat from './components/Chat.vue'
 </script>
 
@@ -31,7 +32,7 @@ import chat from './components/Chat.vue'
             FILE STRUCTURE
           </div>
           <div class="module-component">
-
+            <fileStruct />
           </div>
         </div>
 
@@ -261,8 +262,3 @@ import chat from './components/Chat.vue'
   flex: 1;
 }
 </style>
-
-
-
-
-

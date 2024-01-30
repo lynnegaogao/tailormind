@@ -147,6 +147,7 @@ export default {
   name: 'forethought',
   components: {
     uploadFile,
+    fileStruct,
     chat,
   },
   data() {

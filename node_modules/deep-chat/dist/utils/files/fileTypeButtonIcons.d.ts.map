@@ -1,0 +1,1 @@
+{"version":3,"file":"fileTypeButtonIcons.d.ts","sourceRoot":"","sources":["../../../../src/utils/files/fileTypeButtonIcons.ts"],"names":[],"mappings":"AAIA,OAAO,EAAC,UAAU,EAAC,MAAM,uBAAuB,CAAC;AAEjD,KAAK,gBAAgB,GAAG;KACrB,GAAG,IAAI,UAAU,GAAG;QACnB,EAAE,EAAE,MAAM,CAAC;QACX,SAAS,EAAE,MAAM,CAAC;QAClB,UAAU,EAAE,MAAM,CAAC;KACpB;CACF,CAAC;AAEF,eAAO,MAAM,sBAAsB,EAAE,gBAKpC,CAAC"}

@@ -7,12 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "api": "cd back && uvicorn main:app --reload"
+    "api": "cd back && python main.py"
   },
   "dependencies": {
     "ant-design-vue": "^4.1.1",
-    "axios": "^1.6.5",
+    "axios": "^1.6.7",
+    "deep-chat": "^1.4.10",
     "vue": "^3.3.11",
+    "vue-beautiful-chat": "^2.5.0",
     "vue-router": "^4.2.5",
     "vuex": "^4.0.2"
   },

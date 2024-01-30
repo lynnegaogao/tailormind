@@ -1,0 +1,1 @@
+{"version":3,"file":"loadingMessageDotsStyle.d.ts","sourceRoot":"","sources":["../../../../../src/views/chat/messages/loadingMessageDotsStyle.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,aAAa,EAAC,MAAM,yBAAyB,CAAC;AAEtD,qBAAa,uBAAuB;IAClC,OAAO,CAAC,MAAM,CAAC,UAAU;WAWX,GAAG,CAAC,aAAa,EAAE,WAAW,EAAE,aAAa,CAAC,EAAE,aAAa;CAU5E"}

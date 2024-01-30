@@ -1,0 +1,1 @@
+{"version":3,"file":"textToSpeech.d.ts","sourceRoot":"","sources":["../../../src/types/textToSpeech.ts"],"names":[],"mappings":"AACA,MAAM,WAAW,kBAAkB;IAEjC,IAAI,CAAC,EAAE,MAAM,CAAC;IAEd,KAAK,CAAC,EAAE,MAAM,CAAC;IAEf,IAAI,CAAC,EAAE,MAAM,CAAC;IAGd,SAAS,CAAC,EAAE,MAAM,CAAC;IAEnB,MAAM,CAAC,EAAE,MAAM,CAAC;CACjB"}

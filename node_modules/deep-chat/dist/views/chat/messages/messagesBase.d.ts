@@ -1,0 +1,42 @@
+import { MessageElementsStyles, MessageRoleStyles, MessageStyles, UserContent } from '../../../types/messages';
+import { MessageContentI, Overwrite } from '../../../types/messagesInternal';
+import { ProcessedTextToSpeechConfig } from './textToSpeech/textToSpeech';
+import { HTMLClassUtilities } from '../../../types/html';
+import { IntroPanel } from '../introPanel/introPanel';
+import { Response } from '../../../types/response';
+import { Avatars } from '../../../types/avatars';
+import { DeepChat } from '../../../deepChat';
+import { Names } from '../../../types/names';
+import { MessageElements } from './messages';
+export declare class MessagesBase {
+    messageElementRefs: MessageElements[];
+    textToSpeech?: ProcessedTextToSpeechConfig;
+    submitUserMessage?: (content: UserContent) => void;
+    readonly elementRef: HTMLElement;
+    readonly messageStyles?: MessageStyles;
+    readonly messages: MessageContentI[];
+    readonly htmlClassUtilities: HTMLClassUtilities;
+    readonly textElementsToText: [MessageElements, string][];
+    protected _introPanel?: IntroPanel;
+    protected readonly _avatars?: Avatars;
+    protected readonly _names?: Names;
+    private _remarkable;
+    private readonly _onNewMessage?;
+    constructor(deepChat: DeepChat);
+    private static createContainerElement;
+    addNewTextMessage(text: string, role: string, overwrite?: Overwrite): MessageElements;
+    private overwriteText;
+    protected createAndAppendNewMessageElement(text: string, role: string): MessageElements;
+    createNewMessageElement(text: string, role: string): MessageElements;
+    protected static isTemporaryElement(elements: MessageElements): boolean;
+    protected createMessageElements(text: string, role: string): MessageElements;
+    protected static createBaseElements(): MessageElements;
+    private addInnerContainerElements;
+    applyCustomStyles(elements: MessageElements | undefined, role: string, media: boolean, otherStyles?: MessageRoleStyles | MessageElementsStyles): void;
+    static createMessageContent(content: Response): MessageContentI;
+    removeLastMessage(): void;
+    sendClientUpdate(message: MessageContentI, isInitial?: boolean): void;
+    renderText(bubbleElement: HTMLElement, text: string): void;
+    protected refreshTextMessages(): void;
+}
+//# sourceMappingURL=messagesBase.d.ts.map

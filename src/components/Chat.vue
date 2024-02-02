@@ -2,14 +2,22 @@
     <div class="chat">
         <div class="chat-window">
 
-            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" :directConnection='{
-                "openAI": {
-                    "key": "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",
-                    "chat": { "max_tokens": 2000, "system_prompt": "Assist me with anything you can" }
-                }
-            }' :initialMessages='[
-    { "text": "Hey, who are you?", "role": "user" },
-    { "text": "I am your AI self-regulated learning assistant. It is nice to meet you and help you with your studies~", "role": "ai" },
+            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" :stream="true"
+                :directConnection='{
+                    "openAI": {
+                        "key": "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",
+                        "chat": { "max_tokens": 2000, "system_prompt": "Assist me with anything you can" }
+                    }
+                }' :introMessage='{ "text": "Hi! I am your AI self-regulated learning assistant!~" }' :initialMessages='[
+    { "text": "Hey, how to start?", "role": "user" },
+    { "text": "**Upload your learning material** and start your self-learning journey!", "role": "ai" },
+    {
+        "html": `
+      <div>
+        <div style="margin-bottom: 10px;">Here is a simple <span style="color: orange;">example</span>: hihihi～～</div>
+      </div>`,
+        "role": "ai"
+    }
 ]' :messageStyles='{
     "default": {
         "shared": { "bubble": { "color": "black" } },
@@ -17,10 +25,11 @@
     },
     "file": {
         "shared": {
-            "bubble": { "backgroundColor": "grey" }
+            "bubble": { "backgroundColor": "#EEE1C7A2" }
         }
     }
-}' :inputAreaStyle='{ "backgroundColor": "#EEE1C7A2" }' style="border-radius: 5px;width:30vw;height:93vh">
+}' :inputAreaStyle='{ "backgroundColor": "#EEE1C7A2" }'
+                style="border-radius: 1px 1px 5px 5px;border: #fff;width:25vw;height:91vh">
             </deep-chat>
 
         </div>

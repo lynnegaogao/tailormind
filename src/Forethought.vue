@@ -6,10 +6,21 @@
     </div>
 
     <div class="system-component">
-      <!-- 文件上传+文件预览+知识架构 -->
+      <!-- 对话 -->
       <div id="column-1" class="column">
+
+        <!-- 对话 -->
+        <div id="chat-view" class="module-block">
+          <div class="module-header">
+            <img src="./assets/Chats.png" alt="Icon" class="icon" />
+            CHAT
+          </div>
+          <div class="module-component">
+            <chat />
+          </div>
+        </div>
         <!-- 文件上传 -->
-        <div id="upload-file-view" class="module-block">
+        <!--<div id="upload-file-view" class="module-block">
           <div class="module-header">
             <img src="./assets/Upload.png" alt="Icon" class="icon" />
             UPLOAD FILE
@@ -17,51 +28,18 @@
           <div class="module-component">
             <uploadFile @getFileContent="onGetFileContent"/>
           </div>
-        </div>
+        </div>-->
 
-        <!-- 知识架构 -->
-        <div id="file-structure-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Structure.png" alt="Icon" class="icon" />
-            FILE STRUCTURE
-          </div>
-          <div class="module-component">
 
-          </div>
-        </div>
+      </div>
 
+      <!-- 文件预览+问题推荐 -->
+      <div id="column-2" class="column">
         <!-- 文件预览 -->
         <div id="file-preview-view" class="module-block">
           <div class="module-header">
             <img src="./assets/Documents.png" alt="Icon" class="icon" />
             FILE PREVIEW
-          </div>
-          <div class="module-component">
-
-          </div>
-        </div>
-
-      </div>
-
-      <!-- 知识点思维导图+学习路径+问题推荐 -->
-      <div id="column-2" class="column">
-
-        <!-- 知识点思维导图 -->
-        <div id="knowledge-mindmap-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Mindmap.png" alt="Icon" class="icon" />
-            KNOWLEDGE MINDMAP
-          </div>
-          <div class="module-component">
-
-          </div>
-        </div>
-
-        <!-- 学习路径 -->
-        <div id="learning-path-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Learningpath.png" alt="Icon" class="icon" />
-            LEARNING PATH
           </div>
           <div class="module-component">
 
@@ -81,16 +59,27 @@
 
       </div>
 
-      <!-- 对话 -->
+      <!-- 知识点思维导图+学习路径 -->
       <div id="column-3" class="column">
-        <!-- 对话 -->
-        <div id="chat-view" class="module-block">
+        <!-- 知识点思维导图 -->
+        <div id="knowledge-mindmap-view" class="module-block">
           <div class="module-header">
-            <img src="./assets/Chats.png" alt="Icon" class="icon" />
-            CHAT
+            <img src="./assets/Mindmap.png" alt="Icon" class="icon" />
+            KNOWLEDGE MINDMAP
           </div>
           <div class="module-component">
-            <chat />
+
+          </div>
+        </div>
+
+        <!-- 学习路径 -->
+        <div id="learning-path-view" class="module-block">
+          <div class="module-header">
+            <img src="./assets/Learningpath.png" alt="Icon" class="icon" />
+            LEARNING PATH
+          </div>
+          <div class="module-component">
+
           </div>
         </div>
 
@@ -131,7 +120,6 @@
 
     </div>
 
-
   </div>
 </template>
 
@@ -150,8 +138,8 @@ export default {
   },
   data() {
     return {
-      getFileStatus:false,
-      
+      getFileStatus: false,
+
 
     }
   },
@@ -161,12 +149,12 @@ export default {
   methods: {
 
     onGetFileContent(file) {
-      var formData=new FormData()
+      var formData = new FormData()
       formData.append('file', file)
       DataService.constructor()
-      DataService.getFileContent(formData,(backendData) => {
+      DataService.getFileContent(formData, (backendData) => {
         console.log('backendData:', backendData);
-        this.getFileStatus=true;
+        this.getFileStatus = true;
       })
     },
 
@@ -191,9 +179,9 @@ export default {
   margin-bottom: 5px;
   background-color: #eee1c7;
   color: #7e7d7f;
-  text-align: center;
+  text-align: left;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1em;
   padding: 5px;
   flex-grow: 1;
 }
@@ -231,7 +219,7 @@ export default {
   display: flex;
   /* justify-content: center; */
   /* align-items: center; */
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   margin-bottom: 5px;
@@ -259,37 +247,31 @@ export default {
 }
 
 #column-2 {
-  flex: 3;
+  flex: 2.5;
   height: 100%;
 }
 
 #column-3 {
-  flex: 2;
+  flex: 4;
   height: 100%;
 }
 
-#upload-file-view {
-  flex: 1.2;
-}
 
 #file-preview-view {
-  flex: 4;
+  flex: 3;
 }
 
-#file-structure-view {
-  flex: 2;
-}
 
 #knowledge-mindmap-view {
-  flex: 1;
+  flex: 3;
 }
 
 #learning-path-view {
-  flex: 1;
+  flex: 2;
 }
 
 #question-recommendation-view {
-  flex: 1;
+  flex: 2;
 }
 
 #chat-view {

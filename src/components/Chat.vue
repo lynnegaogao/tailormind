@@ -3,15 +3,19 @@
         <div class="chat-window">
 
             <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" :stream="true"
-                :directConnection='{
-                    "openAI": {
-                        "key": "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",
-                        "chat": { "max_tokens": 2000, "system_prompt": "Assist me with anything you can" }
-                    }
-                }' :introMessage='{ "text": "Hi! I am your AI self-regulated learning assistant!~" }' :initialMessages='[
-    { "text": "Hey, how to start?", "role": "user" },
-    { "text": "**Upload your learning material** and start your self-learning journey!", "role": "ai" },
-    {
+                :request='{
+                    "url": "http://127.0.0.1:5000/chat-stream",
+                    "method": "POST",
+                    //"headers": { "customName": "customHeaderValue" },
+                    //"additionalBodyProps": { "field": "value" }
+                }' 
+                :introMessage='{
+                    "text": "Hi! I am your AI self-regulated learning assistant!~"
+                }' 
+                :initialMessages='[
+                    { "text": "Hey, how to start?", "role": "user" },
+                    { "text": "**Upload your learning material** and start your self-learning journey!", "role": "ai" },
+                    {
         "html": `
       <div>
         <div style="margin-bottom: 10px;">Here is a simple <span style="color: orange;">example</span>: hihihi～～</div>

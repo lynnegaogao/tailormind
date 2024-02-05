@@ -20,6 +20,10 @@ let DataService = {
                 console.error('Error fetching file:', error);
             });
 
+    },
+
+    getChatRequest(callback){
+        axios.post(`${this.dataServerUrl}/chat`)
     }
 
 

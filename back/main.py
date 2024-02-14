@@ -97,6 +97,7 @@ custom = Custom()
 def chat():
     body = request.json
     print("api backend gets request!")
+    print("response:",custom.chat(body))
     return custom.chat(body)
 
 @app.route("/chat-stream", methods=["POST"])
@@ -107,7 +108,9 @@ def chat_stream():
 
 @app.route("/files", methods=["POST"])
 def files():
-    return custom.files(request)
+    print("api backend gets request!")
+    response=custom.files(request)
+    return response
 
 # ------------------ OPENAI API ------------------
 

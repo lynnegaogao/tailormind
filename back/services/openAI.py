@@ -2,7 +2,7 @@ from flask import Response
 import requests
 import json
 import os
-
+OPENAI_API_KEY="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"
 # Make sure to set the OPENAI_API_KEY environment variable in a .env file (create if does not exist) - see .env.example
 
 class OpenAI:
@@ -17,7 +17,8 @@ class OpenAI:
                     "content": message["text"]
                 } for message in body["messages"]
             ],
-            "model": body["model"]
+            #"model": "gpt-4-1106-preview"
+            "model": "gpt-3.5-turbo"
         }
         if stream:
             chat_body["stream"] = True
@@ -26,7 +27,7 @@ class OpenAI:
     def chat(self, body):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + os.getenv("OPENAI_API_KEY")
+            "Authorization": "Bearer " + OPENAI_API_KEY
         }
         chat_body = self.create_chat_body(body)
         response = requests.post(
@@ -42,7 +43,7 @@ class OpenAI:
     def chat_stream(self, body):
         headers = {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + os.getenv("OPENAI_API_KEY")
+            "Authorization": "Bearer " + OPENAI_API_KEY
         }
         chat_body = self.create_chat_body(body, stream=True)
         response = requests.post(
@@ -80,7 +81,7 @@ class OpenAI:
     def image_variation(self, files):
         url = "https://api.openai.com/v1/images/variations"
         headers = {
-            "Authorization": "Bearer " + os.getenv("OPENAI_API_KEY")
+            "Authorization": "Bearer " + OPENAI_API_KEY
         }
         # Files are stored inside a files object
         # https://deepchat.dev/docs/connect

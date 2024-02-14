@@ -2,11 +2,12 @@
     <div class="chat">
         <div class="chat-window">
 
-            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" :stream="true"
+            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" 
                 :request='{
-                    "url": "http://127.0.0.1:5000/chat-stream",
+                    //"url": "http://127.0.0.1:5000/chat-stream",
+                    "url": "http://127.0.0.1:5000/openai-chat",
                     "method": "POST",
-                    //"headers": { "customName": "customHeaderValue" },
+                    //"headers": { "Content-Type": "multipart/form-data" },
                     //"additionalBodyProps": { "field": "value" }
                 }' 
                 :introMessage='{
@@ -86,6 +87,10 @@ export default {
         handleNewMessage(message) {
             console.log("新消息: ", message);
             // 在这里处理新消息，例如将其添加到显示消息的数组中
+            if(message.message.files){
+                console.log(message.message.files)
+            }
+                //console.log(message.message)
         },
         fetchHistoryMessages() {
             const deepChatComponent = this.$refs.chatElementRef;
@@ -93,6 +98,8 @@ export default {
                 const messages = deepChatComponent.getMessages();
                 console.log("历史消息: ", messages);
                 // 在这里处理历史消息，例如将其保存到组件的数据属性中
+                console.log(messages.message)
+                //if messages
             }
         },
 

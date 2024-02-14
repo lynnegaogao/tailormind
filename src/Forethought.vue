@@ -68,7 +68,7 @@
             KNOWLEDGE MINDMAP
           </div>
           <div class="module-component">
-
+            <knowledge-mindmap />
           </div>
         </div>
 
@@ -126,8 +126,10 @@
 <script>
 import uploadFile from './components/UploadFile.vue'
 import chat from './components/Chat.vue'
+import knowledgeMindmap from './components/KnowledgeMindmap.vue'
 
 import DataService from "./utils/data-service"
+import KnowledgeMindmap from './components/KnowledgeMindmap.vue'
 
 export default {
 
@@ -135,6 +137,7 @@ export default {
   components: {
     uploadFile,
     chat,
+    KnowledgeMindmap,
   },
   data() {
     return {
@@ -147,7 +150,6 @@ export default {
 
   },
   methods: {
-
     onGetFileContent(file) {
       var formData = new FormData()
       formData.append('file', file)

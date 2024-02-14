@@ -12,6 +12,7 @@
   "dependencies": {
     "ant-design-vue": "^4.1.1",
     "axios": "^1.6.7",
+    "cytoscape": "^3.28.1",
     "deep-chat": "^1.4.10",
     "vue": "^3.3.11",
     "vue-beautiful-chat": "^2.5.0",

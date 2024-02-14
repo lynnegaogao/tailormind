@@ -1,6 +1,7 @@
 from flask import Response
 import time
 import json
+from flask import jsonify
 
 class Custom:
     def chat(self, body):
@@ -9,7 +10,9 @@ class Custom:
         print(body)
         # Sends response back to Deep Chat using the Response format:
         # https://deepchat.dev/docs/connect/#Response
-        return {"text": "This is a respone from a Flask server. Thank you for your message!"}
+        #return {"text": "This is a respone from a Flask server. Thank you for your message!"}
+        response = {'text': "This is a response from a Flask server. Thank you for your message!"}
+        return response
 
     def chat_stream(self, body):
         # Text messages are stored inside request body using the Deep Chat JSON format:
@@ -34,6 +37,7 @@ class Custom:
             yield ""
 
     def files(self, request):
+        
         # Files are stored inside a files object
         # https://deepchat.dev/docs/connect
         files = request.files.getlist("files")
@@ -50,11 +54,13 @@ class Custom:
                 # message objects are stored as strings and they will need to be parsed (JSON.parse) before processing
                 for key, value in text_messages:
                     print(key, value)
+            return {"text": "Get files! This is a respone from a Flask server. Thank you for your message!"}
         else:
             # When sending text messages without any files - they are stored inside a json
             print("Text messages:")
-            print(request.json)
+            print(request)
+            return {"text": "This is a respone from a Flask server. Thank you for your message!"}
 
         # Sends response back to Deep Chat using the Response format:
         # https://deepchat.dev/docs/connect/#Response
-        return {"text": "This is a respone from a Flask server. Thank you for your message!"}
+        

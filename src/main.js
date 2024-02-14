@@ -3,8 +3,7 @@ import './style.css'
 import App from './Forethought.vue'
 import router from '../router/index.js'
 import axios from "axios";
-//import Chat from 'vue-beautiful-chat';
-//Vue.use(Chat)
+
 
 // createApp(App).mount('#app')
 axios.defaults.withCredentials = true;

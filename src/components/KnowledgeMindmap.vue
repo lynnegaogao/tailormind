@@ -5,7 +5,17 @@
 <script>
 import { ref } from "vue";
 import cytoscape from 'cytoscape';
+//import dagre from 'cytoscape-dagre';
+//cytoscape.use( dagre );
+import cxtmenu from 'cytoscape-cxtmenu';
+import cola from 'cytoscape-cola';
+import contextMenus from 'cytoscape-context-menus';
 
+cytoscape.use(cxtmenu);
+cytoscape.use(cola);
+contextMenus(cytoscape);
+
+import data from './MindmapData_eng.json'
 export default {
     components: {
     },
@@ -25,29 +35,39 @@ export default {
 
     methods: {
         drawGraph() {
+            const levelcolor = [
+                '#F07569',
+                '#F17E45',
+                '#ECE066',
+                '#5AA46A',
+                '#399789',
+                '#6AA2CA',
+                '#925096',
+                '#882BF2',
+            ]
+            const elements = this.transformData(data);
+
+            // 初始化
             const cy = cytoscape({
-                container: this.$refs.cyContainer, // 容器元素
-                elements: {// 节点和边的列表
-                    nodes: [
-                        { data: { id: 'a', label: 'Node A', size: 20, color: '#ff5722', shape: 'rectangle' } },
-                        { data: { id: 'b', label: 'Node B', size: 30, color: '#3f51b5', shape: 'ellipse' } },
-                        { data: { id: 'c', label: 'Node C', size: 10, color: '#4caf50', shape: 'ellipse' } }
-                    ],
-                    edges: [
-                        { data: { source: 'a', target: 'b', label: 'Edge A-B' } },
-                        { data: { source: 'b', target: 'c', label: 'Edge B-C' } },
-                        { data: { source: 'c', target: 'a', label: 'Edge C-A' } }
-                    ]
-                },
-                style: [ // 样式表
+                container: this.$refs.cyContainer,
+                elements: elements,
+                style: [
                     {
                         selector: 'node',
                         style: {
-                            'background-color': 'data(color)',
+                            'label': 'data(label)',
+                            'text-opacity': 0.6,
+                            'font-size': 12,
                             'width': 'data(size)',
                             'height': 'data(size)',
-                            'shape': 'data(shape)',
-                            'label': 'data(label)'
+                            //'shape': function (ele) {
+                            //    return ele.data('isSpecified') ? 'rectangle' : 'ellipse';
+                            //},
+                            'background-color': function (ele) {
+                                if (ele.data('level') < 0) return "#eee1c7"
+                                else return levelcolor[ele.data('level')]
+                            },
+
                         }
                     }, {
                         selector: 'edge',
@@ -57,15 +77,111 @@ export default {
                             'target-arrow-color': '#ccc',
                             'target-arrow-shape': 'triangle',
                             'curve-style': 'bezier',
-                            'label': 'data(label)'
+                            //'label': 'data(relation)'
                         }
                     }
                 ],
                 layout: {
-                    name: 'grid',
-                    rows: 2
+                    name: 'cose',
+                    animate: true, // 启用动画
+                    animationDuration: 1500, // 动画持续时间，单位为毫秒
+                    animationEasing: 'ease-out', // 动画缓动函数
                 }
             });
+
+            // 鼠标悬停在边上时显示标签
+            cy.on('mouseover', 'edge', function (event) {
+                const edge = event.target;
+                edge.style({
+                    'label': edge.data('relation'),
+                    'text-opacity': 0.6,
+                    'font-size': 12,
+                    //'color': '#fff', 
+                    //'font-family': 'Arial, sans-serif', 
+                });
+            });
+
+            // 鼠标移开边时隐藏标签
+            cy.on('mouseout', 'edge', function (event) {
+                const edge = event.target;
+                edge.style({
+                    'label': '',
+                    'text-opacity': 0
+                });
+            });
+
+            // 右键进行问题推荐+选择学习目标+记笔记
+            var menuOptions = {
+                evtType: "cxttap",
+                menuItems: [
+                    {
+                        id: "recommend-ques",
+                        content: "Recommend",
+                        tooltipText: "Recommend questions",
+                        selector: "node",
+                        onClickFunction: function (e) {
+                            console.log("Recommend questions" + e)
+                        },
+                    },
+                    {
+                        id: "select-level",
+                        content: "Level",
+                        tooltipText: "Select Learning Level",
+                        selector: "node",
+                        onClickFunction: function (e) {
+                            console.log("Select Level" + e)
+                        },
+                    },
+                    {
+                        id: "record-note",
+                        content: "Record",
+                        tooltipText: "Record Notes",
+                        selector: "node",
+                        onClickFunction: function (e) {
+                            console.log("Recode Notes" + e)
+                        },
+                    },
+
+                ],
+            };
+            cy.contextMenus(menuOptions);
+
+            // 添加事件监听器以监听Del键实现删除节点
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Delete' || event.keyCode === 46) {
+                    // 获取当前选中的所有节点
+                    const selectedNodes = cy.$('node:selected');
+                    // 如果有选中的节点，则删除这些节点
+                    if (selectedNodes.length > 0) {
+                        selectedNodes.remove();
+                    }
+                }
+            });
+            
+        },
+
+        // 数据处理
+        transformData(data) {
+            //console.log(data.nodes)
+            const nodes = data.nodes.map(node => ({
+                data: {
+                    id: node.id,
+                    label: node.label,
+                    size: node.size * 5, // 调整大小
+                    isSpecified: node.isSpecified,
+                    level: node.level
+                }
+            }));
+
+            const edges = data.links.map(link => ({
+                data: {
+                    source: link.source,
+                    target: link.target,
+                    relation: link.relation
+                }
+            }));
+
+            return [...nodes, ...edges];
         }
 
     }

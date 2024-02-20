@@ -1,0 +1,206 @@
+{
+    "nodes": [
+      {
+        "id": "Finite Horizon Markov Decision Process (MDP)",
+        "label": "Finite Horizon Markov Decision Process (MDP)",
+        "level": 1,
+        "size": 10,
+        "isSpecified": true
+      },
+      {
+        "id": "Linear Quadratic Regulator (LQR)",
+        "label": "Linear Quadratic Regulator (LQR)",
+        "level": 2,
+        "size": 10,
+        "isSpecified": true
+      },
+      {
+        "id": "Differential Dynamic Programming (DDP)",
+        "label": "Differential Dynamic Programming (DDP)",
+        "level": -1,
+        "size": 10,
+        "isSpecified": true
+      },
+      {
+        "id": "Linear Quadratic Gaussian (LQG)",
+        "label": "Linear Quadratic Gaussian (LQG)",
+        "level": -1,
+        "size": 2,
+        "isSpecified": true
+      },
+      {
+        "id": "Optimal Control Theory",
+        "label": "Optimal Control Theory",
+        "level": -1,
+        "size": 5,
+        "isSpecified": false
+      },
+      {
+        "id": "State Space Model",
+        "label": "State Space Model",
+        "level": -1,
+        "size": 5,
+        "isSpecified": false
+      },
+      {
+        "id": "Kalman Filter",
+        "label": "Kalman Filter",
+        "level": -1,
+        "size": 10,
+        "isSpecified": false
+      },
+      {
+        "id": "Model Linearization",
+        "label": "Model Linearization",
+        "level": 3,
+        "size": 5,
+        "isSpecified": false
+      },
+      {
+        "id": "Time-Dependent Dynamics",
+        "label": "Time-Dependent Dynamics",
+        "level": -1,
+        "size": 2,
+        "isSpecified": false
+      },
+      {
+        "id": "Nonlinear Systems",
+        "label": "Nonlinear Systems",
+        "level": -1,
+        "size": 5,
+        "isSpecified": false
+      },
+      {
+        "id": "Reinforcement Learning",
+        "label": "Reinforcement Learning",
+        "level": 4,
+        "size": 3,
+        "isSpecified": false
+      },
+      {
+        "id": "Dynamic Programming",
+        "label": "Dynamic Programming",
+        "level": 4,
+        "size": 3,
+        "isSpecified": false
+      },
+      {
+        "id": "Markov Chain",
+        "label": "Markov Chain",
+        "level": 6,
+        "size": 10,
+        "isSpecified": true
+      },
+      {
+        "id": "Q-Learning",
+        "label": "Q-Learning",
+        "level": 1,
+        "size": 2,
+        "isSpecified": true
+      },
+      {
+        "id": "Deep Q-Network (DQN)",
+        "label": "Deep Q-Network (DQN)",
+        "level": 1,
+        "size": 10,
+        "isSpecified": true
+      },
+      {
+        "id": "Bellman Equation",
+        "label": "Bellman Equation",
+        "level": 2,
+        "size": 4,
+        "isSpecified": true
+      },
+      {
+        "id": "Monte Carlo Methods",
+        "label": "Monte Carlo Methods",
+        "level": 2,
+        "size": 4,
+        "isSpecified": true
+      }
+    ],
+    "links": [
+      {
+        "source": "Optimal Control Theory",
+        "target": "Finite Horizon Markov Decision Process (MDP)",
+        "relation": "includes"
+      },
+      {
+        "source": "Finite Horizon Markov Decision Process (MDP)",
+        "target": "Markov Chain",
+        "relation": "extends"
+      },
+      {
+        "source": "Linear Quadratic Regulator (LQR)",
+        "target": "State Space Model",
+        "relation": "uses"
+      },
+      {
+        "source": "Differential Dynamic Programming (DDP)",
+        "target": "Model Linearization",
+        "relation": "involves"
+      },
+      {
+        "source": "Linear Quadratic Gaussian (LQG)",
+        "target": "Kalman Filter",
+        "relation": "combines"
+      },
+      {
+        "source": "State Space Model",
+        "target": "Kalman Filter",
+        "relation": "applies"
+      },
+      {
+        "source": "Optimal Control Theory",
+        "target": "Linear Quadratic Regulator (LQR)",
+        "relation": "includes"
+      },
+      {
+        "source": "Nonlinear Systems",
+        "target": "Time-Dependent Dynamics",
+        "relation": "transforms into"
+      },
+      {
+        "source": "Model Linearization",
+        "target": "Nonlinear Systems",
+        "relation": "simplifies"
+      },
+      {
+        "source": "Markov Chain",
+        "target": "Reinforcement Learning",
+        "relation": "foundation of"
+      },
+      {
+        "source": "Bellman Equation",
+        "target": "Dynamic Programming",
+        "relation": "core of"
+      },
+      {
+        "source": "Q-Learning",
+        "target": "Reinforcement Learning",
+        "relation": "method of"
+      },
+      {
+        "source": "Dynamic Programming",
+        "target": "Reinforcement Learning",
+        "relation": "method of"
+      },
+      {
+        "source": "Dynamic Programming",
+        "target": "Differential Dynamic Programming (DDP)",
+        "relation": "extends"
+      },
+      {
+        "source": "Monte Carlo Methods",
+        "target": "Reinforcement Learning",
+        "relation": "method of"
+      },
+      {
+        "source": "Deep Q-Network (DQN)",
+        "target": "Q-Learning",
+        "relation": "extension of"
+      }
+    ]
+  }
+  

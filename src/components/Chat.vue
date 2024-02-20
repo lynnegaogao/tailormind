@@ -34,7 +34,7 @@
         }
     }
 }' :inputAreaStyle='{ "backgroundColor": "#EEE1C7A2" }'
-                style="border-radius: 1px 1px 5px 5px;border: #fff;width:25vw;height:91vh">
+                style="border-radius: 1px 1px 5px 5px;border: #fff;width:25vw;height:93.5vh">
             </deep-chat>
 
         </div>

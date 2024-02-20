@@ -35,18 +35,18 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
+  border-radius: 2px;
   border: 1px solid transparent;
-  padding: 0.6em ;
-  font-size: 0.8em;
-  font-weight: 500;
+  padding: 0.3em ;
+  font-size: 0.6em;
+  /*font-weight: 500;*/
   /* font-family: inherit; */
-  /* background-color: #1a1a1a; */
+  /*background-color: #cdcdcd;*/
   cursor: pointer;
   /* transition: border-color 0.25s; */
 }
 button:hover {
-  border-color: #c78603;
+  border-color: #66635cbf;
 }
 button:focus,
 button:focus-visible {
@@ -78,6 +78,6 @@ button:focus-visible {
     color: #c78603;
   }
   button {
-    background-color: #eee1c7;
+    background-color: #eee1c793;
   }
 }

@@ -68,7 +68,8 @@
             KNOWLEDGE MINDMAP
           </div>
           <div class="module-component">
-            <knowledge-mindmap />
+            <mindmap style="flex: 4;" />
+            <mindmapSidebar style="flex: 1;" />
           </div>
         </div>
 
@@ -126,10 +127,10 @@
 <script>
 import uploadFile from './components/UploadFile.vue'
 import chat from './components/Chat.vue'
-import knowledgeMindmap from './components/KnowledgeMindmap.vue'
+import mindmap from './components/Mindmap.vue'
+import mindmapSidebar from './components/MindmapSidebar.vue'
 
 import DataService from "./utils/data-service"
-import KnowledgeMindmap from './components/KnowledgeMindmap.vue'
 
 export default {
 
@@ -137,7 +138,8 @@ export default {
   components: {
     uploadFile,
     chat,
-    KnowledgeMindmap,
+    mindmap,
+    mindmapSidebar
   },
   data() {
     return {
@@ -232,8 +234,10 @@ export default {
 }
 
 .module-component {
+  display: flex;
   width: 100%;
   height: 100%;
+  
 }
 
 .icon {
@@ -279,6 +283,8 @@ export default {
 #chat-view {
   flex: 1;
 }
+
+
 </style>
 
 

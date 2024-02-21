@@ -1,208 +1,255 @@
 {
     "nodes": [
         {
-            "id": "有限范围马尔科夫决策过程（MDP）",
-            "label": "有限范围马尔科夫决策过程（MDP）",
-            "level": 1,
-            "size": 10,
-            "isSpecified": true
-        },
-        {
-            "id": "线性二次调节（LQR）",
-            "label": "线性二次调节（LQR）",
-            "level": 2,
-            "size": 10,
-            "isSpecified": true
-        },
-        {
-            "id": "微分动态规划（DDP）",
-            "label": "微分动态规划（DDP）",
-            "level": -1,
-            "size": 10,
-            "isSpecified": true
-        },
-        {
-            "id": "线性二次高斯（LQG）",
-            "label": "线性二次高斯（LQG）",
+            "id": "过拟合",
+            "label": "过拟合",
             "level": -1,
             "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "集成学习",
+            "label": "集成学习",
+            "level": -1,
+            "size": 3,
             "isSpecified": true
         },
         {
-            "id": "最优控制理论",
-            "label": "最优控制理论",
+            "id": "早停",
+            "label": "早停",
+            "level": -1,
+            "size": 1,
+            "isSpecified": false
+        },
+        {
+            "id": "正则化",
+            "label": "正则化",
+            "level": -1,
+            "size": 1,
+            "isSpecified": false
+        },
+        {
+            "id": "Dropout",
+            "label": "Dropout",
             "level":-1,
-            "size": 5,
+            "size": 1,
             "isSpecified": false
         },
         {
-            "id": "状态空间模型",
-            "label": "状态空间模型",
+            "id": "交叉验证",
+            "label": "交叉验证",
             "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "Bagging",
+            "label": "Bagging",
+            "level": 5,
             "size": 5,
-            "isSpecified": false
+            "isSpecified": true
         },
         {
-            "id": "卡尔曼滤波器",
-            "label": "卡尔曼滤波器",
-            "level": -1,
-            "size": 10,
-            "isSpecified": false
-        },
-        {
-            "id": "模型线性化",
-            "label": "模型线性化",
+            "id": "Boosting",
+            "label": "Boosting",
             "level": 3,
             "size": 5,
             "isSpecified": false
         },
         {
-            "id": "时间依赖动力学",
-            "label": "时间依赖动力学",
-            "level": -1,
-            "size": 2,
-            "isSpecified": false
-        },
-        {
-            "id": "非线性系统",
-            "label": "非线性系统",
+            "id": "Stacking",
+            "label": "Stacking",
             "level": -1,
             "size": 5,
             "isSpecified": false
         },
         {
-            "id": "强化学习",
-            "label": "强化学习",
-            "level": 4,
-            "size": 3,
+            "id": "Boostrap",
+            "label": "Boostrap",
+            "level": -1,
+            "size": 4,
             "isSpecified": false
         },
         {
-            "id": "动态规划",
-            "label": "动态规划",
-            "level": 4,
-            "size": 3,
-            "isSpecified": false
-        },
-        {
-            "id": "马尔科夫链",
-            "label": "马尔科夫链",
-            "level": 6,
-            "size": 10,
-            "isSpecified": true
-        },
-        {
-            "id": "Q学习",
-            "label": "Q学习",
-            "level": 1,
+            "id": "决策树",
+            "label": "决策树",
+            "level": -1,
             "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "Adaboost",
+            "label": "Adaboost",
+            "level": -1,
+            "size": 3,
+            "isSpecified": false
+        },
+        {
+            "id": "Gradient Boosting",
+            "label": "Gradient Boosting",
+            "level": -1,
+            "size": 3,
+            "isSpecified": false
+        },
+        {
+            "id": "XGBoost",
+            "label": "XGBoost",
+            "level": -1,
+            "size": 3,
+            "isSpecified": false
+        },
+        {
+            "id": "随机森林",
+            "label": "随机森林",
+            "level": 3,
+            "size": 5,
             "isSpecified": true
         },
         {
-            "id": "深度Q网络",
-            "label": "深度Q网络",
-            "level": 1,
-            "size": 10,
-            "isSpecified": true
+            "id": "ID3",
+            "label": "ID3",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
         },
         {
-            "id": "贝尔曼方程",
-            "label": "贝尔曼方程",
-            "level": 2,
-            "size": 4,
-            "isSpecified": true
+            "id": "C4.5",
+            "label": "C4.5",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
         },
         {
-            "id": "蒙特卡洛方法",
-            "label": "蒙特卡洛方法",
-            "level": 2,
-            "size": 4,
-            "isSpecified": true
+            "id": "CART",
+            "label": "CART",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "深度学习",
+            "label": "深度学习",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "CNN",
+            "label": "CNN",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "RNN",
+            "label": "RNN",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
         }
+        
     ],        
     "links": [
         {
-            "source": "最优控制理论",
-            "target": "有限范围马尔科夫决策过程（MDP）",
-            "relation": "包含"
+            "source": "过拟合",
+            "target": "集成学习",
+            "relation": "改进"
         },
         {
-            "source": "有限范围马尔科夫决策过程（MDP）",
-            "target": "马尔科夫链",
-            "relation": "扩展"
+            "source": "过拟合",
+            "target": "正则化",
+            "relation": "改进"
         },
         {
-            "source": "线性二次调节（LQR）",
-            "target": "状态空间模型",
-            "relation": "使用"
+            "source": "过拟合",
+            "target": "Dropout",
+            "relation": "改进"
         },
         {
-            "source": "微分动态规划（DDP）",
-            "target": "模型线性化",
-            "relation": "涉及"
+            "source": "过拟合",
+            "target": "早停",
+            "relation": "改进"
         },
         {
-            "source": "线性二次高斯（LQG）",
-            "target": "卡尔曼滤波器",
-            "relation": "结合"
+            "source": "过拟合",
+            "target": "交叉验证",
+            "relation": "改进"
         },
         {
-            "source": "状态空间模型",
-            "target": "卡尔曼滤波器",
+            "source": "集成学习",
+            "target": "Bagging",
+            "relation": "方法"
+        },
+        {
+            "source": "集成学习",
+            "target": "Boosting",
+            "relation": "方法"
+        },
+        {
+            "source": "集成学习",
+            "target": "Stacking",
+            "relation": "方法"
+        },
+        {
+            "source": "集成学习",
+            "target": "深度学习",
             "relation": "应用"
         },
         {
-            "source": "最优控制理论",
-            "target": "线性二次调节（LQR）",
-            "relation": "包含"
-        },
-        {
-            "source": "非线性系统",
-            "target": "时间依赖动力学",
-            "relation": "转化"
-        },
-        {
-            "source": "模型线性化",
-            "target": "非线性系统",
-            "relation": "简化"
-        },
-        {
-            "source": "马尔科夫链",
-            "target": "强化学习",
-            "relation": "基础"
-        },
-        {
-            "source": "贝尔曼方程",
-            "target": "动态规划",
-            "relation": "核心"
-        },
-        {
-            "source": "Q学习",
-            "target": "强化学习",
+            "source": "Bagging",
+            "target": "Boostrap",
             "relation": "方法"
         },
         {
-            "source": "动态规划",
-            "target": "强化学习",
+            "source": "Bagging",
+            "target": "决策树",
+            "relation": "基学习器"
+        },
+        {
+            "source": "决策树",
+            "target": "随机森林",
             "relation": "方法"
         },
         {
-            "source": "动态规划",
-            "target": "微分动态规划（DDP）",
-            "relation": "扩展"
-        },
-        {
-            "source": "蒙特卡洛方法",
-            "target": "强化学习",
+            "source": "决策树",
+            "target": "CART",
             "relation": "方法"
         },
         {
-            "source": "深度Q网络",
-            "target": "Q学习",
-            "relation": "扩展"
+            "source": "决策树",
+            "target": "ID3",
+            "relation": "方法"
+        },
+        {
+            "source": "决策树",
+            "target": "C4.5",
+            "relation": "方法"
+        },
+        {
+            "source": "Boosting",
+            "target": "Adaboost",
+            "relation": "方法"
+        },
+        {
+            "source": "Boosting",
+            "target": "Gradient Boosting",
+            "relation": "方法"
+        },
+        {
+            "source": "Boosting",
+            "target": "XGBoost",
+            "relation": "方法"
+        },
+        {
+            "source": "深度学习",
+            "target": "CNN",
+            "relation": "应用"
+        },
+        {
+            "source": "深度学习",
+            "target": "RNN",
+            "relation": "应用"
         }
-        
-
     ]
     
     

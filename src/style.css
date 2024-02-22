@@ -35,15 +35,7 @@ h1 {
 }
 
 button {
-  /*border-radius: 2px;*/
-  border: 1px solid transparent;
-  padding: 0.3em ;
-  font-size: 0.6em;
-  /*font-weight: 500;*/
-  /* font-family: inherit; */
-  /*background-color: #cdcdcd;*/
-  cursor: pointer;
-  /* transition: border-color 0.25s; */
+
 }
 button:hover {
   border-color: #66635cbf;

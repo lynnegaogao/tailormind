@@ -158,6 +158,56 @@ export default {
             },
             selectedNodes: null,
             chartLayout: '',
+            layoutOptionDict: {
+                euler: {
+                    name: "euler",
+                    fit: true, // whether to fit to viewport
+                    animate: true, // whether to transition the node positions
+                    avoidOverlap: true,
+                    springLength: 10,
+                    mass: 7,
+                },
+                concentric: {
+                    name: "concentric",
+                    fit: false, // whether to fit to viewport
+                    animate: true, // whether to transition the node positions
+                    avoidOverlap: true,
+                    minNodeSpace: 1,
+                    concentric: function (node) {
+                        return node.degree();
+                    },
+                    levelWidth: function (nodes) {
+                        // the variation of concentric values in each level
+                        return nodes.maxDegree() / 15;
+                    },
+                    spacingFactor: 1,
+                    animationDuration: 1000, // duration of animation in ms if enabled
+                },
+                dagre: {
+                    name: "dagre",
+                    fit: false, // whether to fit to viewport
+                    animate: true, // whether to transition the node positions
+                    addNodeMoanimationDuration: 1000,
+                },
+                cose: {
+                    name: 'cose',
+                    animate: true,
+                    addNodeMoanimationDuration: 1000,
+                    animationEasing: 'ease-out',
+                },
+                fcose: {
+                    name: "fcose",
+                    fit: false,
+                    quality: "default",
+                    animate: true,
+                    randomize: true,
+                    avoidOverlap: true,
+                    nodeRepulsion: 5000,
+                    idealEdgeLength: 50,
+                    edgeElasticity: 0.55,
+                    gravity: 0.55,
+                },
+            },
         };
     },
     watch: {
@@ -170,6 +220,7 @@ export default {
     },
     emits: ['click'],
     methods: {
+
         // 绘制网络图
         drawMindmap() {
             d3.selectAll("#mindmap-area svg").remove();
@@ -243,7 +294,7 @@ export default {
                 layout: {
                     name: 'cose',
                     animate: true,
-                    animationDuration: 1500,
+                    addNodeMoanimationDuration: 1000,
                     animationEasing: 'ease-out',
 
                 }
@@ -424,6 +475,15 @@ export default {
                     'background-color': nodeColor
                 }
             });
+            // 触发重新布局
+            let layout = cy.layout({
+                name: 'cose',
+                animate: true,
+                addNodeMoanimationDuration: 1000,
+                animationEasing: 'ease-out',
+            });
+
+            layout.run(); // 运行布局
 
             this.addNodeModalVisible = false;
             this.formData = {
@@ -466,6 +526,16 @@ export default {
                 const edge = event.target;
                 edge.removeClass('hover'); // 移除悬停样式类以隐藏标签
             });
+            // 触发重新布局
+            let layout = cy.layout({
+                name: 'cose',
+                animate: true,
+                addNodeMoanimationDuration: 1000,
+                animationEasing: 'ease-out',
+            });
+
+            layout.run(); // 运行布局
+
             // Reset selection and close the modal
             this.selectedNodes.forEach(node => node.removeClass('selected'));
             this.selectedNodes = null;
@@ -499,60 +569,11 @@ export default {
 
         // 更新布局
         onChangeLayout() {
-            var layoutOptionDict = {
-                euler: {
-                    name: "euler",
-                    fit: true, // whether to fit to viewport
-                    animate: true, // whether to transition the node positions
-                    avoidOverlap: true,
-                    springLength: 10,
-                    mass: 7,
-                },
-                concentric: {
-                    name: "concentric",
-                    fit: false, // whether to fit to viewport
-                    animate: true, // whether to transition the node positions
-                    avoidOverlap: true,
-                    minNodeSpace: 1,
-                    concentric: function (node) {
-                        return node.degree();
-                    },
-                    levelWidth: function (nodes) {
-                        // the variation of concentric values in each level
-                        return nodes.maxDegree() /15;
-                    },
-                    spacingFactor: 1,
-                    animationDuration: 1000, // duration of animation in ms if enabled
-                },
-                dagre: {
-                    name: "dagre",
-                    fit: false, // whether to fit to viewport
-                    animate: true, // whether to transition the node positions
-                    animationDuration: 1500,
-                },
-                cose: {
-                    name: 'cose',
-                    animate: true,
-                    animationDuration: 1500,
-                    animationEasing: 'ease-out',
-                },
-                fcose: {
-                    name: "fcose",
-                    fit: false,
-                    quality: "default",
-                    animate: true,
-                    randomize: true,
-                    avoidOverlap: true,
-                    nodeRepulsion: 5000,
-                    idealEdgeLength: 50,
-                    edgeElasticity: 0.55,
-                    gravity: 0.55,
-                },
-            };
-            var newLayout = layoutOptionDict[this.chartLayout]
+
+            var newLayout = this.layoutOptionDict[this.chartLayout]
             var cy = this.cyInstance
             console.log(newLayout)
-            
+
             // 应用新布局
             let layout = cy.layout(newLayout);
             layout.run();

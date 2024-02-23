@@ -7,7 +7,7 @@ let DataService = {
     // 下面定义了一些 HTTP 访问请求, 这些访问请求用来访问后端服务器(dataServerUrl)
     // 后端服务器在 main.py 中定义好了对前端不同访问请求的不同处理方式 — 形成前端和后端的交互
 
-    getFileContent(formData,callback) {
+    getFileContent(formData, callback) {
         axios.post(`${this.dataServerUrl}/uploadfile`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -22,9 +22,22 @@ let DataService = {
 
     },
 
-    getChatRequest(callback){
-        axios.post(`${this.dataServerUrl}/chat`)
-    }
+    getWordCloudData(noteContext, callback) {
+        axios.post(`${this.dataServerUrl}/get-wordclouddata`, {
+            noteContext: noteContext  
+        }, {
+            headers: {
+                'Content-Type': 'application/json'  
+            }
+        })
+            .then(function (response) {
+                callback(response.data)
+            })
+            .catch(error => {
+                console.error('Error getting note context:', error);
+            });
+    },
+
 
 
 

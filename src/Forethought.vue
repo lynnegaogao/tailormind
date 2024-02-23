@@ -68,7 +68,7 @@
             KNOWLEDGE MINDMAP
           </div>
           <div class="module-component">
-            <mindmap style="flex: 4;" />
+            <mindmap style="flex: 4;" @generateWordCloud='onGenerateWordCloud'/>
             <mindmapSidebar style="flex: 1;" />
           </div>
         </div>
@@ -152,6 +152,7 @@ export default {
 
   },
   methods: {
+    // 后端获取文件
     onGetFileContent(file) {
       var formData = new FormData()
       formData.append('file', file)
@@ -159,6 +160,13 @@ export default {
       DataService.getFileContent(formData, (backendData) => {
         console.log('backendData:', backendData);
         this.getFileStatus = true;
+      })
+    },
+
+    // 处理提交的笔记，生成词云
+    onGenerateWordCloud(noteContext){
+      DataService.getWordCloudData(noteContext, (wordCloudData) => {
+        console.log('wordCloudData', wordCloudData);
       })
     },
 

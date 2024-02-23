@@ -28,8 +28,10 @@
             <!--</div>-->
         </a-config-provider>
     </div>
-    <!-- Quill 编辑器的容器，使用 v-if 控制显示和隐藏 -->
-    <div v-if="showEditor" ref="editorContainer" class="editor-container"></div>
+    <div id="quill-editor" style="position: absolute; display: none;">
+        <div id="editor">
+        </div> <!-- Quill编辑器将被初始化在这个div中 -->
+    </div>
     <a-config-provider :theme="{ token: { colorPrimary: '#B97E0FC7' } }">
         <a-modal v-model:open="addNodeModalVisible" title="Add knowledge points to your mindmap!" @ok="handleNodeSubmit"
             @cancel="handleNodeCancel">
@@ -100,14 +102,21 @@ import dagre from "cytoscape-dagre";
 import euler from 'cytoscape-euler';
 import coseBilkent from 'cytoscape-cose-bilkent';
 import fcose from 'cytoscape-fcose';
-
 import Quill from 'quill';
 import {
     CaretUpOutlined,
     CaretDownOutlined,
     DownloadOutlined
 } from "@ant-design/icons-vue";
-import { Form, Input, Modal, Select, Button, ConfigProvider, theme } from 'ant-design-vue';
+import {
+    Form,
+    Input,
+    Modal,
+    Select,
+    Button,
+    ConfigProvider,
+    theme
+} from 'ant-design-vue';
 
 import "cytoscape-navigator/cytoscape.js-navigator.css";
 import 'quill/dist/quill.snow.css';
@@ -147,9 +156,11 @@ export default {
         return {
             modalPos: null,
             cyInstance: null,
+            quillInstance: null,
             addNodeModalVisible: false,
             addEdgeModalVisible: false,
             selectLevelVisible: false,
+            showEditor: false,
             formData: {
                 label: '',
                 size: '',
@@ -217,10 +228,10 @@ export default {
         this.drawMindmap()
         this.drawLegend()
         this.dragElement(document.getElementById("main-legend"))
+        this.dragElement(document.getElementById('quill-editor'))
     },
-    emits: ['click'],
+    emits: ['click','generateWordCloud'],
     methods: {
-
         // 绘制网络图
         drawMindmap() {
             d3.selectAll("#mindmap-area svg").remove();
@@ -352,8 +363,63 @@ export default {
                         tooltipText: "Record Notes",
                         selector: "node",
                         onClickFunction: (e) => {
-                            console.log("Recode Notes" + e)
-                            //this.showEditor = true; // 显示编辑器
+                            var pos = e.renderedPosition || e.position;
+                            var node = e.target;
+                            // 显示并定位Quill编辑器容器
+                            var quillContainer = document.getElementById('quill-editor');
+                            quillContainer.style.left = pos.x + 1100 + 'px';
+                            quillContainer.style.top = pos.y + 100 + 'px';
+                            quillContainer.style.display = 'block';
+
+                            // 初始化Quill编辑器（如果尚未初始化）
+                            if (!this.quillInstance) {
+                                this.quillInstance = new Quill('#editor', {
+                                    theme: 'snow'
+                                });
+                            }
+                            // 构造与节点相关的预设文本
+                            var presetText = `Record Something about: ${node.id()} ...Bagging算法，全称为Bootstrap Aggregating，是一种集成学习算法，旨在提高单个预测模型，如决策树，的稳定性和准确性。这种方法通过以下步骤实现：</p><p><br></p><p>1. **自助采样（Bootstrap Sampling）**：从原始数据集中随机选择N个样本，采用放回抽样的方式，这意味着同一个样本可以被多次选择。这样的一个样本集称为一个bootstrap样本。</p><p><br></p><p>2. **构建基学习器**：使用每个bootstrap样本独立训练一个基学习器。在bagging算法中，基学习器通常是决策树，但也可以是任何其他算法。</p><p><br></p><p>3. **聚合**：将所有基学习器的预测结果进行聚合。对于分类问题，通常采用多数投票法；对于回归问题，则通常采用平均法。</p><p><br></p><p>Bagging的关键优势在于它可以减少模型的方差，从而提高模型的稳定性。通过结合多个模型的预测，它可以降低过拟合的风险，并在面对不同的数据子集时表现出更好的泛化能力。Bagging是随机森林算法的基础，随机森林通过在构建决策树时引入更多的随机性来进一步提高模型的性能。.</p>`; // 假设node对象有id()方法获取节点标识
+                            // 首先清空编辑器内容
+                            this.quillInstance.setText('');
+                            // 设置预设文本
+                            this.quillInstance.setText(presetText);
+
+                            // 首先获取到工具栏和编辑器容器的元素
+                            var toolbar = document.querySelector('.ql-toolbar')
+                            var editorContainer = document.querySelector('.ql-container')
+                            var editor = document.querySelector('.ql-editor')
+                            // this.dragElement(document.querySelectorAll('.ql-container'))
+
+                            editorContainer.style.display = ''
+                            toolbar.style.display = ''
+                            editor.style.display = ''
+
+                            // 双击toolbar隐藏container
+                            toolbar.addEventListener('dblclick', function () {
+                                // 检查编辑器容器当前的显示状态，并切换它
+                                if (editorContainer.style.display === 'none') {
+                                    editorContainer.style.display = '';
+                                } else {
+                                    editorContainer.style.display = 'none';
+                                }
+                            });
+
+                            // 按下Esc键隐藏编辑器容器
+                            document.addEventListener('keydown', (event) => {
+                                if (event.key === "Escape") {
+                                    // 获取编辑器内容
+                                    var editorContent = this.quillInstance.root.innerHTML;
+                                    if(editorContent!=''){
+                                        this.$emit('generateWordCloud',editorContent)
+                                    }
+                                    
+                                    // 隐藏编辑器容器
+                                    editorContainer.style.display = 'none'
+                                    toolbar.style.display = 'none'
+                                    editor.style.display = 'none';
+                                }
+                            });
+                            
                         },
                     },
 
@@ -569,7 +635,6 @@ export default {
 
         // 更新布局
         onChangeLayout() {
-
             var newLayout = this.layoutOptionDict[this.chartLayout]
             var cy = this.cyInstance
             console.log(newLayout)
@@ -578,7 +643,6 @@ export default {
             let layout = cy.layout(newLayout);
             layout.run();
         },
-
 
         // 图例
         drawLegend() {
@@ -698,6 +762,7 @@ export default {
                 document.onmousemove = null;
             }
         },
+
 
         // 下载当前mindmap为png图片
         handleDownload() {
@@ -882,5 +947,23 @@ export default {
     right: 170px;
     display: flex;
     gap: 5px;
+
+}
+#editor {
+    width: 400px;
+    height: 200px; 
+    overflow-y: auto; 
+}
+/*.ql-editor {
+    width: 200px;
+    min-height: 100px; 
+}*/
+
+.ql-container {
+    background-color: rgba(211, 211, 210, 0.289);
+    
+}
+.ql-toolbar {
+    background-color: rgba(211, 211, 210, 0.289);
 }
 </style>

@@ -1,0 +1,86 @@
+[
+    {
+        "text": "Bagging",
+        "size": 3
+    },
+    {
+        "text": "Bootstrap Aggregating",
+        "size": 1
+    },
+    {
+        "text": "集成学习",
+        "size": 1
+    },
+    {
+        "text": "预测模型",
+        "size": 1
+    },
+    {
+        "text": "决策树",
+        "size": 3
+    },
+    {
+        "text": "自助采样",
+        "size": 1
+    },
+    {
+        "text": "Bootstrap Sampling",
+        "size": 1
+    },
+    {
+        "text": "数据集",
+        "size": 1
+    },
+    {
+        "text": "样本",
+        "size": 5
+    },
+    {
+        "text": "基学习器",
+        "size": 4
+    },
+    {
+        "text": "算法",
+        "size": 5
+    },
+    {
+        "text": "聚合",
+        "size": 2
+    },
+    {
+        "text": "分类问题",
+        "size": 1
+    },
+    {
+        "text": "回归问题",
+        "size": 1
+    },
+    {
+        "text": "多数投票法",
+        "size": 1
+    },
+    {
+        "text": "平均法",
+        "size": 1
+    },
+    {
+        "text": "模型",
+        "size": 5
+    },
+    {
+        "text": "方差",
+        "size": 1
+    },
+    {
+        "text": "过拟合",
+        "size": 1
+    },
+    {
+        "text": "泛化能力",
+        "size": 1
+    },
+    {
+        "text": "随机森林",
+        "size": 2
+    }
+]

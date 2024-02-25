@@ -106,7 +106,7 @@ def openai_image():
 def generate_wordcloud_data():
     data = request.json
     noteContext = data.get('noteContext', '')
-   
+    nodeId=data.get('nodeId','')
     #text_no_tags = re.sub(r'</?p>|<br>', '', noteContext)
     #text_no_punctuation = re.sub(r'[^\w\s]', '', text_no_tags)
     ##print('content来自前端:',noteContext)
@@ -119,8 +119,10 @@ def generate_wordcloud_data():
     #word_cloud_data = [{'text': word, 'size': count} for word, count in filtered_word_count.items()]
     with open('wordcloud.json', 'r', encoding='utf-8') as file:
     # 加载JSON数据
-        word_cloud_data = json.load(file)  
-    return word_cloud_data
+        word_cloud_data = json.load(file) 
+    sorted_data = sorted(word_cloud_data, key=lambda x: x['size'], reverse=True)
+    top_5_elements = sorted_data[:5]
+    return top_5_elements
 
 if __name__ == '__main__':
     app.run(debug=True)

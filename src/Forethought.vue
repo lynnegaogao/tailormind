@@ -68,7 +68,8 @@
             KNOWLEDGE MINDMAP
           </div>
           <div class="module-component">
-            <mindmap style="flex: 4;" @generateWordCloud='onGenerateWordCloud'/>
+            <mindmap style="flex: 4;" @generateWordCloud='onGenerateWordCloud' :wordCloudData='wordCloudData'
+              :submitNode='submitNode' />
             <mindmapSidebar style="flex: 1;" />
           </div>
         </div>
@@ -144,7 +145,7 @@ export default {
   data() {
     return {
       getFileStatus: false,
-
+      wordCloudData: null,
 
     }
   },
@@ -164,9 +165,17 @@ export default {
     },
 
     // 处理提交的笔记，生成词云
-    onGenerateWordCloud(noteContext){
-      DataService.getWordCloudData(noteContext, (wordCloudData) => {
-        console.log('wordCloudData', wordCloudData);
+    onGenerateWordCloud(node, noteContext) {
+      DataService.getWordCloudData(node, noteContext, (wordCloudData) => {
+        //this.wordCloudData.nodeId=node.id()
+        //this.wordCloudData.node = node
+        //this.wordCloudData.data = wordCloudData
+        this.wordCloudData={
+          'nodeId':node.id(),
+          'node':node,
+          'data' : wordCloudData
+        }
+        console.log('wordCloudData:', this.wordCloudData);
       })
     },
 
@@ -245,7 +254,7 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
-  
+
 }
 
 .icon {
@@ -291,8 +300,6 @@ export default {
 #chat-view {
   flex: 1;
 }
-
-
 </style>
 
 

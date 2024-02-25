@@ -32,6 +32,7 @@
         <div id="editor">
         </div> <!-- Quill编辑器将被初始化在这个div中 -->
     </div>
+    <div id="wordCloud"></div>
     <a-config-provider :theme="{ token: { colorPrimary: '#B97E0FC7' } }">
         <a-modal v-model:open="addNodeModalVisible" title="Add knowledge points to your mindmap!" @ok="handleNodeSubmit"
             @cancel="handleNodeCancel">
@@ -93,6 +94,7 @@
 <script >
 import { ref, onMounted } from "vue";
 import * as d3 from "d3";
+import cloud from 'd3-cloud';
 import cytoscape from 'cytoscape';
 import cxtmenu from 'cytoscape-cxtmenu';
 import cola from 'cytoscape-cola';
@@ -219,18 +221,41 @@ export default {
                     gravity: 0.55,
                 },
             },
+            learningLevelColor: {
+                "L1": "#ff9f6d",
+                "L2": "#d88c9a",
+                "L3": "#a17fda",
+                "L4": "#c3e6a1",
+                "L5": "#4caead",
+                "L6": "#82b461",
+                "L7": "#fffb96",
+                "L8": "#87ccff",
+            },
+
         };
     },
+    props: {
+        wordCloudData: {
+            type: Array,
+            default: function () { return []; },
+        }
+    },
     watch: {
+        wordCloudData(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            this.$nextTick(() => {
+                this.updateNodeBackgroundWithWordCloud()
+            })
+        }
 
     },
     mounted() {
         this.drawMindmap()
         this.drawLegend()
         this.dragElement(document.getElementById("main-legend"))
-        this.dragElement(document.getElementById('quill-editor'))
+
     },
-    emits: ['click','generateWordCloud'],
+    emits: ['click', 'generateWordCloud'],
     methods: {
         // 绘制网络图
         drawMindmap() {
@@ -300,7 +325,37 @@ export default {
                             'text-opacity': 0.6,
                             'font-size': 8,
                         }
-                    }
+                    }, 
+                    //{
+                    //    selector: '.has-notes',
+                    //    style: {
+                    //        'border-width': 3,
+                    //        'border-color': (ele) => {
+                    //            var backgroundColor=ele.style('background-color')
+                    //            // 笔记提交生成词云之后进行level修改
+                    //            if (ele.hasClass('.selected')) {
+                    //                console.log("笔记提交生成词云之后进行level修改")
+                    //                return this.learningLevelColor[this.formData.level]
+
+                    //            }
+                    //            else if (ele.data('level') < 0){
+                    //                return "#eee1c7"
+                    //            }
+
+                    //            // 笔记提交生成词云之前就修改过level
+                    //            else
+                    //            {
+                    //                console.log("根据背景对应修改border")
+                    //                return backgroundColor
+
+                    //            }
+                    //            //if (ele.data('level') < 0) return "#eee1c7"
+                    //            //else return levelcolor[ele.data('level')]
+                    //            //ele.style('background-color')
+                    //        },
+                    //        'background-color':'white'
+                    //    }
+                    //}
                 ],
                 layout: {
                     name: 'cose',
@@ -331,6 +386,7 @@ export default {
                     'text-opacity': 0
                 });
             });
+
 
             // 右键进行问题推荐+选择学习目标+记笔记
             var menuOptions = {
@@ -370,6 +426,7 @@ export default {
                             quillContainer.style.left = pos.x + 1100 + 'px';
                             quillContainer.style.top = pos.y + 100 + 'px';
                             quillContainer.style.display = 'block';
+                            this.dragElement(document.getElementById('quill-editor'))
 
                             // 初始化Quill编辑器（如果尚未初始化）
                             if (!this.quillInstance) {
@@ -388,7 +445,6 @@ export default {
                             var toolbar = document.querySelector('.ql-toolbar')
                             var editorContainer = document.querySelector('.ql-container')
                             var editor = document.querySelector('.ql-editor')
-                            // this.dragElement(document.querySelectorAll('.ql-container'))
 
                             editorContainer.style.display = ''
                             toolbar.style.display = ''
@@ -409,17 +465,17 @@ export default {
                                 if (event.key === "Escape") {
                                     // 获取编辑器内容
                                     var editorContent = this.quillInstance.root.innerHTML;
-                                    if(editorContent!=''){
-                                        this.$emit('generateWordCloud',editorContent)
+                                    if (editorContent != '') {
+                                        this.$emit('generateWordCloud', node, editorContent)
                                     }
-                                    
                                     // 隐藏编辑器容器
                                     editorContainer.style.display = 'none'
                                     toolbar.style.display = 'none'
                                     editor.style.display = 'none';
                                 }
-                            });
-                            
+                            }, { once: true });
+
+
                         },
                     },
 
@@ -517,18 +573,8 @@ export default {
                 'ordinary': 2,
                 'very ordinary': 1
             };
-            let formDataColor = {
-                "L1": "#ff9f6d",
-                "L2": "#d88c9a",
-                "L3": "#a17fda",
-                "L4": "#c3e6a1",
-                "L5": "#4caead",
-                "L6": "#82b461",
-                "L7": "#fffb96",
-                "L8": "#87ccff",
-            };
             const nodeSize = formDataSize[this.formData.size]
-            const nodeColor = formDataColor[this.formData.level]
+            const nodeColor = this.learningLevelColor[this.formData.level]
             console.log(this.formData.size, nodeSize)
             cy.add({
                 group: 'nodes',
@@ -614,20 +660,17 @@ export default {
         },
         handleLevelSubmit() {
             const selectNode = this.selectedNodes
-            let formDataColor = {
-                "L1": "#ff9f6d",
-                "L2": "#d88c9a",
-                "L3": "#a17fda",
-                "L4": "#c3e6a1",
-                "L5": "#4caead",
-                "L6": "#82b461",
-                "L7": "#fffb96",
-                "L8": "#87ccff",
-            };
-            const nodeColor = formDataColor[this.formData.level]
-            console.log(selectNode, nodeColor)
-            selectNode.style('background-color', nodeColor);
 
+            const nodeColor = this.learningLevelColor[this.formData.level]
+            //console.log(selectNode, nodeColor)
+            //if (selectNode.hasClass('has-notes')) {
+            //    // 如果节点有 'has-notes' 类，更新边框颜色
+            //    selectNode.style('border-color', nodeColor);
+            //} else {
+            //    // 如果节点没有 'has-notes' 类，更新背景颜色
+            //    selectNode.style('background-color', nodeColor);
+            //}
+            selectNode.style('background-color', nodeColor);
             this.formData.level = '';
             this.selectedNodes = null;
             this.selectLevelVisible = false;
@@ -806,6 +849,58 @@ export default {
         },
 
 
+        // 绘制笔记相关词云并更新节点背景
+        updateNodeBackgroundWithWordCloud() {
+            var cy = this.cyInstance;
+            var updateNode = this.wordCloudData.node;
+            var wordCloudData = this.wordCloudData.data;
+            console.log(updateNode.style().height);
+            console.log(wordCloudData);
+            const width = parseInt(updateNode.style().width) * 2;  // SVG 宽度
+            const height = parseInt(updateNode.style().height) * 2; // SVG 高度
+            //const width = 50;  // SVG 宽度
+            //const height = 50;  // SVG 高度
+
+            // 创建 SVG 元素
+            const svgElement = d3.select("#wordCloud").append("svg")
+                .attr("width", 500)
+                .attr("height", 500)
+                .append("g")
+                .attr("transform", "translate(" + 50 + "," + 200 + ")");
+
+            // 绘制词云
+            svgElement.selectAll("text")
+                .data(wordCloudData)
+                .enter().append("text")
+                .style("font-size", d => d.size * 15 + "px")
+                .style("font-family", "Arial")
+                .style("fill", 'black')
+                .attr("x", (d, i) => (i % 2) * 180) // 根据需要调整以避免重叠
+                .attr("y", (d, i) => Math.floor(i / 2) * 100) // 根据需要调整以避免重叠
+                .text(d => d.text);
+
+            // 获取 SVG 元素并序列化
+            var svgElementNode = document.querySelector('#wordCloud svg');
+            d3.selectAll("#wordCloud svg").remove();
+            var svgData = new XMLSerializer().serializeToString(svgElementNode);
+            var imgSrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+            console.log(imgSrc)
+            // 更新 Cytoscape 节点的样式
+            var updateNode = cy.$id(updateNode.id())
+            //updateNode.addClass('has-notes')
+            updateNode.style({
+                //'background-color': 'white',
+                'background-image': imgSrc,
+                'background-fit': 'cover',
+                'width': width + 'px',
+                'height': height + 'px',
+
+            })
+            //console.log(updateNode.style())
+        }
+
+
+
     }
 };
 </script>
@@ -837,8 +932,8 @@ export default {
     background: white !important;
     height: 150px !important;
     width: 150px !important;
-    margin-bottom: 20%;
-    margin-right: 37%;
+    margin-bottom: 22.5%;
+    margin-right: 37.5%;
 }
 
 /*Add border to View container:*/
@@ -949,11 +1044,13 @@ export default {
     gap: 5px;
 
 }
+
 #editor {
     width: 400px;
-    height: 200px; 
-    overflow-y: auto; 
+    height: 200px;
+    overflow-y: auto;
 }
+
 /*.ql-editor {
     width: 200px;
     min-height: 100px; 
@@ -961,8 +1058,9 @@ export default {
 
 .ql-container {
     background-color: rgba(211, 211, 210, 0.289);
-    
+
 }
+
 .ql-toolbar {
     background-color: rgba(211, 211, 210, 0.289);
 }

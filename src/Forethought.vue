@@ -42,7 +42,23 @@
             FILE PREVIEW
           </div>
           <div class="module-component">
-
+            <div class="left-column">
+              <!-- 文件目录 -->
+              <div class="file-struct">
+                <fileStruct />
+              </div>
+              <!-- 词云 -->
+              <div class="word-cloud">
+                <wordCloud />
+              </div>
+            </div>
+            <div class="right-column">
+              <!-- 文件预览 -->
+              <div class="pdf-preview">
+                <filePreview></filePreview>
+                <div>文件预览</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -127,6 +143,8 @@
 <script>
 import uploadFile from './components/UploadFile.vue'
 import fileStruct from './components/FileStruct.vue'
+import wordCloud from './components/WordCloud.vue'
+import filePreview from './components/FilePreview.vue'
 import chat from './components/Chat.vue'
 import mindmap from './components/Mindmap.vue'
 import mindmapSidebar from './components/MindmapSidebar.vue'
@@ -139,6 +157,7 @@ export default {
   components: {
     uploadFile,
     fileStruct,
+    wordCloud,
     chat,
     mindmap,
     mindmapSidebar
@@ -295,4 +314,26 @@ export default {
 }
 
 
+/* file-preview */
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.right-column, .left-column {
+  flex: 1;
+  /* height: 100%; */
+  overflow-y: auto;
+}
+.file-struct {
+  max-height: 60%;
+}
+.word-cloud {
+  height: 200px;
+}
+
+.pdf-preview {
+  height: 100%; /* Set height for the PDF preview container */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds container height */
+}
 </style>

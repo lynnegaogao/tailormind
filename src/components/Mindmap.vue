@@ -23,6 +23,10 @@
                     <a-select-option value="fcose">fcose</a-select-option>
                 </a-select>
             </div>
+            <button @click="undoAction">Undo</button>
+            <button @click="redoAction">Redo</button>
+            <button @click="rollbackAction">Rollback</button>
+
             <!--<div id="download-title" class="title">Download-->
             <DownloadOutlined id="download-icon" class="download-icon" @click="handleDownload" />
             <!--</div>-->
@@ -104,6 +108,7 @@ import dagre from "cytoscape-dagre";
 import euler from 'cytoscape-euler';
 import coseBilkent from 'cytoscape-cose-bilkent';
 import fcose from 'cytoscape-fcose';
+import undoRedo from 'cytoscape-undo-redo';
 import Quill from 'quill';
 import {
     CaretUpOutlined,
@@ -125,12 +130,14 @@ import 'quill/dist/quill.snow.css';
 
 contextMenus(cytoscape);
 navigator(cytoscape);
+undoRedo(cytoscape);
 cytoscape.use(cxtmenu);
 cytoscape.use(cola);
 cytoscape.use(dagre);
 cytoscape.use(euler);
 cytoscape.use(coseBilkent);
 cytoscape.use(fcose);
+// cytoscape.use(undoRedo);
 
 import data from './MindmapData.json'
 export default {
@@ -158,6 +165,7 @@ export default {
         return {
             modalPos: null,
             cyInstance: null,
+            ur: null,
             quillInstance: null,
             addNodeModalVisible: false,
             addEdgeModalVisible: false,
@@ -231,7 +239,7 @@ export default {
                 "L7": "#fffb96",
                 "L8": "#87ccff",
             },
-
+            historyStack: [],
         };
     },
     props: {
@@ -325,7 +333,7 @@ export default {
                             'text-opacity': 0.6,
                             'font-size': 8,
                         }
-                    }, 
+                    },
                     //{
                     //    selector: '.has-notes',
                     //    style: {
@@ -484,21 +492,41 @@ export default {
             cy.contextMenus(menuOptions);
 
             // 监听Del键删除节点或边
-            document.addEventListener('keydown', function (event) {
+            document.addEventListener('keydown', (event) => {
                 if (event.key === 'Delete' || event.keyCode === 46) {
-                    // 获取当前选中的所有节点
-                    const selectedNodes = cy.$('node:selected');
-                    // 如果有选中的节点，则删除这些节点
-                    if (selectedNodes.length > 0) {
-                        selectedNodes.remove();
+                    // 获取当前选中的所有元素（节点和边）
+                    const selectedElements = cy.$(':selected');
+
+                    // 如果没有选中的元素，则直接返回
+                    if (selectedElements.length === 0) {
+                        return;
                     }
 
-                    const selectedEdges = cy.$('edge:selected');
-                    if (selectedEdges.length > 0) {
-                        selectedEdges.remove();
-                    }
+                    // 获取与选中节点相关联的边（即选中节点的所有相邻边）
+                    const relatedEdges = selectedElements.connectedEdges();
+
+                    // 合并选中的元素和相关的边
+                    const elementsToRemove = selectedElements.union(relatedEdges);
+
+                    // 定义执行删除选中元素及其相关边的函数
+                    const doFunc = () => {
+                        elementsToRemove.remove();
+                    };
+
+                    // 定义撤销删除的函数，恢复元素及其相关边
+                    const undoFunc = () => {
+                        cy.add(elementsToRemove.jsons());
+                    };
+
+                    // 使用 this.ur.action() 创建一个自定义操作
+                    this.ur.action("remove-selected-elements-and-edges", doFunc, undoFunc);
+
+                    // 执行自定义操作
+                    this.ur.do("remove-selected-elements-and-edges");
                 }
             });
+
+
 
             // 点击空白处添加node
             cy.on('cxttap', (event) => {
@@ -552,6 +580,14 @@ export default {
             cy.navigator(defaults);
             this.cyInstance = cy
 
+            // 记录用户数据undo-redo
+            var options = {
+                isDebug: false,
+                actions: {},
+                undoableDrag: true,
+                stackSizeLimit: undefined,
+            }
+            this.ur = this.cyInstance.undoRedo(options);
         },
 
         // 添加节点表单
@@ -575,27 +611,41 @@ export default {
             };
             const nodeSize = formDataSize[this.formData.size]
             const nodeColor = this.learningLevelColor[this.formData.level]
-            console.log(this.formData.size, nodeSize)
-            cy.add({
-                group: 'nodes',
-                data: { id: this.formData.label, label: this.formData.label },
-                position: pos,
-                style: {
-                    'width': 5 * nodeSize,
-                    'height': 5 * nodeSize,
-                    'content': this.formData.label,
-                    'background-color': nodeColor
-                }
-            });
-            // 触发重新布局
-            let layout = cy.layout({
-                name: 'cose',
-                animate: true,
-                addNodeMoanimationDuration: 1000,
-                animationEasing: 'ease-out',
-            });
+            const nodeLabel = this.formData.label
+            const doFunc = () => {
+                var newNode = {
+                    group: 'nodes',
+                    data: { id: nodeLabel, label: nodeLabel },
+                    position: pos,
+                    style: {
+                        'width': 5 * nodeSize,
+                        'height': 5 * nodeSize,
+                        'content': this.formData.label,
+                        'background-color': nodeColor
+                    }
+                };
+                cy.add(newNode);
 
-            layout.run(); // 运行布局
+                // 触发重新布局
+                let layout = cy.layout({
+                    name: 'cose',
+                    animate: true,
+                    addNodeMoanimationDuration: 1000,
+                    animationEasing: 'ease-out',
+                });
+                layout.run(); // 运行布局
+            };
+
+            // 定义撤销添加节点的函数
+            const undoFunc = () => {
+                cy.$id(nodeLabel).remove(); // 删除刚刚添加的节点
+            };
+
+            // 使用 this.ur.action() 创建一个自定义操作
+            const customAction = this.ur.action("add-node", doFunc, undoFunc);
+
+            // 执行自定义操作
+            this.ur.do("add-node", customAction);
 
             this.addNodeModalVisible = false;
             this.formData = {
@@ -619,21 +669,29 @@ export default {
             const selectedNodes = this.selectedNodes
             const cy = this.cyInstance;
             const relation = this.formData.relation
-            cy.add({
-                group: 'edges',
-                data: {
-                    id: 'edge' + Math.random(), // Ensure a unique ID
-                    source: selectedNodes[0].id(),
-                    target: selectedNodes[1].id(),
-                    relation: relation // Use the user input as the relation label
-                }
-            });
+            const edgeId = 'edge' + Math.random();
+
+            const doFunc = () => {
+                const newEdge = {
+                    group: 'edges',
+                    data: {
+                        id: edgeId, // 使用前面生成的唯一ID
+                        source: selectedNodes[0].id(),
+                        target: selectedNodes[1].id(),
+                        relation: relation
+                    }
+                };
+                cy.add(newEdge);
+            };
+
+            const undoFunc = () => {
+                cy.$id(edgeId).remove(); // 删除刚刚添加的边
+            };
 
             cy.on('mouseover', 'edge', function (event) {
                 const edge = event.target;
                 edge.addClass('hover'); // 添加悬停样式类以显示标签
             });
-
             cy.on('mouseout', 'edge', function (event) {
                 const edge = event.target;
                 edge.removeClass('hover'); // 移除悬停样式类以隐藏标签
@@ -648,7 +706,10 @@ export default {
 
             layout.run(); // 运行布局
 
-            // Reset selection and close the modal
+            // 使用 this.ur.action() 创建一个自定义操作
+            const customAction = this.ur.action("add-edge", doFunc, undoFunc);
+            this.ur.do("add-edge", customAction);
+
             this.selectedNodes.forEach(node => node.removeClass('selected'));
             this.selectedNodes = null;
             this.addEdgeModalVisible = false;
@@ -660,17 +721,20 @@ export default {
         },
         handleLevelSubmit() {
             const selectNode = this.selectedNodes
-
+            const oldNodeColor = selectNode.style('background-color')
             const nodeColor = this.learningLevelColor[this.formData.level]
-            //console.log(selectNode, nodeColor)
-            //if (selectNode.hasClass('has-notes')) {
-            //    // 如果节点有 'has-notes' 类，更新边框颜色
-            //    selectNode.style('border-color', nodeColor);
-            //} else {
-            //    // 如果节点没有 'has-notes' 类，更新背景颜色
-            //    selectNode.style('background-color', nodeColor);
-            //}
-            selectNode.style('background-color', nodeColor);
+
+            // 定义一个redo undo更改颜色的函数
+            const doFunc = () => {
+                selectNode.style('background-color', nodeColor);
+            };
+            const undoFunc = () => {
+                selectNode.style('background-color', oldNodeColor);
+            };
+            const customAction = this.ur.action("change-node-color", doFunc, undoFunc);
+            // 存储action到堆栈中
+            this.ur.do("change-node-color", customAction);
+
             this.formData.level = '';
             this.selectedNodes = null;
             this.selectLevelVisible = false;
@@ -806,7 +870,6 @@ export default {
             }
         },
 
-
         // 下载当前mindmap为png图片
         handleDownload() {
             const cy = this.cyInstance
@@ -848,18 +911,16 @@ export default {
             return [...nodes, ...edges];
         },
 
-
         // 绘制笔记相关词云并更新节点背景
         updateNodeBackgroundWithWordCloud() {
             var cy = this.cyInstance;
             var updateNode = this.wordCloudData.node;
             var wordCloudData = this.wordCloudData.data;
-            console.log(updateNode.style().height);
-            console.log(wordCloudData);
-            const width = parseInt(updateNode.style().width) * 2;  // SVG 宽度
-            const height = parseInt(updateNode.style().height) * 2; // SVG 高度
-            //const width = 50;  // SVG 宽度
-            //const height = 50;  // SVG 高度
+            var oldStyle = updateNode.style(); // 保存原始样式以便撤销
+
+            const width = parseInt(updateNode.style().width) * 2.7;  // SVG 宽度
+            const height = parseInt(updateNode.style().height) * 2.7; // SVG 高度
+
 
             // 创建 SVG 元素
             const svgElement = d3.select("#wordCloud").append("svg")
@@ -887,17 +948,35 @@ export default {
             console.log(imgSrc)
             // 更新 Cytoscape 节点的样式
             var updateNode = cy.$id(updateNode.id())
-            //updateNode.addClass('has-notes')
-            updateNode.style({
-                //'background-color': 'white',
-                'background-image': imgSrc,
-                'background-fit': 'cover',
-                'width': width + 'px',
-                'height': height + 'px',
 
-            })
-            //console.log(updateNode.style())
-        }
+            // undo-redo settings
+            const doFunc = () => {
+                updateNode.style({
+                    'background-image': imgSrc,
+                    'background-fit': 'cover',
+                    'width': width + 'px',
+                    'height': height + 'px',
+                });
+            };
+            const undoFunc = () => {
+                updateNode.style(oldStyle);
+            };
+            const customAction = this.ur.action("update-node-style", doFunc, undoFunc);
+            this.ur.do("update-node-style", customAction);
+        },
+
+        undoAction() {
+            console.log(this.ur.actions)
+            this.ur.undo();
+        },
+        redoAction() {
+            console.log(this.ur.actions)
+            this.ur.redo();
+        },
+        rollbackAction() {
+            console.log(this.ur.actions)
+            this.ur.undoAll();
+        },
 
 
 

@@ -14,7 +14,8 @@
                     "text": "Hi! I am your AI self-regulated learning assistant!~"
                 }' 
                 :initialMessages='[
-                    { "text": "Hey, how to start?", "role": "user" },
+                    { "text": "Hey, what is Self-Regulated Learning(SRL)?", "role": "user" },
+                    { "text": "", "role": "ai" },
                     { "text": "**Upload your learning material** and start your self-learning journey!", "role": "ai" },
                     {
         "html": `
@@ -34,7 +35,7 @@
         }
     }
 }' :inputAreaStyle='{ "backgroundColor": "#EEE1C7A2" }'
-                style="border-radius: 1px 1px 5px 5px;border: #fff;width:25vw;height:93.5vh">
+                style="border-radius: 1px 1px 5px 5px;border: #fff;width:25vw;height:94vh">
             </deep-chat>
 
         </div>

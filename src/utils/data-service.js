@@ -22,8 +22,9 @@ let DataService = {
 
     },
 
-    getWordCloudData(noteContext, callback) {
+    getWordCloudData(node,noteContext, callback) {
         axios.post(`${this.dataServerUrl}/get-wordclouddata`, {
+            nodeId:node.id(),
             noteContext: noteContext  
         }, {
             headers: {

@@ -2,14 +2,27 @@
     <div class="chat">
         <div class="chat-window">
 
-            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" :directConnection='{
-                "openAI": {
-                    "key": "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",
-                    "chat": { "max_tokens": 2000, "system_prompt": "Assist me with anything you can" }
-                }
-            }' :initialMessages='[
-    { "text": "Hey, who are you?", "role": "user" },
-    { "text": "I am your AI self-regulated learning assistant. It is nice to meet you and help you with your studies~", "role": "ai" },
+            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" 
+                :request='{
+                    //"url": "http://127.0.0.1:5000/chat-stream",
+                    "url": "http://127.0.0.1:5000/openai-chat",
+                    "method": "POST",
+                    //"headers": { "Content-Type": "multipart/form-data" },
+                    //"additionalBodyProps": { "field": "value" }
+                }' 
+                :introMessage='{
+                    "text": "Hi! I am your AI self-regulated learning assistant!~"
+                }' 
+                :initialMessages='[
+                    { "text": "Hey, how to start?", "role": "user" },
+                    { "text": "**Upload your learning material** and start your self-learning journey!", "role": "ai" },
+                    {
+        "html": `
+      <div>
+        <div style="margin-bottom: 10px;">Here is a simple <span style="color: orange;">example</span>: hihihi～～</div>
+      </div>`,
+        "role": "ai"
+    }
 ]' :messageStyles='{
     "default": {
         "shared": { "bubble": { "color": "black" } },
@@ -17,10 +30,11 @@
     },
     "file": {
         "shared": {
-            "bubble": { "backgroundColor": "grey" }
+            "bubble": { "backgroundColor": "#EEE1C7A2" }
         }
     }
-}' :inputAreaStyle='{ "backgroundColor": "#EEE1C7A2" }' style="border-radius: 5px;width:30vw;height:93vh">
+}' :inputAreaStyle='{ "backgroundColor": "#EEE1C7A2" }'
+                style="border-radius: 1px 1px 5px 5px;border: #fff;width:25vw;height:93.5vh">
             </deep-chat>
 
         </div>
@@ -73,6 +87,10 @@ export default {
         handleNewMessage(message) {
             console.log("新消息: ", message);
             // 在这里处理新消息，例如将其添加到显示消息的数组中
+            if(message.message.files){
+                console.log(message.message.files)
+            }
+                //console.log(message.message)
         },
         fetchHistoryMessages() {
             const deepChatComponent = this.$refs.chatElementRef;
@@ -80,6 +98,8 @@ export default {
                 const messages = deepChatComponent.getMessages();
                 console.log("历史消息: ", messages);
                 // 在这里处理历史消息，例如将其保存到组件的数据属性中
+                console.log(messages.message)
+                //if messages
             }
         },
 

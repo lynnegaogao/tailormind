@@ -1,0 +1,256 @@
+{
+    "nodes": [
+        {
+            "id": "过拟合",
+            "label": "过拟合",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "集成学习",
+            "label": "集成学习",
+            "level": -1,
+            "size": 3,
+            "isSpecified": true
+        },
+        {
+            "id": "早停",
+            "label": "早停",
+            "level": -1,
+            "size": 1,
+            "isSpecified": false
+        },
+        {
+            "id": "正则化",
+            "label": "正则化",
+            "level": -1,
+            "size": 1,
+            "isSpecified": false
+        },
+        {
+            "id": "Dropout",
+            "label": "Dropout",
+            "level":-1,
+            "size": 1,
+            "isSpecified": false
+        },
+        {
+            "id": "交叉验证",
+            "label": "交叉验证",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "Bagging",
+            "label": "Bagging",
+            "level": 5,
+            "size": 5,
+            "isSpecified": true
+        },
+        {
+            "id": "Boosting",
+            "label": "Boosting",
+            "level": 3,
+            "size": 5,
+            "isSpecified": false
+        },
+        {
+            "id": "Stacking",
+            "label": "Stacking",
+            "level": -1,
+            "size": 5,
+            "isSpecified": false
+        },
+        {
+            "id": "Boostrap",
+            "label": "Boostrap",
+            "level": -1,
+            "size": 4,
+            "isSpecified": false
+        },
+        {
+            "id": "决策树",
+            "label": "决策树",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "Adaboost",
+            "label": "Adaboost",
+            "level": -1,
+            "size": 3,
+            "isSpecified": false
+        },
+        {
+            "id": "Gradient Boosting",
+            "label": "Gradient Boosting",
+            "level": -1,
+            "size": 3,
+            "isSpecified": false
+        },
+        {
+            "id": "XGBoost",
+            "label": "XGBoost",
+            "level": -1,
+            "size": 3,
+            "isSpecified": false
+        },
+        {
+            "id": "随机森林",
+            "label": "随机森林",
+            "level": 3,
+            "size": 5,
+            "isSpecified": true
+        },
+        {
+            "id": "ID3",
+            "label": "ID3",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "C4.5",
+            "label": "C4.5",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "CART",
+            "label": "CART",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "深度学习",
+            "label": "深度学习",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "CNN",
+            "label": "CNN",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        },
+        {
+            "id": "RNN",
+            "label": "RNN",
+            "level": -1,
+            "size": 2,
+            "isSpecified": false
+        }
+        
+    ],        
+    "links": [
+        {
+            "source": "过拟合",
+            "target": "集成学习",
+            "relation": "改进"
+        },
+        {
+            "source": "过拟合",
+            "target": "正则化",
+            "relation": "改进"
+        },
+        {
+            "source": "过拟合",
+            "target": "Dropout",
+            "relation": "改进"
+        },
+        {
+            "source": "过拟合",
+            "target": "早停",
+            "relation": "改进"
+        },
+        {
+            "source": "过拟合",
+            "target": "交叉验证",
+            "relation": "改进"
+        },
+        {
+            "source": "集成学习",
+            "target": "Bagging",
+            "relation": "方法"
+        },
+        {
+            "source": "集成学习",
+            "target": "Boosting",
+            "relation": "方法"
+        },
+        {
+            "source": "集成学习",
+            "target": "Stacking",
+            "relation": "方法"
+        },
+        {
+            "source": "集成学习",
+            "target": "深度学习",
+            "relation": "应用"
+        },
+        {
+            "source": "Bagging",
+            "target": "Boostrap",
+            "relation": "方法"
+        },
+        {
+            "source": "Bagging",
+            "target": "决策树",
+            "relation": "基学习器"
+        },
+        {
+            "source": "决策树",
+            "target": "随机森林",
+            "relation": "方法"
+        },
+        {
+            "source": "决策树",
+            "target": "CART",
+            "relation": "方法"
+        },
+        {
+            "source": "决策树",
+            "target": "ID3",
+            "relation": "方法"
+        },
+        {
+            "source": "决策树",
+            "target": "C4.5",
+            "relation": "方法"
+        },
+        {
+            "source": "Boosting",
+            "target": "Adaboost",
+            "relation": "方法"
+        },
+        {
+            "source": "Boosting",
+            "target": "Gradient Boosting",
+            "relation": "方法"
+        },
+        {
+            "source": "Boosting",
+            "target": "XGBoost",
+            "relation": "方法"
+        },
+        {
+            "source": "深度学习",
+            "target": "CNN",
+            "relation": "应用"
+        },
+        {
+            "source": "深度学习",
+            "target": "RNN",
+            "relation": "应用"
+        }
+    ]
+    
+    
+}

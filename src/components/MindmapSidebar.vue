@@ -154,7 +154,7 @@ export default {
 <style scoped>
 .sidebar {
     flex: 1;
-    height: 520px;
+    height: 590px;
     overflow-x: hidden; 
     overflow-y: auto; 
     box-sizing: border-box;

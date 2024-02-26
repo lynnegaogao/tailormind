@@ -13,7 +13,7 @@
     </div>
     <div class="toolbar-container">
         <a-config-provider :theme="{ token: { colorPrimary: '#B97E0FC7' } }">
-            <div id="layout-title" class="title">Layout
+            <div id="layout-title" class="title" style="line-height: 25px; vertical-align: middle; display: inline-block;">Layout
                 <a-select v-model:value="chartLayout" class="custom-select" clearIcon=""
                     style="width: 90px;height:25px;margin-left:5px;" @change="onChangeLayout">
                     <a-select-option value="cose">cose</a-select-option>
@@ -23,13 +23,16 @@
                     <a-select-option value="fcose">fcose</a-select-option>
                 </a-select>
             </div>
-            <button @click="undoAction">Undo</button>
-            <button @click="redoAction">Redo</button>
-            <button @click="rollbackAction">Rollback</button>
-
-            <!--<div id="download-title" class="title">Download-->
+            <a-button @click="undoAction" style="height:25px;line-height: normal; vertical-align: middle;" >
+                <UndoOutlined />Undo
+            </a-button>
+            <a-button @click="redoAction" style="height:25px;line-height: normal; vertical-align: middle;">
+                <RedoOutlined />Redo
+            </a-button>
+            <a-button @click="rollbackAction" style="height:25px;line-height: normal; vertical-align: middle;">
+                <RollbackOutlined />Rollback
+            </a-button>
             <DownloadOutlined id="download-icon" class="download-icon" @click="handleDownload" />
-            <!--</div>-->
         </a-config-provider>
     </div>
     <div id="quill-editor" style="position: absolute; display: none;">
@@ -113,7 +116,10 @@ import Quill from 'quill';
 import {
     CaretUpOutlined,
     CaretDownOutlined,
-    DownloadOutlined
+    DownloadOutlined,
+    UndoOutlined,
+    RedoOutlined,
+    RollbackOutlined
 } from "@ant-design/icons-vue";
 import {
     Form,
@@ -145,6 +151,9 @@ export default {
         CaretUpOutlined,
         CaretDownOutlined,
         DownloadOutlined,
+        UndoOutlined,
+        RedoOutlined,
+        RollbackOutlined,
         'a-form': Form,
         'a-form-item': Form.Item,
         'a-select': Select,
@@ -1097,7 +1106,7 @@ export default {
 
 .expand-legend-icon {
     padding-top: 3px;
-    padding-left: 6px;
+    padding-left: 5px;
 }
 
 .download-icon {
@@ -1129,11 +1138,6 @@ export default {
     height: 200px;
     overflow-y: auto;
 }
-
-/*.ql-editor {
-    width: 200px;
-    min-height: 100px; 
-}*/
 
 .ql-container {
     background-color: rgba(211, 211, 210, 0.289);

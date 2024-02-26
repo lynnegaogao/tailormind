@@ -2,28 +2,26 @@
     <div class="chat">
         <div class="chat-window">
 
-            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" 
-                :request='{
-                    //"url": "http://127.0.0.1:5000/chat-stream",
-                    "url": "http://127.0.0.1:5000/openai-chat",
-                    "method": "POST",
-                    //"headers": { "Content-Type": "multipart/form-data" },
-                    //"additionalBodyProps": { "field": "value" }
-                }' 
-                :introMessage='{
-                    "text": "Hi! I am your AI self-regulated learning assistant!~"
-                }' 
-                :initialMessages='[
-                    { "text": "Hey, what is Self-Regulated Learning(SRL)?", "role": "user" },
-                    { "text": "", "role": "ai" },
-                    { "text": "**Upload your learning material** and start your self-learning journey!", "role": "ai" },
-                    {
-        "html": `
-      <div>
-        <div style="margin-bottom: 10px;">Here is a simple <span style="color: orange;">example</span>: hihihi～～</div>
-      </div>`,
-        "role": "ai"
-    }
+            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" :request='{
+                //"url": "http://127.0.0.1:5000/chat-stream",
+                "url": "http://127.0.0.1:5000/sft-chat",
+                "method": "POST",
+                //"headers": { "Content-Type": "multipart/form-data" },
+                //"additionalBodyProps": { "field": "value" }
+            }' :introMessage='{
+    "text": "Hi! I am your **AI Self-Regulated Learning (SRL)** assistant!~"
+}' :initialMessages='[
+    { "text": "Hey, please introduce **Self-Regulated Learning (SRL)**?", "role": "user" },
+    { "text": "**Self-Regulated Learning (SRL)** refers to the process through which learners personally activate and sustain cognitions, affects, and behaviors that are systematically oriented toward the attainment of learning goals.", "role": "ai" },
+
+    // {
+    //     "html": `
+    //   <div>
+    //     <div style="margin-bottom: 10px;">Here is a simple <span style="color: orange;">example</span>: hihihi～～</div>
+    //   </div>`,
+    //     "role": "ai"
+    // },
+    { "text": "**Upload your learning material** and start your SRL journey!", "role": "ai" },
 ]' :messageStyles='{
     "default": {
         "shared": { "bubble": { "color": "black" } },
@@ -88,10 +86,10 @@ export default {
         handleNewMessage(message) {
             console.log("新消息: ", message);
             // 在这里处理新消息，例如将其添加到显示消息的数组中
-            if(message.message.files){
+            if (message.message.files) {
                 console.log(message.message.files)
             }
-                //console.log(message.message)
+            //console.log(message.message)
         },
         fetchHistoryMessages() {
             const deepChatComponent = this.$refs.chatElementRef;
@@ -110,7 +108,7 @@ export default {
 };
 </script>
   
-<style scoped>
+<style>
 .chat {
     display: flex;
     flex-direction: column;

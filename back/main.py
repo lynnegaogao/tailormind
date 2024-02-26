@@ -13,6 +13,7 @@ from flask_cors import CORS
 import jieba
 from collections import Counter
 import re
+import subprocess
 #import simplejson
 
 load_dotenv()
@@ -102,6 +103,13 @@ def openai_image():
     files = request.files.getlist("files")
     return open_ai.image_variation(files)
 
+@app.route('/sft-chat', methods=["POST"])
+def sft_chat():
+    body = request.json
+    print(body)
+    
+    return {"text": "111"}
+
 @app.route('/get-wordclouddata',methods=["POST"])
 def generate_wordcloud_data():
     data = request.json
@@ -122,7 +130,10 @@ def generate_wordcloud_data():
         word_cloud_data = json.load(file) 
     sorted_data = sorted(word_cloud_data, key=lambda x: x['size'], reverse=True)
     top_5_elements = sorted_data[:5]
+
     return top_5_elements
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

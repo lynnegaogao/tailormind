@@ -7,6 +7,7 @@ from flask import Flask,request
 from requests.exceptions import ConnectionError
 from services.custom import Custom
 from services.openAI import OpenAI
+from services.sft import MinderLLM
 from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
@@ -14,6 +15,8 @@ import jieba
 from collections import Counter
 import re
 import subprocess
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer,GenerationConfig
 #import simplejson
 
 load_dotenv()
@@ -103,12 +106,45 @@ def openai_image():
     files = request.files.getlist("files")
     return open_ai.image_variation(files)
 
+# ------------------ MinderLLM API ------------------
+# class MinderLLM:
+#     def __init__(self, model_path: str, device: str):
+#         self.model_path = "E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0"
+#         self.device = device
+#         self.dtype = torch.float16
+#         # 模型加载
+#         self.model = AutoModelForCausalLM.from_pretrained(
+#             self.model_path,
+#             trust_remote_code=True,
+#             low_cpu_mem_usage=True,
+#             torch_dtype=self.dtype,
+#         ).to(self.device).eval()
+#         self.tokenizer = AutoTokenizer.from_pretrained(
+#             model_path,
+#             trust_remote_code=True,
+#             use_fast=True)
+#         self.model.generation_config = GenerationConfig.from_pretrained(model_path)
+#         self.model.generation_config.user_token_id = 195
+#         self.model.generation_config.assistant_token_id = 196
+
+#     def generate(self, query: str):
+#         # 对 query 进行编码
+#         # input_prompt = '<s>' + query + '</s>'
+#         input_prompt = []
+#         input_prompt.append({"role":"user","content":query})
+#         response = self.model.chat(self.tokenizer,input_prompt)
+#         return {"text":response}
+    
+minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
+
 @app.route('/sft-chat', methods=["POST"])
 def sft_chat():
     body = request.json
-    print(body)
-    
-    return {"text": "111"}
+    print(body["messages"][-1]['text'])
+    # print(body["messages"]['text'])
+    response=minderllm.generate(query=body["messages"][0]['text'])
+    print(response)
+    return response
 
 @app.route('/get-wordclouddata',methods=["POST"])
 def generate_wordcloud_data():

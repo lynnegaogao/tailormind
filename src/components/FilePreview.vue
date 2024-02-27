@@ -58,7 +58,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 /* file-preview */
 .container {
     display: flex;
@@ -69,7 +69,8 @@ export default {
 .left-column {
     flex: 3;
     min-width: 200px;
-    overflow-y: auto;
+    min-height: 590px;
+    /* overflow-y: auto; */
     border-right: 2px solid #eee;
 }
 
@@ -80,21 +81,22 @@ export default {
 
 .pdf-preview {
     height: 100%;
+    min-height: 590px;
     /* Set height for the PDF preview container */
-    overflow-y: auto;
+    /* overflow-y: auto; */
     /* Enable vertical scrolling if content exceeds container height */
 }
 
 .file-struct {
     height: 40%;
-    max-height: 300px;
+    max-height: 230px;
     overflow-y: auto;
     border-bottom: 3px solid #eee;
 }
 
 .knowledge-card {
     height: 60%;
-    max-height: 500px;
+    max-height: 350px;
     overflow: hidden;
 }
 

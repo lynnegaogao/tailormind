@@ -1,56 +1,39 @@
-import sys
-sys.path.append('e:/Vis24-TailorMind')
-sys.path.append('E:\Vis24-TailorMind\sftmodel\llama_factory\src\cli_demo_backend.py')
-from sftmodel.llama_factory.src.llmtuner import  ChatModel
-from sftmodel.llama_factory.src.llmtuner.extras.misc import torch_gc
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer,GenerationConfig
 
 
-class ChatCLI:
-    def __init__(self):
-        self.chat_model = ChatModel()
-        self.messages = []
+class MinderLLM:
+    def __init__(self, model_path: str, device: str):
+        self.model_path = "E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0"
+        self.device = device
+        self.dtype = torch.float16
+        # 模型加载
+        self.model = AutoModelForCausalLM.from_pretrained(
+            self.model_path,
+            trust_remote_code=True,
+            low_cpu_mem_usage=True,
+            torch_dtype=self.dtype,
+        ).to(self.device).eval()
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_path,
+            trust_remote_code=True,
+            use_fast=True)
+        self.model.generation_config = GenerationConfig.from_pretrained(model_path)
+        self.model.generation_config.user_token_id = 195
+        self.model.generation_config.assistant_token_id = 196
+
+    def generate(self, query: str):
+        # 对 query 进行编码
+        # input_prompt = '<s>' + query + '</s>'
+        input_prompt = []
+        input_prompt.append({"role":"user","content":query})
+        response = self.model.chat(self.tokenizer,input_prompt)
+        return {"text":response}
     
-    def get_response(self, query: str) -> str:
-        print("Welcome to the chat model.")
-        self.messages.append({"role": "user", "content": query})
-        response = ""
-        for new_text in self.chat_model.stream_chat(self.messages):
-            response += new_text
-        self.messages.append({"role": "assistant", "content": response})
-        return response
-
-    def run_chat_session(self):
-        print("Welcome to the CLI application, use `clear` to remove the history, use `exit` to exit the application.")
-
-        while True:
-            try:
-                query = input("\nUser: ")
-            except UnicodeDecodeError:
-                print("Detected decoding error at the inputs, please set the terminal encoding to utf-8.")
-                continue
-            except Exception:
-                raise
-
-            if query.strip() == "exit":
-                break
-
-            if query.strip() == "clear":
-                self.messages = []
-                torch_gc()
-                print("History has been removed.")
-                continue
-
-            self.messages.append({"role": "user", "content": query})
-            print("Assistant: ", end="", flush=True)
-
-            response = ""
-            for new_text in self.chat_model.stream_chat(self.messages):
-                print(new_text, end="", flush=True)
-                response += new_text
-            self.messages.append({"role": "assistant", "content": response})
 
 
-chat_cli = ChatCLI()
 
-# 使用get_response方法获取回复
-response = chat_cli.get_response("你的问题")
+# query="什么是bagging？"
+# model=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
+# response=model.generate(query)
+# print(response)

@@ -1,6 +1,6 @@
 <template>
     <div ref="treeContainer">
-        <a-tree v-model:expandedKeys="expandedKeys" :tree-data="treeData" :show-line="true" :height="500"
+        <a-tree v-model:expandedKeys="expandedKeys" :tree-data="treeData" :show-line="true" 
             style="font-size: medium; margin: 10px 0px 0 20px" @select=handleSelect class="file-struct-tree">
             <template #title="{ key: key, title }">
                 <a-dropdown :trigger="['contextmenu']">
@@ -95,5 +95,5 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 </style>

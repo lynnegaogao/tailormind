@@ -84,14 +84,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .scrollable-container {
+    margin-left: -25px;
     height: 100%;
-    overflow-y: auto;
-    padding: 15px;
+    /* overflow-y: auto; */
+    padding: 10px;
 }
 .card {
-    margin: 15px;
+    margin: 10px;
     padding: 0;
 }
 

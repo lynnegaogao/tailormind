@@ -80,14 +80,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .pdf-viewer {
   height: 100%; /* 设置 PDF 预览容器的固定高度 */
-  overflow-y: auto; /* 启用垂直滚动 */
+  /* overflow-y: auto; 启用垂直滚动 */
 }
 
 .pdf{
   width: 100%;
-  height: 99%;
+  height: 100%;
 }
 </style>

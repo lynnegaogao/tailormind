@@ -16,7 +16,7 @@
             CHAT
           </div>
           <div class="module-component">
-            <chat @getFileData="onGetFileData" />
+            <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd"/>
           </div>
         </div>
         <!-- 文件上传 -->
@@ -149,6 +149,7 @@ export default {
       wordCloudData: null,
       fileStructureData: null,
       fileData: null,
+      nodeToQuestionRmd:'',
 
     }
   },
@@ -175,9 +176,9 @@ export default {
     },
 
     // 对选中节点进行问题推荐
-    // onGetQuestionRmd(nodeId){
-    //   DataService.getQuestionRmd(nodeId,())
-    // },
+    onGetQuestionRmd(nodeId){
+      this.nodeToQuestionRmd=nodeId
+    },
 
     // 处理提交的笔记，生成词云
     onGenerateWordCloud(node, noteContext) {

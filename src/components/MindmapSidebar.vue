@@ -8,9 +8,7 @@
 import { ref } from "vue";
 import cytoscape from 'cytoscape';
 import dagre from 'cytoscape-dagre';
-import cxtmenu from 'cytoscape-cxtmenu';
 import cola from 'cytoscape-cola';
-import contextMenus from 'cytoscape-context-menus';
 
 cytoscape.use(cola);
 cytoscape.use(dagre);
@@ -45,7 +43,6 @@ export default {
                 subDiv.style.transform = 'scale(2)'; // 内容放大 150%
                 subDiv.style.transformOrigin = 'center'; // 设置放大的基点为中心
                 subDiv.style.position = 'relative'; // 相对定位
-
                 this.$refs.sidebar.appendChild(subDiv);
 
                 // 为新创建的 div 调用 drawMindmap
@@ -56,14 +53,6 @@ export default {
         // 绘制网络图
         drawMindmap(refDiv, refData) {
             const levelcolor = [
-                 //'#F07569',
-                //'#F17E45',
-                //'#ECE066',
-                //'#5AA46A',
-                //'#399789',
-                //'#6AA2CA',
-                //'#925096',
-                //'#882BF2',
                 "#ff9f6d",
                 "#d88c9a",
                 "#a17fda",
@@ -74,7 +63,6 @@ export default {
                 "#87ccff",
             ]
             const elements = this.transformData(refData);
-            //console.log(elements)
             // 初始化
             const cy = cytoscape({
                 container: refDiv,
@@ -158,5 +146,6 @@ export default {
     overflow-x: hidden; 
     overflow-y: auto; 
     box-sizing: border-box;
+    border-left: 3px solid #eee;
 }
 </style>

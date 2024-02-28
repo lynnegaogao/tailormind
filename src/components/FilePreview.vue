@@ -70,7 +70,6 @@ export default {
     flex: 3;
     min-width: 200px;
     min-height: 590px;
-    /* overflow-y: auto; */
     border-right: 2px solid #eee;
 }
 
@@ -82,9 +81,6 @@ export default {
 .pdf-preview {
     height: 100%;
     min-height: 590px;
-    /* Set height for the PDF preview container */
-    /* overflow-y: auto; */
-    /* Enable vertical scrolling if content exceeds container height */
 }
 
 .file-struct {

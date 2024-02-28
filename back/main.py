@@ -107,45 +107,36 @@ def openai_image():
     return open_ai.image_variation(files)
 
 # ------------------ MinderLLM API ------------------
-# class MinderLLM:
-#     def __init__(self, model_path: str, device: str):
-#         self.model_path = "E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0"
-#         self.device = device
-#         self.dtype = torch.float16
-#         # 模型加载
-#         self.model = AutoModelForCausalLM.from_pretrained(
-#             self.model_path,
-#             trust_remote_code=True,
-#             low_cpu_mem_usage=True,
-#             torch_dtype=self.dtype,
-#         ).to(self.device).eval()
-#         self.tokenizer = AutoTokenizer.from_pretrained(
-#             model_path,
-#             trust_remote_code=True,
-#             use_fast=True)
-#         self.model.generation_config = GenerationConfig.from_pretrained(model_path)
-#         self.model.generation_config.user_token_id = 195
-#         self.model.generation_config.assistant_token_id = 196
 
-#     def generate(self, query: str):
-#         # 对 query 进行编码
-#         # input_prompt = '<s>' + query + '</s>'
-#         input_prompt = []
-#         input_prompt.append({"role":"user","content":query})
-#         response = self.model.chat(self.tokenizer,input_prompt)
-#         return {"text":response}
     
-minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
+# minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
 
-@app.route('/sft-chat', methods=["POST"])
-def sft_chat():
-    body = request.json
-    print(body["messages"][-1]['text'])
-    # print(body["messages"]['text'])
-    response=minderllm.generate(query=body["messages"][0]['text'])
-    print(response)
-    return response
+# @app.route('/sft-chat', methods=["POST"])
+# def sft_chat():
+#     files = request.files.getlist("files")
+#     body = request.json["messages"][0]['text']
+#     print('文件信息:',files)
+#     if files:
+#         print("Files:")
+#         for file in files:
+#             print(file.filename)
+    
+#     else:
+#         if body=='What is Self-Regulated Learning (SRL)?':
+#             fixedResponse={"text":"Self-Regulated Learning (SRL) consists of 3 phases:\n 1. **Forethought**, planning and activation \n 2. **Performance**, monitoring and control \n 3. Reaction and **reflection**"}
+#             return fixedResponse
+#         elif body=='How can I start my SRL journey?':
+#             fixedResponse={"text":"**Upload your learning material** and start your SRL journey!"}
+#             return fixedResponse
+#         else:
+#             response=minderllm.generate(query=body)
+#             print(response)
+#             return response
+    
+    
 
+
+# ------------------ Other API ------------------
 @app.route('/get-wordclouddata',methods=["POST"])
 def generate_wordcloud_data():
     data = request.json

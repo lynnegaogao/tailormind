@@ -1,41 +1,11 @@
 <template>
     <div class="chat">
         <div class="chat-window">
-
-            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true" :request='{
-                //"url": "http://127.0.0.1:5000/chat-stream",
-                "url": "http://127.0.0.1:5000/sft-chat",
-                "method": "POST",
-                //"headers": { "Content-Type": "multipart/form-data" },
-                //"additionalBodyProps": { "field": "value" }
-            }' :introMessage='{
-    "text": "Hi! I am your **AI Self-Regulated Learning (SRL)** assistant!~"
-}' :initialMessages='[
-    { "text": "Hey, please introduce **Self-Regulated Learning (SRL)**?", "role": "user" },
-    { "text": "**Self-Regulated Learning (SRL)** refers to the process through which learners personally activate and sustain cognitions, affects, and behaviors that are systematically oriented toward the attainment of learning goals.", "role": "ai" },
-
-    // {
-    //     "html": `
-    //   <div>
-    //     <div style="margin-bottom: 10px;">Here is a simple <span style="color: orange;">example</span>: hihihi～～</div>
-    //   </div>`,
-    //     "role": "ai"
-    // },
-    { "text": "**Upload your learning material** and start your SRL journey!", "role": "ai" },
-]' :messageStyles='{
-    "default": {
-        "shared": { "bubble": { "color": "black" } },
-        "user": { "bubble": { "backgroundColor": "#EEE1C7A2" } },
-    },
-    "file": {
-        "shared": {
-            "bubble": { "backgroundColor": "#EEE1C7A2" }
-        }
-    }
-}' :inputAreaStyle='{ "backgroundColor": "#EEE1C7A2" }'
+            <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true"
+                :request="requestConfig" :introMessage="introMessage" :initialMessages="initialMessages"
+                :messageStyles="messageStyles" :inputAreaStyle="inputAreaStyle"
                 style="border-radius: 1px 1px 5px 5px;border: #fff;width:25vw;height:94vh">
             </deep-chat>
-
         </div>
 
     </div>
@@ -60,6 +30,17 @@ export default {
         return {
             messages: [],
             newMessage: '',
+            requestConfig: {
+                url: "http://127.0.0.1:5000/files",
+                method: "POST",
+                // headers: { "Content-Type": "multipart/form-data" },
+
+            },
+            introMessage: {},
+            initialMessages: [],
+            messageStyles: {},
+            inputAreaStyle: {},
+            userSelection: 0,
         };
     },
     watch: {
@@ -67,15 +48,52 @@ export default {
     },
     mounted() {
         this.setupDeepChat();
-        //this.$nextTick(() => {
-        //    setTimeout(() => {
-        //        this.fetchHistoryMessages();
-        //    }, 1000);
-        //})
-
+        this.initializeChat();
+        // this.setupRequestInterceptor()
     },
 
     methods: {
+        initializeChat() {
+            this.introMessage = {
+                text: "Hi! I am your **AI Self-Regulated Learning (SRL)** assistant of Tailor-Mind~",
+            };
+            this.initialMessages = [
+                {
+                    html: `
+            <div class="deep-chat-temporary-message">
+              <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 5px" @click="handleSRLClick">What is Self-Regulated Learning (SRL)?</button>
+              <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 6px">What does each view of Tailor-Mind do?</button>
+              <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 6px">How can I start my SRL journey?</button>
+            </div>`,
+                    role: 'ai',
+                },
+                //                 
+            ];
+            this.messageStyles = {
+                default: {
+                    shared: { bubble: { color: "black" } },
+                    user: { bubble: { backgroundColor: "#EEE1C7A2" } },
+                },
+                file: {
+                    shared: {
+                        bubble: { backgroundColor: "#EEE1C7A2" },
+                    },
+                },
+                html: {
+                    shared: {
+                        bubble: { backgroundColor: "unset", padding: '0px' }
+                    }
+                }
+            };
+            this.inputAreaStyle = { backgroundColor: "#EEE1C7A2" };
+        },
+
+        handleSRLClick() {
+            this.userSelection = 1
+            const deepChatComponent = this.$refs.chatElementRef;
+
+        },
+
         setupDeepChat() {
             const deepChatComponent = this.$refs.chatElementRef;
             if (deepChatComponent) {
@@ -91,6 +109,7 @@ export default {
             }
             //console.log(message.message)
         },
+
         fetchHistoryMessages() {
             const deepChatComponent = this.$refs.chatElementRef;
             if (deepChatComponent) {
@@ -102,10 +121,33 @@ export default {
             }
         },
 
+        setupRequestInterceptor() {
+            const chatElementRef = this.$refs.chatElementRef;
+
+            // 定义同步请求拦截器
+            chatElementRef.requestInterceptor = (requestDetails) => {
+                console.log(requestDetails); // 打印请求详情
+
+                if (requestDetails.body instanceof FormData) {
+                    // 如果是FormData，设置特定的URL
+                    // requestDetails.url = "http://127.0.0.1:5000/chat";
+                    console.log(requestDetails.url)
+                    return{...requestDetails,
+                    url: "http://127.0.0.1:5000/chat",}
+                    
+                } else {
+                    // 如果不是FormData，保持URL不变
+                    // requestDetails.url = requestDetails.url;
+                    console.log(requestDetails.url)
+                }
+
+                return requestDetails; // 返回修改后的请求详情
+            };
 
 
+        },
     }
-};
+}
 </script>
   
 <style>

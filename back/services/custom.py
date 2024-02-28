@@ -2,6 +2,9 @@ from flask import Response
 import time
 import json
 from flask import jsonify
+from .sft import MinderLLM
+
+minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
 
 class Custom:
     def chat(self, body):
@@ -54,12 +57,22 @@ class Custom:
                 # message objects are stored as strings and they will need to be parsed (JSON.parse) before processing
                 for key, value in text_messages:
                     print(key, value)
-            return {"text": "Get files! This is a respone from a Flask server. Thank you for your message!"}
+            return {"text": "Get files! Loading..."}
         else:
             # When sending text messages without any files - they are stored inside a json
-            print("Text messages:")
-            print(request)
-            return {"text": "This is a respone from a Flask server. Thank you for your message!"}
+            
+            body = request.json["messages"][0]['text']
+            print("Text messages:",body )
+            if body=='What is Self-Regulated Learning (SRL)?':
+                response={"text":"Self-Regulated Learning (SRL) consists of 3 phases:\n 1. **Forethought**, planning and activation \n 2. **Performance**, monitoring and control \n 3. Reaction and **reflection**","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">What does each view of Tailor-Mind do?</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
+            elif body=='What does each view of Tailor-Mind do?':
+                response={"text":"Some guidances will be coming...","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
+            elif body=='How can I start my SRL journey?':
+                response={"text":"**Upload your learning material** and start your SRL journey!"}
+            else:
+                response=minderllm.generate(query=body)
+           
+            return response
 
         # Sends response back to Deep Chat using the Response format:
         # https://deepchat.dev/docs/connect/#Response

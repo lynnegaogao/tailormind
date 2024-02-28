@@ -1127,7 +1127,7 @@ export default {
 .toolbar-container {
     position: absolute;
     top: 75px;
-    right: 170px;
+    right: 190px;
     display: flex;
     gap: 5px;
 

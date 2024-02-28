@@ -1,13 +1,23 @@
 <template>
-    <div ref="cardsContainer"  class="scrollable-container">
-        <a-tree ref="cardList" :tree-data="cardData" :show-icon="false" :height="400" style="font-size: medium;">
+    <div ref="cardsContainer" class="scrollable-container">
+        <a-tree ref="cardList" :tree-data="cardData" :show-icon="false" :height="400" style="font-size: medium;"
+            @rightClick="alert('rightClick')">
             <template #title="{ key: key, title, content }">
-                <a-card size="small" :key="key" :title="key + title"
-                    :style="{ border: selectedKey == key ? '2px solid rgb(199,151,48)' : '' }" class="card">
-                    <div class="card-content">
-                        <p>{{ content }}</p>
-                    </div>
-                </a-card>
+                <a-dropdown :trigger="['contextmenu']">
+                    <a-card size="small" :key="key" :title="key + title"
+                        :style="{ border: selectedKey == key ? '2px solid rgb(199,151,48)' : '' }" class="card">
+                        <div class="card-content">
+                            <p>{{ content }}</p>
+                        </div>
+                    </a-card>
+                    <!-- <div>hh</div> -->
+                    <template #overlay>
+                        <a-menu>
+                            <a-menu-item key="1" @Click="copyCard(title, content)">Copy</a-menu-item>
+                            <a-menu-item key="2" @Click="askAI(title, content)">Ask AI</a-menu-item>
+                        </a-menu>
+                    </template>
+                </a-dropdown>
             </template>
         </a-tree>
     </div>
@@ -21,14 +31,17 @@
 </template>
 
 <script>
-import { Card, Tree } from 'ant-design-vue';
+import { Card, Tree, Dropdown, Menu, message } from 'ant-design-vue';
 import { ref, computed } from 'vue';
 
 export default {
     name: 'KnowledgeCard',
     components: {
         ACard: Card,
-        ATree: Tree
+        ATree: Tree,
+        ADropdown: Dropdown,
+        AMenu: Menu,
+        AMenuItem: Menu.Item
     },
     data() {
         return {
@@ -52,34 +65,58 @@ export default {
     },
     methods: {
         // 计算树的高度
-        calculateTreeHeight() {
-            const treeContainerHeight = this.$refs.cardsContainer.offsetHeight;
-            this.treeHeight = `${treeContainerHeight}px`;
-        },
+        // calculateTreeHeight() {
+        //     const treeContainerHeight = this.$refs.cardsContainer.offsetHeight;
+        //     this.treeHeight = `${treeContainerHeight}px`;
+        // },
+
+        // 调用 antd-vue 的 scrollTo 方法来滚动到指定 key 的节点位置
         scrollTo(key) {
-            // 调用 antd-vue 的 scrollTo 方法来滚动到指定 key 的节点位置
             this.selectedKey = key;
             this.$refs.cardList.scrollTo({ key: key, align: 'top' });
+        },
+        // 复制卡片的内容
+        copyCard(title, content) {
+            const textToCopy = `${title}\n${content}`; // 将标题和内容组合成需要复制的文本
+            navigator.clipboard.writeText(textToCopy) // 使用浏览器的Clipboard API将文本复制到剪贴板
+                .then(() => {
+                    message.success('Card copied successfully!');
+                })
+                .catch(err => {
+                    message.error('Error copying card:', err);
+                });
+        },
+        // 调用AI接口
+        askAI(title, content) {
+            message
+                .loading('Asking AI, waiting...', 2.5)
+            .then(
+                () => message.success('Loading finished', 2.5),
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                () => { },
+            )
+            .then(() => message.info('Successfully asked', 2.5));
+            //TODO
         }
     },
     mounted() {
         console.log('treeData', this.treeData);
         // 计算高度
-        this.calculateTreeHeight();
-        window.addEventListener('resize', this.calculateTreeHeight);
+        // this.calculateTreeHeight();
+        // window.addEventListener('resize', this.calculateTreeHeight);
     },
     beforeUnmount() {
-        window.removeEventListener('resize', this.calculateTreeHeight);
+        // window.removeEventListener('resize', this.calculateTreeHeight);
     },
     computed: {
-        treeHeight: {
-            get() {
-                return this._treeHeight;
-            },
-            set(value) {
-                this._treeHeight = value;
-            }
-        }
+        // treeHeight: {
+        //     get() {
+        //         return this._treeHeight;
+        //     },
+        //     set(value) {
+        //         this._treeHeight = value;
+        //     }
+        // }
     }
 };
 </script>
@@ -91,9 +128,9 @@ export default {
     /* overflow-y: auto; */
     padding: 10px;
 }
+
 .card {
     margin: 10px;
     padding: 0;
 }
-
 </style>

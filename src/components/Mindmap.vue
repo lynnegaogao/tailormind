@@ -272,20 +272,12 @@ export default {
         this.dragElement(document.getElementById("main-legend"))
 
     },
-    emits: ['click', 'generateWordCloud'],
+    emits: ['click', 'generateWordCloud','getQuestionRmd'],
     methods: {
         // 绘制网络图
         drawMindmap() {
             d3.selectAll("#mindmap-area svg").remove();
             const levelcolor = [
-                //'#F07569',
-                //'#F17E45',
-                //'#ECE066',
-                //'#5AA46A',
-                //'#399789',
-                //'#6AA2CA',
-                //'#925096',
-                //'#882BF2',
                 "#ff9f6d",
                 "#d88c9a",
                 "#a17fda",
@@ -415,8 +407,9 @@ export default {
                         tooltipText: "Recommend questions",
                         selector: "node",
                         onClickFunction: (e) => {
-                            var node = e.target; // 获取被点击的节点
+                            var node = e.target; 
                             console.log("Recommend questions for node: ", node.id());
+                            this.$emit('getQuestionRmd',node.id()) 
                         },
                     },
                     {

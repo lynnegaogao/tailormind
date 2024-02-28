@@ -9,7 +9,7 @@
         <div class="right-column">
             <!-- 文件目录 -->
             <div class="file-struct sub-module-block">
-                <fileStruct @selectNode="scrollToCard" />
+                <fileStruct @selectNode="scrollToCard" :fileStructureData='fileStructureData' />
             </div>
             <!-- 词云 -->
             <!-- <div class="word-cloud">
@@ -40,11 +40,34 @@ export default {
     },
     data() {
         return {
-            getFileStatus: false,
+
         }
     },
     mounted() {
-
+    },
+    props: {
+        fileStructureData: {
+            type: Array,
+            default: function () { return []; },
+        },
+        fileData: {
+            type: Array,
+            default: function () { return []; },
+        }
+    },
+    watch: {
+        fileStructureData(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            this.$nextTick(() => {
+        
+            })
+        },
+        fileData(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            this.$nextTick(() => {
+        
+            })
+        }
     },
     methods: {
         // 滑动到对应的卡片

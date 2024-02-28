@@ -33,8 +33,6 @@ export default {
             requestConfig: {
                 url: "http://127.0.0.1:5000/files",
                 method: "POST",
-                // headers: { "Content-Type": "multipart/form-data" },
-
             },
             introMessage: {},
             initialMessages: [],
@@ -43,15 +41,16 @@ export default {
             userSelection: 0,
         };
     },
-    watch: {
-
+    props: {
+      
     },
     mounted() {
         this.setupDeepChat();
         this.initializeChat();
-        // this.setupRequestInterceptor()
+        this.setupRequestInterceptor();
+        this.setupResponseInterceptor()
     },
-
+    emits:['getFileData'],
     methods: {
         initializeChat() {
             this.introMessage = {
@@ -104,48 +103,36 @@ export default {
         handleNewMessage(message) {
             console.log("新消息: ", message);
             // 在这里处理新消息，例如将其添加到显示消息的数组中
-            if (message.message.files) {
-                console.log(message.message.files)
-            }
+            // if (message.message.files) {
+            //     console.log(message.message.files)
+            // }
             //console.log(message.message)
-        },
-
-        fetchHistoryMessages() {
-            const deepChatComponent = this.$refs.chatElementRef;
-            if (deepChatComponent) {
-                const messages = deepChatComponent.getMessages();
-                console.log("历史消息: ", messages);
-                // 在这里处理历史消息，例如将其保存到组件的数据属性中
-                console.log(messages.message)
-                //if messages
-            }
         },
 
         setupRequestInterceptor() {
             const chatElementRef = this.$refs.chatElementRef;
-
             // 定义同步请求拦截器
             chatElementRef.requestInterceptor = (requestDetails) => {
-                console.log(requestDetails); // 打印请求详情
-
-                if (requestDetails.body instanceof FormData) {
-                    // 如果是FormData，设置特定的URL
-                    // requestDetails.url = "http://127.0.0.1:5000/chat";
-                    console.log(requestDetails.url)
-                    return{...requestDetails,
-                    url: "http://127.0.0.1:5000/chat",}
-                    
-                } else {
-                    // 如果不是FormData，保持URL不变
-                    // requestDetails.url = requestDetails.url;
-                    console.log(requestDetails.url)
-                }
-
+                // console.log(requestDetails); 
                 return requestDetails; // 返回修改后的请求详情
             };
 
 
         },
+
+        setupResponseInterceptor() {
+            const chatElementRef = this.$refs.chatElementRef;
+            chatElementRef.responseInterceptor = (response) => {
+                if(response['file']){
+                    console.log('file-structure:',response['filestructure'])
+                    console.log('file:',response['file'])
+                    this.$emit('getFileData', [response['filestructure'],response['filestructure']])
+                    
+                }
+                return response['chatdata']
+            }
+
+        }
     }
 }
 </script>

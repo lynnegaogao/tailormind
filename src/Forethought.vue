@@ -16,7 +16,7 @@
             CHAT
           </div>
           <div class="module-component">
-            <chat />
+            <chat @getFileData="onGetFileData" />
           </div>
         </div>
         <!-- 文件上传 -->
@@ -42,7 +42,7 @@
             FILE PREVIEW
           </div>
           <div class="module-component">
-            <filePreview/>
+            <filePreview :fileStructureData="fileStructureData" :fileData="fileData" />
           </div>
         </div>
 
@@ -69,7 +69,7 @@
           </div>
           <div class="module-component">
             <mindmap style="flex: 4;" @generateWordCloud='onGenerateWordCloud' :wordCloudData='wordCloudData'
-              :submitNode='submitNode' />
+              :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'/>
             <mindmapSidebar style="flex: 1;" />
           </div>
         </div>
@@ -147,6 +147,8 @@ export default {
     return {
       getFileStatus: false,
       wordCloudData: null,
+      fileStructureData: null,
+      fileData: null,
 
     }
   },
@@ -155,6 +157,13 @@ export default {
   },
   methods: {
     // 后端获取文件
+    onGetFileData(filedata) {
+      this.fileStructureData = filedata[0]
+      this.fileData = filedata[1]
+      console.log(this.fileData, this.fileStructureData)
+    },
+
+
     onGetFileContent(file) {
       var formData = new FormData()
       formData.append('file', file)
@@ -165,16 +174,21 @@ export default {
       })
     },
 
+    // 对选中节点进行问题推荐
+    // onGetQuestionRmd(nodeId){
+    //   DataService.getQuestionRmd(nodeId,())
+    // },
+
     // 处理提交的笔记，生成词云
     onGenerateWordCloud(node, noteContext) {
       DataService.getWordCloudData(node, noteContext, (wordCloudData) => {
         //this.wordCloudData.nodeId=node.id()
         //this.wordCloudData.node = node
         //this.wordCloudData.data = wordCloudData
-        this.wordCloudData={
-          'nodeId':node.id(),
-          'node':node,
-          'data' : wordCloudData
+        this.wordCloudData = {
+          'nodeId': node.id(),
+          'node': node,
+          'data': wordCloudData
         }
         console.log('wordCloudData:', this.wordCloudData);
       })

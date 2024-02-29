@@ -5,6 +5,7 @@ from flask import jsonify
 from .sft import MinderLLM
 import base64
 import io
+import re
 
 minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
 
@@ -102,21 +103,37 @@ class Custom:
             return response
         
         else:
-            # When sending text messages without any files - they are stored inside a json
-            
             body = request.json["messages"][0]['text']
             print("Text messages:",body )
+            # 引导问题
             if body=='What is Self-Regulated Learning (SRL)?':
-                response={"text":"Self-Regulated Learning (SRL) consists of 3 phases:\n 1. **Forethought**, planning and activation \n 2. **Performance**, monitoring and control \n 3. Reaction and **reflection**","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">What does each view of Tailor-Mind do?</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
+                response={"text":"Self-Regulated Learning (SRL) consists of 3 phases:\n 1. **Forethought**, planning and activation \n 2. **Performance**, monitoring and control \n 3. Reaction and **reflection**","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">What does each view of Tailor-Mind do?</button><br><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
             elif body=='What does each view of Tailor-Mind do?':
                 response={"text":"Some guidances will be coming...","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
             elif body=='How can I start my SRL journey?':
                 response={"text":"**Upload your learning material** and start your SRL journey!"}
+            # 问题推荐
+            elif body.startswith("Recommend some questions"):
+                response=minderllm.generate(query=body)
+                html_response=self.convert_rmdText_to_html(response)
+                response=html_response
+            # 其他正常问答
             else:
                 response=minderllm.generate(query=body)
-           
+            print("Response:",response)
             return {'chatdata':response}
-
-        # Sends response back to Deep Chat using the Response format:
-        # https://deepchat.dev/docs/connect/#Response
+    
+    def convert_rmdText_to_html(self, response):
+        questions = response['text'].split('\n')
+        html_str = '<div class="deep-chat-temporary-message">'
+        # 遍历所有问题，将每个问题添加到HTML字符串中
+        for question in questions:
+            # 删除问题编号
+            question_text = re.sub(r"^\d+\.\s*", "", question)
+            button_html = f'<button class="deep-chat-button deep-chat-suggestion-button" style="text-align: left; margin-top: 6px;">{question_text}</button><br>'
+            html_str += button_html
+        html_str += '</div>'
+    
+        return {'html': html_str}
+ 
         

@@ -42,7 +42,19 @@ export default {
         };
     },
     props: {
+        nodeToQuestionRmd:{
+            type: String,
+            default: function () { return ''; },
+        },
       
+    },
+    watch:{
+        nodeToQuestionRmd(newValue,oldValue){
+            console.log(newValue, oldValue)
+            this.$nextTick(() => {
+                this.setupUserRequestQuestionRmd()
+            })
+        },
     },
     mounted() {
         this.setupDeepChat();
@@ -52,6 +64,7 @@ export default {
     },
     emits:['getFileData'],
     methods: {
+        // 初始化
         initializeChat() {
             this.introMessage = {
                 text: "Hi! I am your **AI Self-Regulated Learning (SRL)** assistant of Tailor-Mind~",
@@ -60,8 +73,8 @@ export default {
                 {
                     html: `
             <div class="deep-chat-temporary-message">
-              <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 5px" @click="handleSRLClick">What is Self-Regulated Learning (SRL)?</button>
-              <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 6px">What does each view of Tailor-Mind do?</button>
+              <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 5px">What is Self-Regulated Learning (SRL)?</button><br>
+              <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 6px">What does each view of Tailor-Mind do?</button><br>
               <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 6px">How can I start my SRL journey?</button>
             </div>`,
                     role: 'ai',
@@ -86,13 +99,8 @@ export default {
             };
             this.inputAreaStyle = { backgroundColor: "#EEE1C7A2" };
         },
-
-        handleSRLClick() {
-            this.userSelection = 1
-            const deepChatComponent = this.$refs.chatElementRef;
-
-        },
-
+        
+        // 捕捉当前返回的消息
         setupDeepChat() {
             const deepChatComponent = this.$refs.chatElementRef;
             if (deepChatComponent) {
@@ -109,6 +117,7 @@ export default {
             //console.log(message.message)
         },
 
+        // request拦截器
         setupRequestInterceptor() {
             const chatElementRef = this.$refs.chatElementRef;
             // 定义同步请求拦截器
@@ -120,6 +129,7 @@ export default {
 
         },
 
+        // response拦截器
         setupResponseInterceptor() {
             const chatElementRef = this.$refs.chatElementRef;
             chatElementRef.responseInterceptor = (response) => {
@@ -132,6 +142,13 @@ export default {
                 return response['chatdata']
             }
 
+        },
+
+        // interact with mindmap：对知识点进行问题推荐
+        setupUserRequestQuestionRmd(){
+            const chatElementRef = this.$refs.chatElementRef;
+            chatElementRef.submitUserMessage({'text': `Recommend some questions about **${this.nodeToQuestionRmd}** for learning.`});
+           
         }
     }
 }

@@ -81,7 +81,7 @@
             LEARNING PATH
           </div>
           <div class="module-component">
-
+            <learningPath />
           </div>
         </div>
 
@@ -131,7 +131,7 @@ import filePreview from './components/FilePreview.vue'
 import chat from './components/Chat.vue'
 import mindmap from './components/Mindmap.vue'
 import mindmapSidebar from './components/MindmapSidebar.vue'
-
+import learningPath from './components/LearningPath.vue'
 import DataService from "./utils/data-service"
 
 export default {
@@ -141,7 +141,8 @@ export default {
     filePreview,
     chat,
     mindmap,
-    mindmapSidebar
+    mindmapSidebar,
+    learningPath,
   },
   data() {
     return {
@@ -161,7 +162,7 @@ export default {
     onGetFileData(filedata) {
       this.fileStructureData = filedata[0]
       this.fileData = filedata[1]
-      console.log(this.fileData, this.fileStructureData)
+      console.log('获取来自后端的文件：',[this.fileData, this.fileStructureData])
     },
 
 

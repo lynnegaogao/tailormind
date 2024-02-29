@@ -1,0 +1,122 @@
+[
+    {
+        "start": 0.00,
+        "level": 1,
+        "milestone": "Ensemble Learning",
+        "importance": 4,
+        "subknowledge": [
+            {
+                "level": 2,
+                "knowledge": "Concept of Ensemble Learning",
+                "importance": 5
+            },
+            {
+                "level": 2,
+                "knowledge": "Benefits of Ensemble Learning",
+                "importance": 2
+            },
+            {
+                "level": 2,
+                "knowledge": "Basic Ensemble Methods",
+                "importance": 5
+            }
+        ]
+    },
+    {
+        "start": 0.30,
+        "level": 3,
+        "milestone": "Bagging",
+        "importance": 2,
+        "subknowledge": [
+            {
+                "level": 4,
+                "knowledge": "Principles of Bagging",
+                "importance": 3
+            },
+            {
+                "level": 4,
+                "knowledge": "Implementing Bagging Models",
+                "importance": 3
+            },
+            {
+                "level": 4,
+                "knowledge": "Advantages and Limitations of Bagging",
+                "importance": 3
+            }
+        ]
+    },
+    {
+        "start": 0.5,
+        "level": 3,
+        "milestone": "Boosting",
+        "importance": 2,
+        "subknowledge": [
+            {
+                "level": 4,
+                "knowledge": "Basics of Boosting",
+                "importance": 3
+            },
+            {
+                "level": 4,
+                "knowledge": "Types of Boosting Algorithms",
+                "importance": 3
+            },
+            {
+                "level": 4,
+                "knowledge": "Boosting vs Bagging",
+                "importance": 3
+            }
+        ]
+    },
+    {
+        "start": 0.8,
+        "level": 8,
+        "milestone": "Random Forests",
+        "importance": 2,
+        "subknowledge": [
+            {
+                "level": 6,
+                "knowledge": "Introduction to Random Forests",
+                "importance": 3
+            },
+            {
+                "level": 6,
+                "knowledge": "How Random Forests Work",
+                "importance": 3
+            },
+            {
+                "level": 6,
+                "knowledge": "Applying Random Forests in Real-World Scenarios",
+                "importance": 3
+            }
+        ]
+    },
+    {
+        "start": 0.9,
+        "level": 5,
+        "milestone": "Stacking",
+        "importance": 2,
+        "subknowledge": [
+            {
+                "level": 6,
+                "knowledge": "Introduction to Stacking",
+                "importance": 3
+            },
+            {
+                "level": 6,
+                "knowledge": "How Stacking Works",
+                "importance": 3
+            },
+            {
+                "level": 6,
+                "knowledge": "Implementing Stacking Models",
+                "importance": 3
+            },
+            {
+                "level": 6,
+                "knowledge": "Use Cases and Examples of Stacking",
+                "importance": 3
+            }
+        ]
+    }
+]

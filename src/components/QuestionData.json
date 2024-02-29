@@ -1,0 +1,74 @@
+{
+    "questions" : [
+        {
+            "question" : "What is the capital of France?",
+            "knowledgepoint" : "capital",
+            "level" : "1"
+        },
+        {
+            "question" : "What is the capital of Germany?",
+            "knowledgepoint" : "capital",
+            "level" : "1"
+        },
+        {
+            "question" : "Beijing is the capital of which country?",
+            "knowledgepoint" : "capital",
+            "level" : "2"
+        },
+        {
+            "question" : "What is the capital of Spain?",
+            "knowledgepoint" : "capital",
+            "level" : "1"
+        },
+        {
+            "question" : "How should I say 'hello' in French?",
+            "knowledgepoint" : "language",
+            "level" : "3"
+        },
+        {
+            "question" : "How should I say 'hello' in German?",
+            "knowledgepoint" : "language",
+            "level" : "3"
+        },
+        {
+            "question" : "How should I say 'hello' in Spanish?",
+            "knowledgepoint" : "language",
+            "level" : "3"
+        },
+        {
+            "question" : "How should I say 'hello' in Chinese?",
+            "knowledgepoint" : "language",
+            "level" : "3"
+        },
+        {
+            "question" : "What is the currency of the United States?",
+            "knowledgepoint" : "currency",
+            "level" : "2"
+        },
+        {
+            "question" : "What is the currency of the United Kingdom?",
+            "knowledgepoint" : "currency",
+            "level" : "2"
+        },
+        {
+            "question" : "What is the currency of Japan?",
+            "knowledgepoint" : "currency",
+            "level" : "2"
+        },
+        {
+            "question" : "What is the currency of China?",
+            "knowledgepoint" : "currency",
+            "level" : "2"
+        },
+        {
+            "question" : "What is the currency of France?",
+            "knowledgepoint" : "currency",
+            "level" : "2"
+        },
+        {
+            "question" : "What is the currency of Germany?",
+            "knowledgepoint" : "currency",
+            "level" : "2"
+        }
+    ]
+}

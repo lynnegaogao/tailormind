@@ -16,7 +16,7 @@
             CHAT
           </div>
           <div class="module-component">
-            <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd"/>
+            <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" />
           </div>
         </div>
         <!-- 文件上传 -->
@@ -69,7 +69,7 @@
           </div>
           <div class="module-component">
             <mindmap style="flex: 4;" @generateWordCloud='onGenerateWordCloud' :wordCloudData='wordCloudData'
-              :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'/>
+              :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd' />
             <mindmapSidebar style="flex: 1;" />
           </div>
         </div>
@@ -81,7 +81,7 @@
             LEARNING PATH
           </div>
           <div class="module-component">
-
+            <learningPath />
           </div>
         </div>
 
@@ -131,7 +131,7 @@ import filePreview from './components/FilePreview.vue'
 import chat from './components/Chat.vue'
 import mindmap from './components/Mindmap.vue'
 import mindmapSidebar from './components/MindmapSidebar.vue'
-
+import learningPath from './components/LearningPath.vue'
 import DataService from "./utils/data-service"
 
 export default {
@@ -141,7 +141,8 @@ export default {
     filePreview,
     chat,
     mindmap,
-    mindmapSidebar
+    mindmapSidebar,
+    learningPath,
   },
   data() {
     return {
@@ -149,8 +150,8 @@ export default {
       wordCloudData: null,
       fileStructureData: null,
       fileData: null,
-      fileSummary:'',
-      nodeToQuestionRmd:'',
+      fileSummary: '',
+      nodeToQuestionRmd: '',
 
     }
   },
@@ -162,8 +163,8 @@ export default {
     onGetFileData(filedata) {
       this.fileData = filedata[0]
       this.fileStructureData = filedata[1]
-      this.fileSummary=filedata[2]
-      console.log(this.fileData, this.fileStructureData,this.fileSummary)
+      this.fileSummary = filedata[2]
+      console.log(this.fileData, this.fileStructureData, this.fileSummary)
     },
 
 
@@ -178,8 +179,8 @@ export default {
     },
 
     // 对选中节点进行问题推荐
-    onGetQuestionRmd(nodeId){
-      this.nodeToQuestionRmd=nodeId
+    onGetQuestionRmd(nodeId) {
+      this.nodeToQuestionRmd = nodeId
     },
 
     // 处理提交的笔记，生成词云

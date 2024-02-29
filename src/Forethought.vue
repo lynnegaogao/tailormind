@@ -149,6 +149,7 @@ export default {
       wordCloudData: null,
       fileStructureData: null,
       fileData: null,
+      fileSummary:'',
       nodeToQuestionRmd:'',
 
     }
@@ -159,9 +160,10 @@ export default {
   methods: {
     // 后端获取文件
     onGetFileData(filedata) {
-      this.fileStructureData = filedata[0]
-      this.fileData = filedata[1]
-      console.log(this.fileData, this.fileStructureData)
+      this.fileData = filedata[0]
+      this.fileStructureData = filedata[1]
+      this.fileSummary=filedata[2]
+      console.log(this.fileData, this.fileStructureData,this.fileSummary)
     },
 
 

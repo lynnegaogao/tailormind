@@ -10,7 +10,7 @@
 
     </div>
 </template>
-  
+
 <script>
 import { ref } from "vue";
 import { Textarea } from 'ant-design-vue';
@@ -42,14 +42,14 @@ export default {
         };
     },
     props: {
-        nodeToQuestionRmd:{
+        nodeToQuestionRmd: {
             type: String,
             default: function () { return ''; },
         },
-      
+
     },
-    watch:{
-        nodeToQuestionRmd(newValue,oldValue){
+    watch: {
+        nodeToQuestionRmd(newValue, oldValue) {
             console.log(newValue, oldValue)
             this.$nextTick(() => {
                 this.setupUserRequestQuestionRmd()
@@ -62,7 +62,7 @@ export default {
         this.setupRequestInterceptor();
         this.setupResponseInterceptor()
     },
-    emits:['getFileData'],
+    emits: ['getFileData'],
     methods: {
         // 初始化
         initializeChat() {
@@ -79,7 +79,7 @@ export default {
             </div>`,
                     role: 'ai',
                 },
-                //                 
+                //
             ];
             this.messageStyles = {
                 default: {
@@ -99,7 +99,7 @@ export default {
             };
             this.inputAreaStyle = { backgroundColor: "#EEE1C7A2" };
         },
-        
+
         // 捕捉当前返回的消息
         setupDeepChat() {
             const deepChatComponent = this.$refs.chatElementRef;
@@ -122,7 +122,7 @@ export default {
             const chatElementRef = this.$refs.chatElementRef;
             // 定义同步请求拦截器
             chatElementRef.requestInterceptor = (requestDetails) => {
-                // console.log(requestDetails); 
+                // console.log(requestDetails);
                 return requestDetails; // 返回修改后的请求详情
             };
 
@@ -133,11 +133,12 @@ export default {
         setupResponseInterceptor() {
             const chatElementRef = this.$refs.chatElementRef;
             chatElementRef.responseInterceptor = (response) => {
-                if(response['file']){
-                    console.log('file-structure:',response['filestructure'])
-                    console.log('file:',response['file'])
-                    this.$emit('getFileData', [response['filestructure'],response['filestructure']])
-                    
+                if (response['file']) {
+                    // console.log('file-structure:',response['filestructure'])
+                    // console.log('file:',response['file'])
+                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary']])
+                    console.log({ 'text': response['chatdata']['text'], 'text': response['filesummary'] })
+                    return { 'text': response['chatdata']['text'], 'text': response['filesummary'] }
                 }
                 return response['chatdata']
             }
@@ -145,15 +146,15 @@ export default {
         },
 
         // interact with mindmap：对知识点进行问题推荐
-        setupUserRequestQuestionRmd(){
+        setupUserRequestQuestionRmd() {
             const chatElementRef = this.$refs.chatElementRef;
-            chatElementRef.submitUserMessage({'text': `Recommend some questions about **${this.nodeToQuestionRmd}** for learning.`});
-           
+            chatElementRef.submitUserMessage({ 'text': `Recommend some questions about **${this.nodeToQuestionRmd}** for learning.` });
+
         }
     }
 }
 </script>
-  
+
 <style>
 .chat {
     display: flex;

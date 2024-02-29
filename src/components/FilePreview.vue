@@ -4,7 +4,7 @@
             <!-- 1文件预览 -->
             <div class="pdf-preview sub-module-block">
                 <!-- 隐藏状态栏 -->
-                <iframe :src="pdfPath+'#toolbar=0'" frameborder="0" class="pdf"></iframe>
+                <iframe v-if="pdfUrl" :src="pdfUrl + '#toolbar=0'" frameborder="0" class="pdf"></iframe>
             </div>
         </div>
         <div class="right-column">
@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import pdfPath from '/src/assets/cs229-notes12.pdf';
-import { Button, Card, Tree, Dropdown, Menu, message  } from 'ant-design-vue';
+import pdfUrl from '/src/assets/cs229-notes12.pdf';
+import { Button, Card, Tree, Dropdown, Menu, message } from 'ant-design-vue';
 
 export default {
     name: 'filePreview',
@@ -63,7 +63,9 @@ export default {
     },
     data() {
         return {
-            pdfPath,
+            pdfUrl: null,
+            // pdfUrl: '',
+            // fileStructData: [],
             fileStructData: [
                 {
                     "key": "1",
@@ -94,6 +96,7 @@ export default {
                     ]
                 }
             ],
+            // cardData: [],
             cardData: [
                 { "key": "1", "title": "凸集", "content": "凸集是指集合中的任意两点之间的连线上的所有点也属于该集合。" },
                 { "key": "1-1", "title": "凸集定义", "content": "凸集定义是指集合中的任意两点之间的连线上的所有点也属于该集合。" },
@@ -133,10 +136,16 @@ export default {
                 this.fileStructData = newValue;
             })
         },
+        // 用于展示Pdf
         fileData(newValue, oldValue) {
+
             console.log(newValue, oldValue)
             this.$nextTick(() => {
-
+                // if (filename.endsWith('.pdf')) {
+                let pdfData = `data:application/pdf;base64,${newValue}`;
+                console.log(pdfData)
+                this.pdfUrl = pdfData; // pdfUrl是绑定到<iframe> src属性的数据属性
+                // }
             })
         }
     },
@@ -206,9 +215,9 @@ export default {
     min-height: 590px;
 }
 
-.pdf{
-  width: 100%;
-  height: 100%;
+.pdf {
+    width: 100%;
+    height: 100%;
 }
 
 .file-struct {

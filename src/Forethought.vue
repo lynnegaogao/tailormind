@@ -53,7 +53,7 @@
             QUESTION RECOMMENDATION
           </div>
           <div class="module-component">
-
+            <questionRmd />
           </div>
         </div>
 
@@ -132,6 +132,7 @@ import chat from './components/Chat.vue'
 import mindmap from './components/Mindmap.vue'
 import mindmapSidebar from './components/MindmapSidebar.vue'
 import learningPath from './components/LearningPath.vue'
+import questionRmd from './components/QuestionRmd.vue'
 import DataService from "./utils/data-service"
 
 export default {
@@ -143,6 +144,7 @@ export default {
     mindmap,
     mindmapSidebar,
     learningPath,
+    questionRmd
   },
   data() {
     return {

@@ -108,7 +108,7 @@ export default defineComponent({
     };
 
     const success = () => {
-      message.success('Copied successfully');
+      message.success('Question copied successfully');
     };
 
 
@@ -139,7 +139,7 @@ export default defineComponent({
   background: #f7f7f7;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
-  max-height: 525px;
+  max-height: 443px;
   overflow-y: auto;
   width: 100%;
 }

@@ -16,7 +16,7 @@
             CHAT
           </div>
           <div class="module-component">
-            <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd"/>
+            <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" />
           </div>
         </div>
         <!-- 文件上传 -->
@@ -69,7 +69,7 @@
           </div>
           <div class="module-component">
             <mindmap style="flex: 4;" @generateWordCloud='onGenerateWordCloud' :wordCloudData='wordCloudData'
-              :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'/>
+              :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd' />
             <mindmapSidebar style="flex: 1;" />
           </div>
         </div>
@@ -152,7 +152,8 @@ export default {
       wordCloudData: null,
       fileStructureData: null,
       fileData: null,
-      nodeToQuestionRmd:'',
+      fileSummary: '',
+      nodeToQuestionRmd: '',
 
     }
   },
@@ -162,9 +163,10 @@ export default {
   methods: {
     // 后端获取文件
     onGetFileData(filedata) {
-      this.fileStructureData = filedata[0]
-      this.fileData = filedata[1]
-      console.log('获取来自后端的文件：',[this.fileData, this.fileStructureData])
+      this.fileData = filedata[0]
+      this.fileStructureData = filedata[1]
+      this.fileSummary = filedata[2]
+      console.log(this.fileData, this.fileStructureData, this.fileSummary)
     },
 
 
@@ -179,8 +181,8 @@ export default {
     },
 
     // 对选中节点进行问题推荐
-    onGetQuestionRmd(nodeId){
-      this.nodeToQuestionRmd=nodeId
+    onGetQuestionRmd(nodeId) {
+      this.nodeToQuestionRmd = nodeId
     },
 
     // 处理提交的笔记，生成词云

@@ -25,10 +25,10 @@ let DataService = {
     getWordCloudData(node,noteContext, callback) {
         axios.post(`${this.dataServerUrl}/get-wordclouddata`, {
             nodeId:node.id(),
-            noteContext: noteContext  
+            noteContext: noteContext
         }, {
             headers: {
-                'Content-Type': 'application/json'  
+                'Content-Type': 'application/json'
             }
         })
             .then(function (response) {
@@ -37,6 +37,22 @@ let DataService = {
             .catch(error => {
                 console.error('Error getting note context:', error);
             });
+    },
+
+    // TODO
+    getFileStructure() {
+        axios.post(`${this.dataServerUrl}/get-filestructure` , {
+            headers: {
+                "Content-Type": "=/-data",
+            }
+        })
+            .then(function (response) {
+                callback(response.data)
+            })
+            .catch(error => {
+                console.error('Error fetching file:', error);
+            });
+
     },
 
 

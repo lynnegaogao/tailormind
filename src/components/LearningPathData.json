@@ -72,7 +72,7 @@
         "start": 0.8,
         "level": 8,
         "milestone": "Random Forests",
-        "importance": 2,
+        "importance": 5,
         "subknowledge": [
             {
                 "level": 6,

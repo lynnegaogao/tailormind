@@ -139,12 +139,12 @@ export default {
         // 用于展示Pdf
         fileData(newValue, oldValue) {
 
-            console.log(newValue, oldValue)
+            console.log('pdfdata:',newValue[0].filename)
             this.$nextTick(() => {
                 // if (filename.endsWith('.pdf')) {
-                let pdfData = `data:application/pdf;base64,${newValue}`;
-                console.log(pdfData)
-                this.pdfUrl = pdfData; // pdfUrl是绑定到<iframe> src属性的数据属性
+                // let pdfData = `data:application/pdf;base64,${newValue[0]}`;
+                // console.log(pdfData)
+                this.pdfUrl = `../../back/uploads/${newValue[0].filename}`; // pdfUrl是绑定到<iframe> src属性的数据属性
                 // }
             })
         }

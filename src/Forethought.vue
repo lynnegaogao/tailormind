@@ -126,19 +126,18 @@
 </template>
 
 <script>
-import uploadFile from './components/UploadFile.vue'
 import filePreview from './components/FilePreview.vue'
 import chat from './components/Chat.vue'
 import mindmap from './components/Mindmap.vue'
 import mindmapSidebar from './components/MindmapSidebar.vue'
 import learningPath from './components/LearningPath.vue'
 import questionRmd from './components/QuestionRmd.vue'
+
 import DataService from "./utils/data-service"
 
 export default {
   name: 'forethought',
   components: {
-    uploadFile,
     filePreview,
     chat,
     mindmap,

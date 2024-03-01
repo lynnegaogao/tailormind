@@ -195,9 +195,9 @@ export default {
             d3.selectAll("#learningpath-area svg").remove();
 
             // 预设参数
-            const width = 800;
+            const width = 1000;
             const height = 460;
-            const offsetX = 35;
+            const offsetX = 60;
             const offsetY = 0;
             const lineOffsetY = height / 3 * 2
             const timelineWidth = 25;
@@ -216,7 +216,7 @@ export default {
             // 定义比例尺
             const scale = d3.scaleLinear()
                 .domain([0, 1])
-                .range([0, width - 50]);
+                .range([0, width - 200]);
 
             // 绘制时间线
             svg.append('line')
@@ -264,7 +264,7 @@ export default {
                 var flagOffsetY = lineOffsetY - timelineWidth / 2 - poleHeight
                 var flagColor = this.levelcolor[milestone["level"] - 1]
 
-                this.drawFlag(milestoneSvg, { 'x': flagOffsetX, 'y': flagOffsetY }, flagColor, poleHeight, poleWidth, flagHeight, flagWidth, extendedPoleHeight)
+                this.drawFlag(milestoneSvg, { 'x': flagOffsetX, 'y': flagOffsetY }, index, flagColor, poleHeight, poleWidth, flagHeight, flagWidth, extendedPoleHeight)
 
                 // 绘制标签
                 var textX = scale(milestone['start']) + 10; // 文本的X位置
@@ -300,32 +300,94 @@ export default {
 
             // 添加交互
             // 对于每个flag和level虚线，添加mouseover和mouseout事件监听器
+            const milestones = this.milestones
+            const levelcolor = this.levelcolor
             svg.selectAll('.flag')
                 .on('mouseover', function (event, d) {
                     // 增加flag和对应level虚线的透明度
                     var currentLevel = d3.select(this).attr('data-level');
                     d3.selectAll('.flag[data-level="' + currentLevel + '"]').style('opacity', 0.9);
                     d3.selectAll('.level-line[data-level="' + currentLevel + '"]').style('opacity', 0.9);
+
+                    // 解析当前hover的milestone ID来获取subKnowledge
+                    var milestoneIndex = this.id.split('-')[1];
+                    var hoveredMilestones = milestones[milestoneIndex].subknowledge;
+
+                    // 创建tooltip组
+                    var tooltipOffsetX = event.pageX - 970
+                    var tooltipOffsetY = event.pageY - 680
+                    if (tooltipOffsetX  > 590) {
+                        tooltipOffsetX = tooltipOffsetX - 300
+                    }
+                    if (tooltipOffsetY > 280) {
+                        tooltipOffsetY = tooltipOffsetY - 200
+                    }
+                    var tooltipGroup = svg.append('g')
+                        .attr('class', 'tooltip-group')
+                        .attr('transform', `translate(${tooltipOffsetX}, ${tooltipOffsetY})`);
+
+                    // 首先，为了确保背景矩形位于其他元素之下，我们先添加它，但实际的尺寸稍后设置
+                    var tooltipBackground = tooltipGroup.append('rect')
+                        .style('fill', '#7e7d7f') // 设置灰色背景
+                        .attr('rx', 5) // 圆角
+                        .attr('ry', 5) // 圆角
+                        .attr('width', 200) // 预设宽度，稍后根据内容调整
+                        .attr('height', hoveredMilestones.length * 20 + 10) // 预设高度，根据项数动态调整
+                        .attr('opacity', 0.1); // 可选：设置透明度以提高视觉效果
+
+                    // 初始化文本宽度的变量，用于动态计算背景宽度
+                    var maxTextWidth = 0;
+
+                    // 对于每个subKnowledge，添加一个小圆形和文本
+                    hoveredMilestones.forEach((knowledge, index) => {
+                        // 添加小圆形
+                        let radius = 2 + knowledge.importance;
+                        let circleColor = 'steelblue'
+                        if (knowledge.level >= 1 && knowledge.level <= 8) {
+                            circleColor = levelcolor[knowledge.level - 1]
+                        }
+                        tooltipGroup.append('circle')
+                            .attr('cx', 10) // 小圆形的初始x位置
+                            .attr('cy', index * 20 + 10) // 假设每个项的垂直间距是20，加10为顶部留白
+                            .attr('r', radius) // 小圆形半径
+                            .style('fill', circleColor)
+                            .style('opacity', 0.5);
+
+                        // 添加文本解释
+                        var textElement = tooltipGroup.append('text')
+                            .attr('x', 20) // 文本相对于小圆形的水平偏移
+                            .attr('y', index * 20 + 10) // 与对应小圆形垂直对齐，加10为顶部留白
+                            .attr('dominant-baseline', 'middle') // 确保文本垂直居中
+                            .attr('font-size', '13px')
+                            .text(knowledge.knowledge);
+
+                        // 获取并更新最大文本宽度
+                        var textWidth = textElement.node().getComputedTextLength();
+                        maxTextWidth = Math.max(maxTextWidth, textWidth);
+                    });
+
+                    // 根据最大文本宽度动态调整背景矩形的宽度
+                    tooltipBackground.attr('width', maxTextWidth + 30); // 加30为文本左侧和右侧留白
+
                 })
                 .on('mouseout', function (event, d) {
                     // 恢复flag和对应level虚线的透明度
                     var currentLevel = d3.select(this).attr('data-level');
                     d3.selectAll('.flag[data-level="' + currentLevel + '"]').style('opacity', 0.4);
                     d3.selectAll('.level-line[data-level="' + currentLevel + '"]').style('opacity', 0.3);
+
+                    // 移除tooltip组
+                    svg.selectAll('.tooltip-group').remove();
                 });
-
-
-
-
-
         },
 
         // 绘制flag
-        drawFlag(svg, position, color, poleHeight, poleWidth, flagWidth, flagHeight, extendedPoleHeight) {
+        drawFlag(svg, position, index, color, poleHeight, poleWidth, flagWidth, flagHeight, extendedPoleHeight) {
             // 绘制旗杆
             svg.append('rect')
                 .attr('data-level', color)
                 .attr('class', 'flag')
+                .attr('id', 'flag-' + index)
                 .attr('x', position.x)
                 .attr('y', position.y)
                 .attr('width', poleWidth)
@@ -336,6 +398,7 @@ export default {
             svg.append('rect')
                 .attr('data-level', color)
                 .attr('class', 'flag')
+                .attr('id', 'flag-' + index)
                 .attr('x', position.x)
                 .attr('y', position.y + poleHeight)
                 .attr('width', poleWidth)
@@ -347,6 +410,7 @@ export default {
             svg.append('polygon')
                 .attr('class', 'flag')
                 .attr('data-level', color)
+                .attr('id', 'flag-' + index)
                 .attr('points', `${offeseX + position.x + poleWidth},${position.y} 
                          ${offeseX + position.x + poleWidth},${position.y + flagHeight} 
                          ${offeseX + position.x + poleWidth + flagWidth},${position.y + flagHeight / 2}`)
@@ -365,9 +429,6 @@ export default {
                     let radius = circleRadiusBase + knowledge.importance;
                     let circleColor = 'steelblue'
                     if (knowledge.level >= 1 && knowledge.level <= 8) {
-                        console.log(knowledge)
-                        console.log(knowledge.level)
-                        console.log(this.levelcolor)
                         circleColor = this.levelcolor[knowledge.level - 1]
                     }
                     svg.append('circle')
@@ -403,6 +464,8 @@ export default {
                 });
             }
         },
+
+
     }
 }
 </script>

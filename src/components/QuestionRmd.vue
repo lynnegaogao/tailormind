@@ -132,14 +132,14 @@ export default defineComponent({
 #question-rmd-container{
   width: 100%;
   height:100%;
-  max-height: 380px;
+  max-height: 385px;
   overflow-y: auto;
 }
 .collapse {
   background: #f7f7f7;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
-  max-height: 365px;
+  max-height: 385px;
   overflow-y: auto;
   width: 100%;
 }

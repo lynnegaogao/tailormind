@@ -1025,12 +1025,12 @@ export default {
 .cy-context-menus-cxt-menu button {
     width: 100px !important;
     border: grey;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.197);
     color: white;
 }
 
 .cy-context-menus-cxt-menu button:hover {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.257);
 }
 
 #main-legend {

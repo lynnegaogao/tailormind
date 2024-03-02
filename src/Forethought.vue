@@ -42,7 +42,7 @@
             FILE PREVIEW
           </div>
           <div class="module-component">
-            <filePreview :fileStructureData="fileStructureData" :fileData="fileData" />
+            <filePreview :fileStructureData="fileStructureData" :fileData="fileData" :cardData="cardData"/>
           </div>
         </div>
 
@@ -70,7 +70,7 @@
           <div class="module-component">
             <mindmap style="flex: 4;" @generateWordCloud='onGenerateWordCloud' :wordCloudData='wordCloudData'
               :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd' />
-            <mindmapSidebar style="flex: 1;" />
+            <noteEditor style="flex: 2;" />
           </div>
         </div>
 
@@ -129,7 +129,7 @@
 import filePreview from './components/FilePreview.vue'
 import chat from './components/Chat.vue'
 import mindmap from './components/Mindmap.vue'
-import mindmapSidebar from './components/MindmapSidebar.vue'
+import noteEditor from './components/NoteEditor.vue'
 import learningPath from './components/LearningPath.vue'
 import questionRmd from './components/QuestionRmd.vue'
 
@@ -141,7 +141,7 @@ export default {
     filePreview,
     chat,
     mindmap,
-    mindmapSidebar,
+    noteEditor,
     learningPath,
     questionRmd
   },
@@ -152,6 +152,7 @@ export default {
       fileStructureData: null,
       fileData: null,
       fileSummary: '',
+      cardData: [],
       nodeToQuestionRmd: '',
 
     }
@@ -165,7 +166,27 @@ export default {
       this.fileData = filedata[0]
       this.fileStructureData = filedata[1]
       this.fileSummary = filedata[2]
-      console.log(this.fileData, this.fileStructureData, this.fileSummary)
+
+      // 获取wordcard数据
+      var childrenContents = []
+      filedata[1].forEach(item => {
+        childrenContents.push({
+              "key": item.key,
+              "title": item.title,
+              "content": item.content
+            });
+        if (item.children && item.children.length > 0) {
+          item.children.forEach(child => {
+            childrenContents.push({
+              "key": child.key,
+              "title": child.title,
+              "content": child.content
+            });
+          });
+        }
+      })
+      this.cardData=childrenContents
+      console.log(this.cardData)
     },
 
 
@@ -252,14 +273,12 @@ export default {
   display: flex;
   justify-content: flex-start;
   /* 使所有元素居左 */
-  border-bottom: 1.5px solid #eee;
+  border-bottom: 2px solid #eee;
   /* 添加分界线 */
 }
 
 .module-block {
   display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
   border-radius: 5px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   background-color: #fff;
@@ -286,36 +305,39 @@ export default {
 #column-1 {
   flex: 2;
   height: 100%;
+  width: 100%;
 }
 
 #column-2 {
   flex: 2.5;
   height: 100%;
+  width:100%;
 }
 
 #column-3 {
   flex: 4;
   height: 100%;
+  width:100%;
 }
 
 
 #file-preview-view {
-  flex: 3;
-  max-height: 620px;
+  flex: 7;
+  /* max-height: 700px; */
 }
 
 
 #knowledge-mindmap-view {
-  flex: 3;
-  max-height: 620px;
+  flex: 7;
+  /* max-height: 700px; */
 }
 
 #learning-path-view {
-  flex: 2;
+  flex: 4;
 }
 
 #question-recommendation-view {
-  flex: 2;
+  flex: 4;
 }
 
 #chat-view {

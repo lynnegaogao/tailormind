@@ -196,10 +196,10 @@ export default {
 
             // 预设参数
             const width = 1000;
-            const height = 460;
-            const offsetX = 60;
+            const height = 390;
+            const offsetX = 50;
             const offsetY = 0;
-            const lineOffsetY = height / 3 * 2
+            const lineOffsetY = height *0.8
             const timelineWidth = 25;
             const firstFlagOffsetX = 10;
             const distanceFromLine = 25;
@@ -216,7 +216,7 @@ export default {
             // 定义比例尺
             const scale = d3.scaleLinear()
                 .domain([0, 1])
-                .range([0, width - 200]);
+                .range([0, width - 100]);
 
             // 绘制时间线
             svg.append('line')
@@ -314,13 +314,14 @@ export default {
                     var hoveredMilestones = milestones[milestoneIndex].subknowledge;
 
                     // 创建tooltip组
-                    var tooltipOffsetX = event.pageX - 970
-                    var tooltipOffsetY = event.pageY - 680
+                    var tooltipOffsetX = event.pageX - 1200
+                    var tooltipOffsetY = event.pageY - 900
+                    console.log(tooltipOffsetX,tooltipOffsetY)
                     if (tooltipOffsetX  > 590) {
                         tooltipOffsetX = tooltipOffsetX - 300
                     }
-                    if (tooltipOffsetY > 280) {
-                        tooltipOffsetY = tooltipOffsetY - 200
+                    if (tooltipOffsetY > 500) {
+                        tooltipOffsetY = tooltipOffsetY - 300
                     }
                     var tooltipGroup = svg.append('g')
                         .attr('class', 'tooltip-group')

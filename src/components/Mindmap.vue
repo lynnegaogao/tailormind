@@ -529,7 +529,6 @@ export default {
             });
 
 
-
             // 点击空白处添加node
             cy.on('cxttap', (event) => {
                 const evtTarget = event.target;
@@ -988,19 +987,8 @@ export default {
   
 <style>
 #mindmap-area {
-    width: 80%;
+    width: 70%;
     height: 100%;
-}
-
-.editor-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 400px;
-    height: 300px;
-    background: #fff;
-    border: 1px solid #ccc;
-    z-index: 10;
 }
 
 .__________cytoscape_container canvas {
@@ -1013,8 +1001,8 @@ export default {
     background: white !important;
     height: 150px !important;
     width: 150px !important;
-    margin-bottom: 22.5%;
-    margin-right: 37.5%;
+    margin-bottom: 21%;/* 数字越小 越往上 */
+    margin-right: 38.5%;/* 数字越小 越往右 */
 }
 
 /*Add border to View container:*/
@@ -1048,8 +1036,8 @@ export default {
 #main-legend {
     position: absolute;
     width: 150px;
-    top: 90px;
-    right: 715px;
+    top: 80px;
+    right: 850px; /* 数字越大 越靠左*/
     background: rgba(238, 238, 238, 0.439);
     cursor: pointer;
 }
@@ -1120,7 +1108,7 @@ export default {
 .toolbar-container {
     position: absolute;
     top: 75px;
-    right: 190px;
+    right: 330px;
     display: flex;
     gap: 5px;
 

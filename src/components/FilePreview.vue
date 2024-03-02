@@ -25,7 +25,7 @@
                 <a-tree ref="cardList" :tree-data="cardData" :show-icon="false" :height="500" style="font-size: medium;">
                     <template #title="{ key: key, title, content }">
                         <a-dropdown :trigger="['contextmenu']">
-                            <a-card size="small" :key="key" :title="key + title"
+                            <a-card size="small" :key="key" :title="key +' '+ title"
                                 :style="{ border: selectedKey == key ? '2px solid rgb(199,151,48)' : '' }" class="card">
                                 <div class="card-content">
                                     <p>{{ content }}</p>
@@ -64,53 +64,9 @@ export default {
     data() {
         return {
             pdfUrl: null,
-            // pdfUrl: '',
-            // fileStructData: [],
             fileStructData: [
-                {
-                    "key": "1",
-                    "title": "凸集",
-                    "children": [
-                        { "key": "1-1", "title": "凸集定义" },
-                        { "key": "1-2", "title": "凸集的例子" },
-                    ]
-                },
-                {
-                    "key": "2",
-                    "title": "凸函数",
-                    "children": [
-                        { "key": "2-1", "title": "凸性的一阶条件" },
-                        { "key": "2-2", "title": "凸性的二阶条件" },
-                        { "key": "2-3", "title": "Jensen不等式" },
-                        { "key": "2-4", "title": "子级集" },
-                        { "key": "2-5", "title": "凸函数的应用" },
-                    ]
-                },
-                {
-                    "key": "3",
-                    "title": "凸优化问题",
-                    "children": [
-                        { "key": "3-1", "title": "凸优化定义" },
-                        { "key": "3-2", "title": "凸问题的全局优化" },
-                        { "key": "3-3", "title": "凸优化问题的例子" }
-                    ]
-                }
             ],
-            // cardData: [],
             cardData: [
-                { "key": "1", "title": "凸集", "content": "凸集是指集合中的任意两点之间的连线上的所有点也属于该集合。" },
-                { "key": "1-1", "title": "凸集定义", "content": "凸集定义是指集合中的任意两点之间的连线上的所有点也属于该集合。" },
-                { "key": "1-2", "title": "凸集的例子", "content": "凸集的例子是指集合中的任意两点之间的连线上的所有点也属于该集合。" },
-                { "key": "2", "title": "凸函数", "content": "凸函数是指函数的图像上的任意两点之间的连线上的所有点也在函数的图像上。" },
-                { "key": "2-1", "title": "凸性的一阶条件", "content": "凸性的一阶条件是指函数的一阶导数大于等于零。" },
-                { "key": "2-2", "title": "凸性的二阶条件", "content": "凸性的二阶条件是指函数的二阶导数大于等于零。" },
-                { "key": "2-3", "title": "Jensen不等式", "content": "Jensen不等式是指对于凸函数和凸组合的函数，函数值的凸组合大于等于函数值的凸组合。" },
-                { "key": "2-4", "title": "子级集", "content": "子级集是指集合中的任意子集也是该集合的子集。" },
-                { "key": "2-5", "title": "凸函数的应用", "content": "凸函数的应用是指凸函数在各个领域中的应用，如经济学、优化问题等。" },
-                { "key": "3", "title": "凸优化问题", "content": "凸优化问题是指目标函数是凸函数，约束条件是凸集的优化问题。" },
-                { "key": "3-1", "title": "凸优化定义", "content": "凸优化定义是指目标函数是凸函数，约束条件是凸集的优化问题。" },
-                { "key": "3-2", "title": "凸问题的全局优化", "content": "凸问题的全局优化是指找到目标函数的全局最优解的问题。" },
-                { "key": "3-3", "title": "凸优化问题的例子", "content": "凸优化问题的例子是指目标函数是凸函数，约束条件是凸集的优化问题的具体实例。" }
             ],
             expandedKeys: ['1'],
             selectedKey: '',
@@ -126,7 +82,11 @@ export default {
         fileData: {
             type: Array,
             default: function () { return []; },
-        }
+        },
+        cardData: {
+            type: Array,
+            default: function () { return []; },
+        },
     },
     watch: {
         // 用于展示文件结构
@@ -136,10 +96,17 @@ export default {
                 this.fileStructData = newValue;
             })
         },
+        // 用于展示单词卡
+        cardData(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            this.$nextTick(() => {
+                this.cardData = newValue;
+            })
+        },
         // 用于展示Pdf
         fileData(newValue, oldValue) {
 
-            console.log('pdfdata:',newValue[0].filename)
+            console.log('pdfdata:', newValue[0].filename)
             this.$nextTick(() => {
                 // if (filename.endsWith('.pdf')) {
                 // let pdfData = `data:application/pdf;base64,${newValue[0]}`;
@@ -194,23 +161,25 @@ export default {
 /* file-preview */
 .container {
     display: flex;
+    flex-direction: row;
     width: 100%;
+    height: 100%;
 }
 
 .left-column {
-    flex: 4;
-    min-width: 300px;
-    max-height: 580px;
-    /* border-right: 2px solid #eee; */
+    flex: 2.5;
+    margin: 2px;
+    max-height: 720px;
+    border-right: 5px solid #eee;
 }
 
 .right-column {
-    flex:2;
+    flex: 3;
+    max-height: 720px;
 }
 
 .pdf-preview {
     height: 100%;
-    max-height: 580px;
 }
 
 .pdf {
@@ -220,21 +189,20 @@ export default {
 
 .file-struct {
     height: 40%;
-    max-height: 230px;
     overflow-y: auto;
-    border-bottom: 3px solid #eee;
+    border-bottom: 5px solid #eee;
 }
 
 .knowledge-card {
     height: 60%;
-    max-height: 350px;
     /* margin-left: -10px; */
     overflow: hidden;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .card {
     margin: 10px;
     padding: 10px;
+
 }
 </style>

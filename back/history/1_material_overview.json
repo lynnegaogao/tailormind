@@ -1,0 +1,54 @@
+{
+    "summary": "The document provides an introduction to causal inference, distinguishing prediction from causation and explaining the fundamental difference between passive observation and active intervention. It covers preliminary topics essential for causal inference, including types of causal questions, two types of data, two languages for causation, an illustrative example, and a difference between prediction and causation. After this, the document delves into counterfactuals detailing the use of potential outcomes, the concept of counterfactuals, and the importance of estimating the mean treatment effect.",
+    "file_structure": [
+        {
+            "key": "1",
+            "title": "Preliminaries",
+            "content": "The preliminaries section introduces core concepts in causal inference, including the types of causal questions, the types of data used, and different mathematical languages for causation. It also distinguishes between causation and correlation with examples.",
+            "children": [
+                {
+                    "key": "1-1",
+                    "title": "Two Types of Causal Questions",
+                    "content": "This subsection explains the two types of causal questions: causal inference and causal discovery, delineating the challenges involved in each."
+                },
+                {
+                    "key": "1-2",
+                    "title": "Two Types of Data",
+                    "content": "The importance of data type, differentiating between data from controlled randomized experiments and observational studies, is explained here."
+                },
+                {
+                    "key": "1-3",
+                    "title": "Two Languages for Causation",
+                    "content": "This part discusses the two mathematical languages for studying causation: counterfactuals and causal graphs, and hints at a third closely related model."
+                },
+                {
+                    "key": "1-4",
+                    "title": "Example",
+                    "content": "An example is provided to illustrate the difference between correlation and causation, discussing the implications of confusing the two."
+                },
+                {
+                    "key": "1-5",
+                    "title": "Prediction Versus Causation",
+                    "content": "This subsection delves into the crucial difference between prediction and causation, emphasizing the consequences of intervention."
+                }
+            ]
+        },
+        {
+            "key": "2",
+            "title": "Counterfactuals",
+            "content": "This section introduces the concept of counterfactuals in causal inference, explaining the notion of potential outcomes, mean treatment effect, and their significance in understanding causation.",
+            "children": [
+                {
+                    "key": "2-1",
+                    "title": "Introduction to Counterfactuals",
+                    "content": "Here, counterfactuals are introduced as a central theme in causal inference, involving unobserved variables and potential outcomes."
+                },
+                {
+                    "key": "2-2",
+                    "title": "Mean Treatment Effect",
+                    "content": "This part specifies the calculation and interpretation of the mean treatment effect as a measure of causal effect."
+                }
+            ]
+        }
+    ]
+}

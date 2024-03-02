@@ -35,7 +35,7 @@
                             <template #overlay>
                                 <a-menu>
                                     <a-menu-item key="1" @Click="copyCard(title, content)">Copy</a-menu-item>
-                                    <a-menu-item key="2" @Click="askAI(title, content)">Ask AI</a-menu-item>
+                                    <a-menu-item key="2" @Click="askAI(title, content)">Ask AI Tutor</a-menu-item>
                                 </a-menu>
                             </template>
                         </a-dropdown>
@@ -175,7 +175,7 @@ export default {
         // 调用AI接口
         askAI(title, content) {
             message
-                .loading('Asking AI, waiting...', 2.5)
+                .loading('Asking AI Tutor, waiting...', 2.5)
                 .then(
                     () => message.success('Loading finished', 2.5),
                     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -195,24 +195,22 @@ export default {
 .container {
     display: flex;
     width: 100%;
-    height: 100%;
 }
 
 .left-column {
-    flex: 3;
-    min-width: 200px;
-    min-height: 590px;
-    border-right: 2px solid #eee;
+    flex: 4;
+    min-width: 300px;
+    max-height: 580px;
+    /* border-right: 2px solid #eee; */
 }
 
 .right-column {
-    flex: 2;
-    height: 100%;
+    flex:2;
 }
 
 .pdf-preview {
     height: 100%;
-    min-height: 590px;
+    max-height: 580px;
 }
 
 .pdf {
@@ -222,14 +220,15 @@ export default {
 
 .file-struct {
     height: 40%;
-    max-height: 300px;
+    max-height: 230px;
     overflow-y: auto;
     border-bottom: 3px solid #eee;
 }
 
 .knowledge-card {
     height: 60%;
-    /* margin-left: -25px; */
+    max-height: 350px;
+    /* margin-left: -10px; */
     overflow: hidden;
     overflow-y: auto;
 }

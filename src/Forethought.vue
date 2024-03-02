@@ -301,11 +301,13 @@ export default {
 
 #file-preview-view {
   flex: 3;
+  max-height: 620px;
 }
 
 
 #knowledge-mindmap-view {
   flex: 3;
+  max-height: 620px;
 }
 
 #learning-path-view {

@@ -28,7 +28,7 @@ export default {
     },
     data() {
         return {
-            messages: [],
+            historyMessages: [],
             newMessage: '',
             requestConfig: {
                 url: "http://127.0.0.1:5000/files",
@@ -46,6 +46,10 @@ export default {
             type: String,
             default: function () { return ''; },
         },
+        getFileStatus: {
+            type: Boolean,
+            default: false,
+        }
 
     },
     watch: {
@@ -55,6 +59,15 @@ export default {
                 this.setupUserRequestQuestionRmd()
             })
         },
+        getFileStatus(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            if (newValue) {
+                this.$nextTick(() => {
+                    this.setupMindMapRmd()
+                })
+            }
+
+        },
     },
     mounted() {
         this.setupDeepChat();
@@ -62,7 +75,7 @@ export default {
         this.setupRequestInterceptor();
         this.setupResponseInterceptor()
     },
-    emits: ['getFileData'],
+    emits: ['getFileData','changeMindmapToDefault'],
     methods: {
         // 初始化
         initializeChat() {
@@ -109,22 +122,42 @@ export default {
             }
         },
         handleNewMessage(message) {
-            console.log("新消息: ", message);
-            // 在这里处理新消息，例如将其添加到显示消息的数组中
-            // if (message.message.files) {
-            //     console.log(message.message.files)
-            // }
-            //console.log(message.message)
+            // console.log("新消息: ", message);
+            this.historyMessages.push(message)
+            // console.log(this.historyMessages)
         },
 
         // request拦截器
         setupRequestInterceptor() {
             const chatElementRef = this.$refs.chatElementRef;
             // 定义同步请求拦截器
+            var historyMessages = this.historyMessages
             chatElementRef.requestInterceptor = (requestDetails) => {
-                // console.log(requestDetails);
-                return requestDetails; // 返回修改后的请求详情
-            };
+                // 拦截是否接受推荐mindmap的请求
+                if (historyMessages[historyMessages.length - 2]&&historyMessages[historyMessages.length - 2].message.text == "Will you take the **Mindmap View** recommended by Tailor-Mind and make the next step in the **Learning Path View**?") {
+                    if (historyMessages[historyMessages.length - 1].message.text == 'Yes') {
+                        requestDetails.body.messages[0].text = 'keep mindmap data'
+                        // console.log(historyMessages[historyMessages.length - 2])
+                    }
+                    else if (historyMessages[historyMessages.length - 1].message.text == 'No') {
+                        requestDetails.body.messages[0].text = 'change mindmap data to default'
+                    }
+                }
+
+                return requestDetails
+            }
+            //     if(historyMessages[historyMessages.length-1].message.text=='Yes'){
+            //         requestDetails.body.messages[0].text='keep mindmap data'
+            //         console.log(historyMessages[historyMessages.length-2])
+            //     }else if(historyMessages[historyMessages.length-1].message.text=='No'){
+            //         requestDetails.body.messages[0].text='change mindmap data to default'
+            //     }
+            // if(this.historyMessages[-1]){
+            //     console.log('请求:',requestDetails);
+            // }
+
+            // return requestDetails; // 返回修改后的请求详情
+
 
 
         },
@@ -136,9 +169,14 @@ export default {
                 if (response['file']) {
                     // console.log('file-structure:',response['filestructure'])
                     // console.log('file:',response['file'])
-                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary'],response['mindmap']])
+                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary'], response['mindmap'],response['questionrmd']])
                     // console.log({ 'text': response['chatdata']['text'], 'text': response['filesummary'] })
                     return { 'text': response['chatdata']['text'], 'text': response['filesummary'] }
+                }
+
+                if(response['chatdata']['text']=='Changing the Mindmap View to default...'){
+                    console.log('changeMindmapToDefault')
+                    this.$emit('changeMindmapToDefault')
                 }
                 return response['chatdata']
             }
@@ -149,6 +187,13 @@ export default {
         setupUserRequestQuestionRmd() {
             const chatElementRef = this.$refs.chatElementRef;
             chatElementRef.submitUserMessage({ 'text': `Recommend some questions about **${this.nodeToQuestionRmd}** for learning.` });
+
+        },
+
+        // interact with mindmap：选择推荐的mindmap还是自定义mindmap
+        setupMindMapRmd() {
+            const chatElementRef = this.$refs.chatElementRef;
+            chatElementRef.submitUserMessage({ 'text': 'The learning material information has been loaded.' });
 
         }
     }

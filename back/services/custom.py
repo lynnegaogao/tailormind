@@ -14,6 +14,8 @@ historical=True
 
 OPENAI_API_KEY="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"
 minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
+
+knowledgeLevel=["Concept","Principle / Math formula","Application","Implementation","Significance / Influence","Related Knowledge","Contrast Knowledge","Extended Knowledge"]
 class Custom:
     def chat(self, body):
         # Text messages are stored inside request body using the Deep Chat JSON format:
@@ -60,6 +62,7 @@ class Custom:
         files = request.files.getlist("files")
         file_data = []
         file_paths = []
+        
         if files:
             for file in files:
                 print("Files:",file.filename)
@@ -76,8 +79,7 @@ class Custom:
                     'content': file_content
                 })
 
-                # 请求openai api获取file structure
-        
+                # 请求openai api获取file structure + knowledge list
                 # 使用历史数据
                 if historical==True:
                     with open('E:/Vis24-TailorMind/tailormind/back/history/1_material_overview.json', 'r') as file:
@@ -94,6 +96,7 @@ class Custom:
                 fileStructure = file_insights['file_structure']
                 fileSummary=file_insights['summary']
                 
+            # 请求sft获取relations，请求openai api获取推荐的mindmap数据
             relations=[]  
             # 使用历史数据
             if historical==True:
@@ -117,14 +120,39 @@ class Custom:
                 #     relations.append(relation)
                 # with open('E:/Vis24-TailorMind/tailormind/back/history/3_relations.json', 'w') as file:
                 #     json.dump(relations, file)
-            print("mindmap数据：",mindmap)
+            # print("mindmap数据：",mindmap)
             
+            # 请求sft获取relations
+            questions_rmd=[]
+            # 使用历史数据
+            if historical==True:
+                with open('E:/Vis24-TailorMind/tailormind/back/history/5-question_rmd.json', 'r') as file:
+                        questions_rmd=json.load(file)
+            else:
+                for knowledge in knowledgeList:
+                    for level_index in range(0,len(knowledgeLevel)):
+                        body="Please recommend 1-2 question(s) about"+knowledge+"from a"+knowledgeLevel[level_index]+"perspective."
+                        response=minderllm.generate(query=body)
+                        questions = response['text'].split('\n')
+                        for question in questions:
+                            # 删除问题编号
+                            question_text = re.sub(r"^\d+\.\s*", "", question)
+                            question_obj={
+                                "question":question_text,
+                                "knowledgepoint": knowledge,
+                                "level":level_index+1
+                            }
+                            print(question_obj)
+                            questions_rmd.append(question_obj)
+            # with open('E:/Vis24-TailorMind/tailormind/back/history/5-question_rmd.json', 'w') as file:
+            #     json.dump(questions_rmd, file)      
             response={
                 'chatdata':{"text": "Get files! Loading..."},
                 'filestructure':fileStructure,
                 'file':file_data,
                 'filesummary':fileSummary,
-                'mindmap':mindmap
+                'mindmap':mindmap,
+                'questionrmd':questions_rmd
             }
             
             return response
@@ -148,6 +176,22 @@ class Custom:
                 # response={"text":"1. What is Self-Regulated Learning (SRL)?\n2. What does each view of Tailor-Mind do?\n3. How can I start my SRL journey?"}
                 html_response=self.convert_rmdText_to_html(response)
                 response=html_response
+            # 询问是否接受推荐的mindmap数据
+            elif body=='The learning material information has been loaded.':
+                response={
+                    "text": "Will you take the **Mindmap View** recommended by Tailor-Mind and make the next step in the **Learning Path View**?",
+                    "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">Yes</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">No</button></div>",
+                }
+            # 接受推荐的mindmap数据+生成推荐的learning path
+            elif body=='keep mindmap data':
+                response={
+                    "text": "Generating recommended Learning Path...",
+                }
+            # 将mindmap修改为默认数据（level=0和size=1）
+            elif body=='change mindmap data to default':
+                response={
+                    "text": "Changing the Mindmap View to default...",
+                }
             # 其他正常问答
             else:
                 response=minderllm.generate(query=body)

@@ -39,22 +39,6 @@ let DataService = {
             });
     },
 
-    // TODO
-    getFileStructure() {
-        axios.post(`${this.dataServerUrl}/get-filestructure` , {
-            headers: {
-                "Content-Type": "=/-data",
-            }
-        })
-            .then(function (response) {
-                callback(response.data)
-            })
-            .catch(error => {
-                console.error('Error fetching file:', error);
-            });
-
-    },
-
 
 
 

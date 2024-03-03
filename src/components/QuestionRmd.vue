@@ -1,7 +1,8 @@
 <template>
   <div id="question-rmd-container">
     <a-collapse v-model:activeKey="activeKey" class="collapse">
-      <a-collapse-panel v-for="(item, index) in items" :key="item.key" :header="item.knowledgepoint" class="collapse-item">
+      <a-collapse-panel v-for="(item, index) in items" :key="item.key" :header="item.knowledgepoint"
+        class="collapse-item">
         <div v-for="(question, qIndex) in item.questions" :key="qIndex">
           <div class="tag-button-container">
             <Tag :color="levelcolor[question.level - 1]" style="font-size: 14px;">
@@ -74,12 +75,29 @@ export default {
         'Extended Knowledge'],
     }
   },
+  props: {
+    questionRmdData: {
+      type: Object,
+      default: function () { return {}; },
+    },
+  },
+  watch: {
+    'questionRmdData': {
+      deep: true,
+      handler(newValue, oldValue) {
+        console.log(newValue, oldValue)
+        this.$nextTick(() => { 
+          this.initializeItems();
+        })
+      }
+    }
+  },
   mounted() {
-    this.initializeItems();
+    // this.initializeItems();
   },
   methods: {
     initializeItems() {
-      const questions = questionData.questions;
+      const questions = this.questionRmdData;
 
       const groupedQuestions = questions.reduce((result, question) => {
         const key = question.knowledgepoint;
@@ -89,7 +107,7 @@ export default {
         result[key].push(question);
         return result;
       }, {});
-      
+
       this.items = Object.keys(groupedQuestions).map((knowledgepoint, index) => ({
         key: (index + 1).toString(),
         knowledgepoint,

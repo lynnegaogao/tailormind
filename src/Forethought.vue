@@ -16,7 +16,8 @@
             CHAT
           </div>
           <div class="module-component">
-            <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" />
+            <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" :getFileStatus="getFileStatus"
+              @changeMindmapToDefault="onChangeMindmapToDefault" />
           </div>
         </div>
         <!-- 文件上传 -->
@@ -42,7 +43,7 @@
             FILE PREVIEW
           </div>
           <div class="module-component">
-            <filePreview :fileStructureData="fileStructureData" :fileData="fileData" :cardData="cardData"/>
+            <filePreview :fileStructureData="fileStructureData" :fileData="fileData" :cardData="cardData" />
           </div>
         </div>
 
@@ -53,7 +54,7 @@
             QUESTION RECOMMENDATION
           </div>
           <div class="module-component">
-            <questionRmd />
+            <questionRmd :questionRmdData="questionRmdData"/>
           </div>
         </div>
 
@@ -68,8 +69,8 @@
             KNOWLEDGE MINDMAP
           </div>
           <div class="module-component">
-            <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud' :wordCloudData='wordCloudData'
-              :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd' />
+            <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud'
+              :wordCloudData='wordCloudData' :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd' />
             <noteEditor style="flex: 2;" />
           </div>
         </div>
@@ -153,8 +154,10 @@ export default {
       fileData: null,
       fileSummary: '',
       cardData: [],
-      mindMapData:[],
+      mindMapData: [],
       nodeToQuestionRmd: '',
+      rmdMindmapOrNot: true,
+      questionRmdData:[],
 
     }
   },
@@ -167,16 +170,17 @@ export default {
       this.fileData = filedata[0]
       this.fileStructureData = filedata[1]
       this.fileSummary = filedata[2]
-      this.mindMapData=filedata[3]
+      this.mindMapData = filedata[3]
+      this.questionRmdData=filedata[4]
 
       // 获取wordcard数据
       var childrenContents = []
       filedata[1].forEach(item => {
         childrenContents.push({
-              "key": item.key,
-              "title": item.title,
-              "content": item.content
-            });
+          "key": item.key,
+          "title": item.title,
+          "content": item.content
+        });
         if (item.children && item.children.length > 0) {
           item.children.forEach(child => {
             childrenContents.push({
@@ -187,19 +191,10 @@ export default {
           });
         }
       })
-      this.cardData=childrenContents
+      this.cardData = childrenContents
+      this.getFileStatus = true
+      console.log(this.getFileStatus)
       console.log(this.cardData)
-    },
-
-
-    onGetFileContent(file) {
-      var formData = new FormData()
-      formData.append('file', file)
-      DataService.constructor()
-      DataService.getFileContent(formData, (backendData) => {
-        console.log('backendData:', backendData);
-        this.getFileStatus = true;
-      })
     },
 
     // 对选中节点进行问题推荐
@@ -222,6 +217,15 @@ export default {
       })
     },
 
+    // 用户重新定义mindmap数据为default
+    onChangeMindmapToDefault() {
+      var recommendedMindmapData=this.mindMapData
+      recommendedMindmapData.nodes.forEach(node => {
+        node.level = 0;
+        node.size = 3;
+      });
+      this.mindMapData=recommendedMindmapData
+    }
   },
 
 }
@@ -313,13 +317,13 @@ export default {
 #column-2 {
   flex: 2.5;
   height: 100%;
-  width:100%;
+  width: 100%;
 }
 
 #column-3 {
   flex: 4;
   height: 100%;
-  width:100%;
+  width: 100%;
 }
 
 

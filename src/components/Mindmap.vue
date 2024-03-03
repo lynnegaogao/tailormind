@@ -269,18 +269,22 @@ export default {
                 this.updateNodeBackgroundWithWordCloud()
             })
         },
-        mindMapData(newValue, oldValue) {
-            console.log(newValue, oldValue)
-            this.$nextTick(() => {
-                this.drawMindmap()
-                this.drawLegend()
-                this.dragElement(document.getElementById("main-legend"))
-            })
-        }
+        'mindMapData': {
+            // 深度监听参数中具体数值的变化，一般监听只能发现数值的地址变化
+            deep: true,
+            handler(newValue, oldValue) {
+                console.log(newValue, oldValue)
+                this.$nextTick(() => {
+                    this.drawMindmap()
+                    this.drawLegend()
+                    this.dragElement(document.getElementById("main-legend"))
+                })
+            }
+        },
 
     },
     mounted() {
-        this.drawMindmap()
+        // this.drawMindmap()
         this.drawLegend()
         this.dragElement(document.getElementById("main-legend"))
 
@@ -300,7 +304,7 @@ export default {
                 "#fffb96",
                 "#87ccff",
             ];
-
+            console.log("mindmap数据：", this.mindMapData)
             const elements = this.transformData(this.mindMapData);
             // 初始化
             const cy = cytoscape({

@@ -68,7 +68,7 @@
             KNOWLEDGE MINDMAP
           </div>
           <div class="module-component">
-            <mindmap style="flex: 4;" @generateWordCloud='onGenerateWordCloud' :wordCloudData='wordCloudData'
+            <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud' :wordCloudData='wordCloudData'
               :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd' />
             <noteEditor style="flex: 2;" />
           </div>
@@ -153,6 +153,7 @@ export default {
       fileData: null,
       fileSummary: '',
       cardData: [],
+      mindMapData:[],
       nodeToQuestionRmd: '',
 
     }
@@ -166,6 +167,7 @@ export default {
       this.fileData = filedata[0]
       this.fileStructureData = filedata[1]
       this.fileSummary = filedata[2]
+      this.mindMapData=filedata[3]
 
       // 获取wordcard数据
       var childrenContents = []

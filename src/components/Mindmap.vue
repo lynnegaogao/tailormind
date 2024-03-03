@@ -13,7 +13,8 @@
     </div>
     <div class="toolbar-container">
         <a-config-provider :theme="{ token: { colorPrimary: '#B97E0FC7' } }">
-            <div id="layout-title" class="title" style="line-height: 25px; vertical-align: middle; display: inline-block;">Layout
+            <div id="layout-title" class="title"
+                style="line-height: 25px; vertical-align: middle; display: inline-block;">Layout
                 <a-select v-model:value="chartLayout" class="custom-select" clearIcon=""
                     style="width: 90px;height:25px;margin-left:5px;" @change="onChangeLayout">
                     <a-select-option value="cose">cose</a-select-option>
@@ -23,7 +24,7 @@
                     <a-select-option value="fcose">fcose</a-select-option>
                 </a-select>
             </div>
-            <a-button @click="undoAction" style="height:25px;line-height: normal; vertical-align: middle;" >
+            <a-button @click="undoAction" style="height:25px;line-height: normal; vertical-align: middle;">
                 <UndoOutlined />Undo
             </a-button>
             <a-button @click="redoAction" style="height:25px;line-height: normal; vertical-align: middle;">
@@ -70,8 +71,8 @@
                 </a-form-item>
             </a-form>
         </a-modal>
-        <a-modal v-model:open="addEdgeModalVisible" title="Add knowledge relations to your mindmap!" @ok="handleEdgeSubmit"
-            @cancel="handleEdgeCancel">
+        <a-modal v-model:open="addEdgeModalVisible" title="Add knowledge relations to your mindmap!"
+            @ok="handleEdgeSubmit" @cancel="handleEdgeCancel">
             <a-form ref="nodeForm" :model="formData" @submit.prevent="handleEdgeSubmit">
                 <a-form-item label="Relation Between Selected Nodes">
                     <a-input v-model:value="formData.relation" placeholder="Please enter the relation..." />
@@ -97,8 +98,8 @@
         </a-modal>
     </a-config-provider>
 </template>
-  
-<script >
+
+<script>
 import { ref, onMounted } from "vue";
 import * as d3 from "d3";
 import cloud from 'd3-cloud';
@@ -255,13 +256,25 @@ export default {
         wordCloudData: {
             type: Array,
             default: function () { return []; },
-        }
+        },
+        mindMapData: {
+            type: Object,
+            default: function () { return {}; },
+        },
     },
     watch: {
         wordCloudData(newValue, oldValue) {
             console.log(newValue, oldValue)
             this.$nextTick(() => {
                 this.updateNodeBackgroundWithWordCloud()
+            })
+        },
+        mindMapData(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            this.$nextTick(() => {
+                this.drawMindmap()
+                this.drawLegend()
+                this.dragElement(document.getElementById("main-legend"))
             })
         }
 
@@ -272,7 +285,7 @@ export default {
         this.dragElement(document.getElementById("main-legend"))
 
     },
-    emits: ['click', 'generateWordCloud','getQuestionRmd'],
+    emits: ['click', 'generateWordCloud', 'getQuestionRmd'],
     methods: {
         // 绘制网络图
         drawMindmap() {
@@ -288,7 +301,7 @@ export default {
                 "#87ccff",
             ];
 
-            const elements = this.transformData(data);
+            const elements = this.transformData(this.mindMapData);
             // 初始化
             const cy = cytoscape({
                 container: this.$refs.MainMindmap,
@@ -303,8 +316,8 @@ export default {
                             'width': 'data(size)',
                             'height': 'data(size)',
                             'background-color': (ele) => {
-                                if (ele.data('level') < 0) return "#eee1c7"
-                                else return levelcolor[ele.data('level')]
+                                if (ele.data('level') < 1) return "#eee1c7"
+                                else return levelcolor[ele.data('level') - 1]
                             },
 
                         }
@@ -407,9 +420,9 @@ export default {
                         tooltipText: "Recommend questions",
                         selector: "node",
                         onClickFunction: (e) => {
-                            var node = e.target; 
+                            var node = e.target;
                             console.log("Recommend questions for node: ", node.id());
-                            this.$emit('getQuestionRmd',node.id()) 
+                            this.$emit('getQuestionRmd', node.id())
                         },
                     },
                     {
@@ -984,7 +997,7 @@ export default {
     }
 };
 </script>
-  
+
 <style>
 #mindmap-area {
     width: 70%;
@@ -1001,8 +1014,10 @@ export default {
     background: white !important;
     height: 150px !important;
     width: 150px !important;
-    margin-bottom: 21%;/* 数字越小 越往上 */
-    margin-right: 38.5%;/* 数字越小 越往右 */
+    margin-bottom: 21%;
+    /* 数字越小 越往上 */
+    margin-right: 38.5%;
+    /* 数字越小 越往右 */
 }
 
 /*Add border to View container:*/
@@ -1037,7 +1052,8 @@ export default {
     position: absolute;
     width: 150px;
     top: 80px;
-    right: 850px; /* 数字越大 越靠左*/
+    right: 850px;
+    /* 数字越大 越靠左*/
     background: rgba(238, 238, 238, 0.439);
     cursor: pointer;
 }

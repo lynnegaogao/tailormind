@@ -136,8 +136,8 @@ export default {
                 if (response['file']) {
                     // console.log('file-structure:',response['filestructure'])
                     // console.log('file:',response['file'])
-                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary']])
-                    console.log({ 'text': response['chatdata']['text'], 'text': response['filesummary'] })
+                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary'],response['mindmap']])
+                    // console.log({ 'text': response['chatdata']['text'], 'text': response['filesummary'] })
                     return { 'text': response['chatdata']['text'], 'text': response['filesummary'] }
                 }
                 return response['chatdata']

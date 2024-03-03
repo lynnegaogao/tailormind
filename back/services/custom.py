@@ -77,27 +77,56 @@ class Custom:
                 })
 
                 # 请求openai api获取file structure
-                # 调用openAI.py的get_file_structure函数
-                
+        
                 # 使用历史数据
                 if historical==True:
                     with open('E:/Vis24-TailorMind/tailormind/back/history/1_material_overview.json', 'r') as file:
-                        file_openai_response=json.load(file)
+                        file_insights=json.load(file)
+                    with open('E:/Vis24-TailorMind/tailormind/back/history/2_knowledge_list.json', 'r') as file:
+                        knowledgeList=json.load(file)
+                    
                 # 用户实际数据
                 else:
-                    file_openai_response=self.get_file_structure_in_english(file_path)
-                # file_openai_response=self.get_file_structure_in_english(file_path)
-                print("history结果:",file_openai_response)
-                fileStructure = file_openai_response['file_structure']
-                fileSummary=file_openai_response['summary']
-
+                    file_openai_response=self.get_file_insights(file_path)
+                    file_insights=file_openai_response['fileoverview']
+                    knowledgeList=file_openai_response['knowledgelist']
+                
+                fileStructure = file_insights['file_structure']
+                fileSummary=file_insights['summary']
+                
+            relations=[]  
+            # 使用历史数据
+            if historical==True:
+                with open('E:/Vis24-TailorMind/tailormind/back/history/3_relations.json', 'r') as file:
+                        relations=json.load(file)
+                with open('E:/Vis24-TailorMind/tailormind/back/history/4-mindmap.json', 'r') as file:
+                        mindmap=json.load(file)
+            # # 用户实际数据
+            else:
+                for knowledge in knowledgeList:
+                    prompt="For a given AI-related knowledge point, generate a triad of knowledge points associated with it. Each triad should be expressed in the form of [Topic,Relationship,Object] as a way to form a complete knowledge representation. Topic is the given knowledge point, object is the extended knowledge point related to the topic, and relation is the logical relationship between topic and object. For example, [[\"Convolutional Networks\", \"Loss Function\", \"Cross Entropy Loss\"],...]. The knowledge point is:"
+                    body=prompt+knowledge
+                    print("正在处理：",knowledge)
+                    response=minderllm.generate(query=body)
+                    print(response['text'])
+                    relations.append(eval(response['text']))
+                print(str(relations))
+                mindmap=self.get_mindmap(str(relations))
+                #     relations.append(relation)
+                # for relation in eval(response['text']): 
+                #     relations.append(relation)
+                # with open('E:/Vis24-TailorMind/tailormind/back/history/3_relations.json', 'w') as file:
+                #     json.dump(relations, file)
+            print("mindmap数据：",mindmap)
+            
             response={
                 'chatdata':{"text": "Get files! Loading..."},
                 'filestructure':fileStructure,
                 'file':file_data,
-                'filesummary':fileSummary
+                'filesummary':fileSummary,
+                'mindmap':mindmap
             }
-            # print("File_structure:",response['filestructure'])
+            
             return response
 
         else:
@@ -131,155 +160,8 @@ class Custom:
         # Sends response back to Deep Chat using the Response format:
         # https://deepchat.dev/docs/connect/#Response
 
-    # 获取文件结构，输入文件，返回json
-    def get_file_structure(self, file_path):
-
-        client = OpenAI(api_key=OPENAI_API_KEY)
-        # 示例数据
-        sample = {
-            "overview": "这是一个关于凸优化的教学资料，侧重于定义和解决机器学习中的优化问题，如支持向量机(SVM)、最小二乘问题和逻辑回归的最大似然估计等。",
-            "summary": "资料首先介绍了凸集、凸函数、凸优化问题和拉格朗日对偶问题的基本概念。接着，它探讨了不同类型的凸优化问题，包括线性规划、二次规划、QCQP和SDP，并提供了这些问题在机器学习中的实际应用示例。文档末尾给出了参考文献。",
-            "file_structure": [
-                {
-                    "key": "1",
-                    "title": "凸集",
-                    "content": "凸集指的是在任意两点之间的线段上的点仍然在该集合中。或者说，给定集合中的任意两点，连接这两点的线段也完全包含在该集合中。",
-                    "children": [
-                        {"key": "1-1", "title": "凸集定义", "content": "凸集指的是在任意两点之间的线段上的点仍然在该集合中。或者说，给定集合中的任意两点，连接这两点的线段也完全包含在该集合中。"},
-                        {"key": "1-2", "title": "凸集的例子", "content": "例如，单位球是凸集，因为连接单位球内任意两点的线段也完全包含在单位球内。"},
-                    ]
-                },
-                {
-                    "key": "2",
-                    "title": "凸函数",
-                    "content": "凸函数指的是定义域内的任意两点连线位于函数图像上方的函数。或者说，给定定义域内的任意两点以及这两点连线上的任意一点，这个点的函数值不大于两点连线上对应点的函数值。",
-                    "children": [
-                        {"key": "2-1", "title": "凸性的一阶条件", "content": "函数f(x)在定义域内是凸函数，当且仅当对于定义域内的任意两点x1和x2，有f(x1) <= f(x2) + f'(x2)(x1 - x2)，其中f'(x)表示f(x)的导数。"},
-                        {"key": "2-2", "title": "凸性的二阶条件", "content": "函数f(x)在定义域内是凸函数，当且仅当它的二阶导数f''(x)在定义域内始终大于等于零。"},
-                        {"key": "2-3", "title": "Jensen不等式", "content": "对于凸函数f和任意的随机变量X以及X的任意凸函数φ，Jensen不等式表示φ的期望大于等于φ的参数的期望值，即E[φ(X)] >= φ(E[X])。"},
-                        {"key": "2-4", "title": "子级集", "content": "凸函数的子级集也是凸函数。具体地说，给定凸函数f和其定义域内的一个凸集S，函数在S上的限制仍然是凸函数。"},
-                        {"key": "2-5", "title": "凸函数的应用", "content": "凸函数在机器学习中有广泛的应用，例如，支持向量机(SVM)中的损失函数就是凸函数，这保证了SVM问题的全局最优解的存在性和唯一性。"},
-                    ]
-                },
-                {
-                    "key": "3",
-                    "title": "凸优化问题",
-                    "content": "凸优化问题是指目标函数和约束条件均为凸函数的优化问题。这类问题具有良好的性质，可以利用凸优化理论和算法进行高效求解。",
-                    "children": [
-                        {"key": "3-1", "title": "凸优化定义", "content": "凸优化问题是指目标函数和约束条件均为凸函数的优化问题。即目标函数是凸函数，约束条件是凸函数。"},
-                        {"key": "3-2", "title": "凸问题的全局优化", "content": "凸优化问题的一个重要性质是全局最优解是存在且唯一的。这使得凸优化问题具有很好的求解性质。"},
-                        {"key": "3-3", "title": "凸优化问题的例子", "content": "许多机器学习中常见的优化问题，如支持向量机的二次规划问题、逻辑回归的最大似然估计问题等，都可以归结为凸优化问题。"},
-                    ]
-                }
-            ]
-        }
-        sample_str = "```json\n" + json.dumps(sample) + "\n```"
-        # prmopts
-        requirements = [
-            "用简体中文描述整个文件的概要和结构目录，要求如下:",
-            "- 浏览整个文件，尽可能理解文件文字内容，分析其中内容结构，忽略图片",
-            "- 'summary'是文件的综述",
-            "- 'overview'是文件的概要",
-            "- 'file_structure'是描述文件结构的树，深度=2，每个节点代表一章或一节",
-            "- 'key'是节点的索引，只允许出现数字和'-'",
-            "- 'title'是节点的标题",
-            "- 'content'是对该节点的描述，长度为2-3句话",
-            "- Only return JSON code without any other content",
-            "- 格式参考下面的例子：",
-            sample_str
-        ]
-        user_input = "\n".join(requirements)
-
-        # 正则表达式获取```json```内的内容
-        def extract_json_from_string(input_string):
-            # 使用正则表达式匹配JSON部分
-            json_pattern = r'```json\n(.*?)```'
-            match = re.search(json_pattern, input_string, re.DOTALL)
-
-            if match:
-                json_str = match.group(1).strip()
-                # 转换为JSON对象
-                json_data = json.loads(json_str)
-                return json_data
-            else:
-                return None
-
-        # 封装对话逻辑的函数
-        def get_assistant_response(user_input, thread_id, assistant_id, file_id):
-            # 创建消息
-            message = client.beta.threads.messages.create(
-                thread_id=thread_id,
-                role="user",
-                content=user_input,
-                file_ids=[file_id]
-            )
-
-            # 4. run thread
-            # Thread 默认不会运行，需要创建一个 Run 任务来执行 Thread。
-            run = client.beta.threads.runs.create(
-                thread_id=thread_id,
-                assistant_id=assistant_id,
-            )
-
-            # 等待运行任务完成
-            # Thread 是异步执行的，需要轮询检查是否执行完成。
-            # Thread 执行时会上锁，在执行完成前不可以再添加 message 或者提交新的 Run 任务。
-            while True:
-                run = client.beta.threads.runs.retrieve(thread_id=thread_id, run_id=run.id)
-                if run.status not in ["queued", "in_progress"]:
-                    break
-                time.sleep(1)
-
-            # 获取 AI 输出结果
-            messages = client.beta.threads.messages.list(thread_id=thread_id)
-
-            # 从消息中取出 AI 输出的 JSON 字符串
-            ai_output = messages.data[0].content[0].text.value
-
-            return ai_output
-
-         # 读取文件并上传到OpenAI
-
-        with open(file_path, "rb") as file:  # 使用with语句确保文件正确关闭
-            print("Open file.")
-            content = file.read()
-
-        filename = file_path.split("\\")[-1]
-        print("File name:",filename)
-        content_type = 'application/pdf'  # 根据文件实际类型设置
-        file_response = client.files.create(
-            file=(filename, content, content_type),
-            purpose='assistants'
-        )
-        # 从响应中获取文件ID
-        print("file_response:",file_response)
-        # print(dir(file_response))
-        file_id = file_response.id  # 使用字典访问方式获取文件ID
-        print(file_id)
-        # 1. Create an assistant using the file ID
-        assistant = client.beta.assistants.create(
-            name="File Analysis Assistant",
-            instructions="You are a customer support chatbot. Use your knowledge base to best respond to customer queries.",
-            tools=[{"type": "retrieval"}],
-            model="gpt-4-1106-preview",
-            file_ids=[file_id]
-        )
-
-        # 2. create Thread
-        thread = client.beta.threads.create() # （可选）在创建时指定对话内容
-
-        ai_output = get_assistant_response(user_input, thread.id, assistant.id, file_id)
-        print(ai_output)
-        ai_output_json = extract_json_from_string(ai_output)
-
-        # 5. delete assistant
-        client.beta.assistants.delete(assistant.id)
-
-        return ai_output_json
-    def get_file_structure_in_english(self, file_path):
-
-        client = OpenAI(api_key=OPENAI_API_KEY)
-        # 示例数据
+    def get_file_insights(self, file_path):
+        # prompt-1 file structure + overview
         sample = {
             "summary": "The material begins with an introduction to the basic concepts of convex sets, convex functions, convex optimization problems, and Lagrangian dyadic problems. It then explores different types of convex optimization problems, including linear programming, quadratic programming, QCQP, and SDP, and provides examples of practical applications of these problems to machine learning. References are given at the end of the document.",
             "file_structure": [
@@ -317,7 +199,6 @@ class Custom:
             ]
         }
         sample_str = "```json\n" + json.dumps(sample) + "\n```"
-        # prmopts
         requirements = [
             "Describe the summary and structure of the entire document with following requirements:",
             "1.'summary' is a summary of the document",
@@ -330,6 +211,9 @@ class Custom:
             sample_str
         ]
         user_input = "\n".join(requirements)
+        # prompt-2 knowledge list
+        sample_list=['Convex Sets',"Jensen's Inequality",'Convex Optimization','Linear Programming','Quadratic Programming','QCQP','SDP','Lagrangian dyadic problems']
+        user_input_list='Give all the AI or deep learning related knowledge points contained in the file to avoid duplication.Only return Json code without any other content. The Json format refers to the example below:```json\n'+ json.dumps(sample_list) + '\n```'
 
         # 正则表达式获取```json```内的内容
         def extract_json_from_string(input_string):
@@ -384,7 +268,8 @@ class Custom:
         with open(file_path, "rb") as file:  # 使用with语句确保文件正确关闭
             print("Open file.")
             content = file.read()
-
+        
+        client = OpenAI(api_key=OPENAI_API_KEY)
         filename = file_path.split("\\")[-1]
         print("File name:",filename)
         content_type = 'application/pdf'  # 根据文件实际类型设置
@@ -400,24 +285,131 @@ class Custom:
         # 1. Create an assistant using the file ID
         assistant = client.beta.assistants.create(
             name="File Analysis Assistant",
-            instructions="You are a customer support chatbot. Use your knowledge base to best respond to customer queries.",
+            instructions="You are a personal file analyzer. When giving you a file and some questions, retrieve and analyze the content of this file as you can and answer the questions as required. If you cannot parse the required Json output, you can give an empty structure that contains only keys.",
             tools=[{"type": "retrieval"}],
-            model="gpt-4-1106-preview",
+            model="gpt-4-0125-preview",
             file_ids=[file_id]
         )
 
         # 2. create Thread
         thread = client.beta.threads.create() # （可选）在创建时指定对话内容
 
-        ai_output = get_assistant_response(user_input, thread.id, assistant.id, file_id)
-        print(ai_output)
-        ai_output_json = extract_json_from_string(ai_output)
-
+        # 获取file-overview
+        file_overview = get_assistant_response(user_input, thread.id, assistant.id, file_id)
+        print(file_overview)
+        file_overview_json = extract_json_from_string(file_overview)
+        
+        # 获取knowledge list
+        knowledge_list=get_assistant_response(user_input_list, thread.id, assistant.id, file_id)
+        print(knowledge_list)
+        knowledge_list_json=extract_json_from_string(knowledge_list)
+        
         # 5. delete assistant
-        client.beta.assistants.delete(assistant.id)
+        # client.beta.assistants.delete(assistant.id)
 
+        return {'fileoverview':file_overview_json,'knowledgelist':knowledge_list_json}
+
+    def get_mindmap(self,content):
+        sample={
+        "nodes": [
+        {
+            "id": "Finite Horizon Markov Decision Process (MDP)",
+            "label": "Finite Horizon Markov Decision Process (MDP)",
+            "level": 2,
+            "size": 5,
+        },
+        {
+            "id": "Linear Quadratic Regulator (LQR)",
+            "label": "Linear Quadratic Regulator (LQR)",
+            "level": 6,
+            "size": 3,
+        },
+        {
+            "id": "Differential Dynamic Programming (DDP)",
+            "label": "Differential Dynamic Programming (DDP)",
+            "level": 4,
+            "size": 2,
+        }
+    ],
+        "links": [
+        {
+            "source": "Optimal Control Theory",
+            "target": "Finite Horizon Markov Decision Process (MDP)",
+            "relation": "includes"
+        },
+        {
+            "source": "Finite Horizon Markov Decision Process (MDP)",
+            "target": "Markov Chain",
+            "relation": "extends"
+        },
+        {
+            "source": "Linear Quadratic Regulator (LQR)",
+            "target": "State Space Model",
+            "relation": "uses"
+        }
+    ]
+    }
+        sample_str = "```json\n" + json.dumps(sample) + "\n```"
+        prompt="Parsing the content of this paragraph, each ternary represents [subject, relationship, object], the following data conversion: 1.subject and object are both elements in nodes, \"id\" and \"label\" are the same. 2.\"level\" is an integer between [1,8], 1-8 corresponds to the relationship of learning level as {1: \"Concept\",2: \"Principle / Math formula\",3: \"Application\",4: \"Implementation\",5: \" Significance / Influence\",6: \"Related Knowledge\",7: \"Contrast Knowledge\",8: \"Extended Knowledge\"}, please make a recommendation to a beginner based on the level of knowledge a beginner need to master this knowledge; 3. \"size\" is an integer between [1,5], which indicates the importance of this knowledge, 1 means common, 5 means important, need to be differentiated, please make a recommendation to a beginner; 4. each ternary as links in the elements, \"source\" for the subject, \"target\" is the object, \"relationship\" is the relationship. Only return json data, the format is as follows:"
+        user_input=content+prompt+sample_str
+        
+        OPENAI_API_KEY="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"
+        client = OpenAI(api_key=OPENAI_API_KEY)
+        assistant = client.beta.assistants.create(
+            name="Education Specialist",
+            instructions="You are an educational expert who specializes in tutoring beginners in self-study, deleting processed data while giving beginners advice on how to learn. If you cannot parse the required Json output, you can give an empty structure that contains only keys.",
+            tools=[{"type": "code_interpreter"}],
+            model="gpt-4-0125-preview"
+        )
+
+        thread = client.beta.threads.create()
+
+ # 创建消息
+        message = client.beta.threads.messages.create(
+                thread_id=thread.id,
+                role="user",
+                content=user_input
+            )
+
+            # 4. run thread
+            # Thread 默认不会运行，需要创建一个 Run 任务来执行 Thread。
+        run = client.beta.threads.runs.create(
+                thread_id=thread.id,
+                assistant_id=assistant.id,
+            )
+
+            # 等待运行任务完成
+            # Thread 是异步执行的，需要轮询检查是否执行完成。
+            # Thread 执行时会上锁，在执行完成前不可以再添加 message 或者提交新的 Run 任务。
+        while True:
+            run = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+            if run.status not in ["queued", "in_progress"]:
+                break
+        time.sleep(1)
+
+            # 获取 AI 输出结果
+        messages = client.beta.threads.messages.list(thread_id=thread.id)
+            # 从消息中取出 AI 输出的 JSON 字符串
+        ai_output = messages.data[0].content[0].text.value
+        
+        # 正则表达式获取```json```内的内容
+        def extract_json_from_string(input_string):
+            # 使用正则表达式匹配JSON部分
+            json_pattern = r'```json\n(.*?)```'
+            match = re.search(json_pattern, input_string, re.DOTALL)
+
+            if match:
+                json_str = match.group(1).strip()
+                # 转换为JSON对象
+                json_data = json.loads(json_str)
+                return json_data
+            else:
+                return None
+            
+        ai_output_json=extract_json_from_string(ai_output)
+        
         return ai_output_json
-
+    
     def convert_rmdText_to_html(self, response):
         questions = response['text'].split('\n')
         html_str = '<div class="deep-chat-temporary-message">'

@@ -1,54 +1,72 @@
 {
-    "summary": "The document provides an introduction to causal inference, distinguishing prediction from causation and explaining the fundamental difference between passive observation and active intervention. It covers preliminary topics essential for causal inference, including types of causal questions, two types of data, two languages for causation, an illustrative example, and a difference between prediction and causation. After this, the document delves into counterfactuals detailing the use of potential outcomes, the concept of counterfactuals, and the importance of estimating the mean treatment effect.",
+    "summary": "The document appears to be a technical paper or report on deep learning architectures, particularly focused on convolutional neural networks (CNNs) and deep belief networks (DBNs). It includes detailed discussions on the architecture of CNNs, data augmentation techniques, dropout method, and the performance results on test data. Then, it shifts focus to DBNs, examining issues with backpropagation and presenting the structure and training of DBNs, including boltzmann machines, restricted boltzmann machines (RBMs), and deep boltzmann machines (DBMs). The document concludes with results on training deep architectures, highlighting the benefits of pre-training and showing experiments on digit image recognition.",
     "file_structure": [
-        {
-            "key": "1",
-            "title": "Preliminaries",
-            "content": "The preliminaries section introduces core concepts in causal inference, including the types of causal questions, the types of data used, and different mathematical languages for causation. It also distinguishes between causation and correlation with examples.",
-            "children": [
-                {
-                    "key": "1-1",
-                    "title": "Two Types of Causal Questions",
-                    "content": "This subsection explains the two types of causal questions: causal inference and causal discovery, delineating the challenges involved in each."
-                },
-                {
-                    "key": "1-2",
-                    "title": "Two Types of Data",
-                    "content": "The importance of data type, differentiating between data from controlled randomized experiments and observational studies, is explained here."
-                },
-                {
-                    "key": "1-3",
-                    "title": "Two Languages for Causation",
-                    "content": "This part discusses the two mathematical languages for studying causation: counterfactuals and causal graphs, and hints at a third closely related model."
-                },
-                {
-                    "key": "1-4",
-                    "title": "Example",
-                    "content": "An example is provided to illustrate the difference between correlation and causation, discussing the implications of confusing the two."
-                },
-                {
-                    "key": "1-5",
-                    "title": "Prediction Versus Causation",
-                    "content": "This subsection delves into the crucial difference between prediction and causation, emphasizing the consequences of intervention."
-                }
-            ]
-        },
-        {
-            "key": "2",
-            "title": "Counterfactuals",
-            "content": "This section introduces the concept of counterfactuals in causal inference, explaining the notion of potential outcomes, mean treatment effect, and their significance in understanding causation.",
-            "children": [
-                {
-                    "key": "2-1",
-                    "title": "Introduction to Counterfactuals",
-                    "content": "Here, counterfactuals are introduced as a central theme in causal inference, involving unobserved variables and potential outcomes."
-                },
-                {
-                    "key": "2-2",
-                    "title": "Mean Treatment Effect",
-                    "content": "This part specifies the calculation and interpretation of the mean treatment effect as a measure of causal effect."
-                }
-            ]
-        }
+      {
+        "key": "1",
+        "title": "The Architecture",
+        "content": "Discusses the structure of convolutional neural networks, including the first convolutional layer, pooling layers, the number of neurons, parameters, and connections, as well as the dimensionality of the final feature layer. It also mentions the training process on GPUs.",
+        "children": [
+          {
+            "key": "1-1",
+            "title": "First Convolutional Layer",
+            "content": "Details the specifics of the first convolutional layer such as the number of kernels, the size of kernels, and the stride used."
+          },
+          {
+            "key": "1-2",
+            "title": "Pooling Layer",
+            "content": "Introduces the pooling layer as a form of non-linear down-sampling which includes max-pooling."
+          }
+        ]
+      },
+      {
+        "key": "2",
+        "title": "Data Augmentation",
+        "content": "Explains data augmentation techniques to reduce overfitting on image data, including image translation, horizontal reflections, and adjustments to RGB intensities.",
+        "children": []
+      },
+      {
+        "key": "3",
+        "title": "Dropout",
+        "content": "Covers the dropout technique that sets the output of each hidden neuron to zero with a certain probability during training to prevent co-adaptation and encourage learning of robust features.",
+        "children": []
+      },
+      {
+        "key": "4",
+        "title": "Results",
+        "content": "Presents results achieved by the network on test data including error rates, comparison with other models in competitions, and analyses image similarity.",
+        "children": []
+      },
+      {
+        "key": "5",
+        "title": "Deep Belief Networks",
+        "content": "Discusses deep belief networks, issues with backpropagation, and the structure and training method for DBNs. Deep belief networks employ the Greedy layer-wise unsupervised learning approach for better initialization.",
+        "children": [
+          {
+            "key": "5-1",
+            "title": "Boltzmann Machines",
+            "content": "Outlines the concept of Boltzmann machines as stochastic binary units with various connections and their energy-based models."
+          },
+          {
+            "key": "5-2",
+            "title": "Restricted Boltzmann Machines",
+            "content": "Describes RBMs which simplify Boltzmann machines by eliminating certain connections and explains the energy of RBM."
+          },
+          {
+            "key": "5-3",
+            "title": "Training RBM",
+            "content": "Covers the training process for RBMs using gradient descent and Gibbs sampling."
+          },
+          {
+            "key": "5-4",
+            "title": "Inference in RBM",
+            "content": "Describes how inference is performed in restricted Boltzmann machines."
+          },
+          {
+            "key": "5-5",
+            "title": "Training Deep Belief Networks",
+            "content": "Explains the process of training deep belief networks with unsupervised greedy layer-wise learning and the benefits of pre-training."
+          }
+        ]
+      }
     ]
-}
+  }

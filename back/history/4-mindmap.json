@@ -1,0 +1,602 @@
+{
+    "nodes": [
+      {
+        "id": "Convolutional Networks",
+        "label": "Convolutional Networks",
+        "level": 1,
+        "size": 5
+      },
+      {
+        "id": "Backpropagation",
+        "label": "Backpropagation",
+        "level": 2,
+        "size": 4
+      },
+      {
+        "id": "Gradient Descent",
+        "label": "Gradient Descent",
+        "level": 2,
+        "size": 4
+      },
+      {
+        "id": "Activation Functions",
+        "label": "Activation Functions",
+        "level": 2,
+        "size": 3
+      },
+      {
+        "id": "ReLU",
+        "label": "ReLU",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Kernel Size",
+        "label": "Kernel Size",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Filter Size",
+        "label": "Filter Size",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Padding",
+        "label": "Padding",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Zero Padding",
+        "label": "Zero Padding",
+        "level": 4,
+        "size": 3
+      },
+      {
+        "id": "Pooling",
+        "label": "Pooling",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Max Pooling",
+        "label": "Max Pooling",
+        "level": 4,
+        "size": 3
+      },
+      {
+        "id": "Average Pooling",
+        "label": "Average Pooling",
+        "level": 4,
+        "size": 3
+      },
+      {
+        "id": "Deep Belief Networks",
+        "label": "Deep Belief Networks",
+        "level": 1,
+        "size": 5
+      },
+      {
+        "id": "Restricted Boltzmann Machine (RBM)",
+        "label": "Restricted Boltzmann Machine (RBM)",
+        "level": 2,
+        "size": 4
+      },
+      {
+        "id": "Uniform Distribution",
+        "label": "Uniform Distribution",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Vectors",
+        "label": "Vectors",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Binary Outputs",
+        "label": "Binary Outputs",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Non-negative Weights",
+        "label": "Non-negative Weights",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Hidden Units",
+        "label": "Hidden Units",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Training Data",
+        "label": "Training Data",
+        "level": 4,
+        "size": 4
+      },
+      {
+        "id": "Parameter Learning",
+        "label": "Parameter Learning",
+        "level": 4,
+        "size": 4
+      },
+      {
+        "id": "Variational Inference",
+        "label": "Variational Inference",
+        "level": 4,
+        "size": 3
+      },
+      {
+        "id": "Data Augmentation",
+        "label": "Data Augmentation",
+        "level": 1,
+        "size": 4
+      },
+      {
+        "id": "Image",
+        "label": "Image",
+        "level": 2,
+        "size": 3
+      },
+      {
+        "id": "Random Rotation",
+        "label": "Random Rotation",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Random Horizontal Flip",
+        "label": "Random Horizontal Flip",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Random Crop",
+        "label": "Random Crop",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Text",
+        "label": "Text",
+        "level": 2,
+        "size": 3
+      },
+      {
+        "id": "Random Swap Word Order",
+        "label": "Random Swap Word Order",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Random Insertion",
+        "label": "Random Insertion",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Random Deletion",
+        "label": "Random Deletion",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Video",
+        "label": "Video",
+        "level": 2,
+        "size": 3
+      },
+      {
+        "id": "Random Speed Change",
+        "label": "Random Speed Change",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Random Cut",
+        "label": "Random Cut",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Audio",
+        "label": "Audio",
+        "level": 2,
+        "size": 3
+      },
+      {
+        "id": "Random Pitch Shift",
+        "label": "Random Pitch Shift",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Random Time Stretch",
+        "label": "Random Time Stretch",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "Dropout",
+        "label": "Dropout",
+        "level": 1,
+        "size": 4
+      },
+      {
+        "id": "Purpose",
+        "label": "Purpose",
+        "level": 2,
+        "size": 3
+      },
+      {
+        "id": "Reduce overfitting",
+        "label": "Reduce overfitting",
+        "level": 3,
+        "size": 5
+      },
+      {
+        "id": "Type",
+        "label": "Type",
+        "level": 2,
+        "size": 3
+      },
+      {
+        "id": "Probability",
+        "label": "Probability",
+        "level": 3,
+        "size": 4
+      },
+      {
+        "id": "Usage",
+        "label": "Usage",
+        "level": 2,
+        "size": 3
+      },
+      {
+        "id": "In training",
+        "label": "In training",
+        "level": 3,
+        "size": 4
+      },
+      {
+        "id": "In testing",
+        "label": "In testing",
+        "level": 3,
+        "size": 2
+      },
+      {
+        "id": "LeNet 5",
+        "label": "LeNet 5",
+        "level": 2,
+        "size": 4
+      },
+      {
+        "id": "First Convolutional Network",
+        "label": "First Convolutional Network",
+        "level": 3,
+        "size": 4
+      },
+      {
+        "id": "Early Stopping",
+        "label": "Early Stopping",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Batch Normalization",
+        "label": "Batch Normalization",
+        "level": 3,
+        "size": 4
+      },
+      {
+        "id": "Gradient-Based Learning",
+        "label": "Gradient-Based Learning",
+        "level": 1,
+        "size": 5
+      },
+      {
+        "id": "Weight Update",
+        "label": "Weight Update",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Accelerate Training",
+        "label": "Accelerate Training",
+        "level": 3,
+        "size": 4
+      },
+      {
+        "id": "Regularize Neural Network",
+        "label": "Regularize Neural Network",
+        "level": 3,
+        "size": 4
+      },
+      {
+        "id": "Adam Optimizer",
+        "label": "Adam Optimizer",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Adaptive Learning Rate",
+        "label": "Adaptive Learning Rate",
+        "level": 4,
+        "size": 4
+      },
+      {
+        "id": "RMSProp",
+        "label": "RMSProp",
+        "level": 3,
+        "size": 3
+      }
+    ],
+    "links": [
+      {
+        "source": "Convolutional Networks",
+        "target": "Backpropagation",
+        "relation": "Concept"
+      },
+      {
+        "source": "Convolutional Networks",
+        "target": "Activation Functions",
+        "relation": "Concept"
+      },
+      {
+        "source": "Convolutional Networks",
+        "target": "Kernel Size",
+        "relation": "Application"
+      },
+      {
+        "source": "Convolutional Networks",
+        "target": "Padding",
+        "relation": "Application"
+      },
+      {
+        "source": "Convolutional Networks",
+        "target": "Pooling",
+        "relation": "Application"
+      },
+      {
+        "source": "Convolutional Networks",
+        "target": "LeNet 5",
+        "relation": "Related Knowledge"
+      },
+      {
+        "source": "Backpropagation",
+        "target": "Gradient Descent",
+        "relation": "Principle / Math formula"
+      },
+      {
+        "source": "Activation Functions",
+        "target": "ReLU",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Kernel Size",
+        "target": "Filter Size",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Padding",
+        "target": "Zero Padding",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Pooling",
+        "target": "Max Pooling",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Pooling",
+        "target": "Average Pooling",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Deep Belief Networks",
+        "target": "Restricted Boltzmann Machine (RBM)",
+        "relation": "Concept"
+      },
+      {
+        "source": "Restricted Boltzmann Machine (RBM)",
+        "target": "Uniform Distribution",
+        "relation": "Application"
+      },
+      {
+        "source": "Restricted Boltzmann Machine (RBM)",
+        "target": "Vectors",
+        "relation": "Application"
+      },
+      {
+        "source": "Restricted Boltzmann Machine (RBM)",
+        "target": "Binary Outputs",
+        "relation": "Application"
+      },
+      {
+        "source": "Restricted Boltzmann Machine (RBM)",
+        "target": "Non-negative Weights",
+        "relation": "Application"
+      },
+      {
+        "source": "Restricted Boltzmann Machine (RBM)",
+        "target": "Hidden Units",
+        "relation": "Application"
+      },
+      {
+        "source": "Restricted Boltzmann Machine (RBM)",
+        "target": "Training Data",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Restricted Boltzmann Machine (RBM)",
+        "target": "Parameter Learning",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Restricted Boltzmann Machine (RBM)",
+        "target": "Variational Inference",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Data Augmentation",
+        "target": "Image",
+        "relation": "Concept"
+      },
+      {
+        "source": "Data Augmentation",
+        "target": "Text",
+        "relation": "Concept"
+      },
+      {
+        "source": "Data Augmentation",
+        "target": "Video",
+        "relation": "Concept"
+      },
+      {
+        "source": "Data Augmentation",
+        "target": "Audio",
+        "relation": "Concept"
+      },
+      {
+        "source": "Image",
+        "target": "Random Rotation",
+        "relation": "Application"
+      },
+      {
+        "source": "Image",
+        "target": "Random Horizontal Flip",
+        "relation": "Application"
+      },
+      {
+        "source": "Image",
+        "target": "Random Crop",
+        "relation": "Application"
+      },
+      {
+        "source": "Text",
+        "target": "Random Swap Word Order",
+        "relation": "Application"
+      },
+      {
+        "source": "Text",
+        "target": "Random Insertion",
+        "relation": "Application"
+      },
+      {
+        "source": "Text",
+        "target": "Random Deletion",
+        "relation": "Application"
+      },
+      {
+        "source": "Video",
+        "target": "Random Speed Change",
+        "relation": "Application"
+      },
+      {
+        "source": "Video",
+        "target": "Random Cut",
+        "relation": "Application"
+      },
+      {
+        "source": "Audio",
+        "target": "Random Pitch Shift",
+        "relation": "Application"
+      },
+      {
+        "source": "Audio",
+        "target": "Random Time Stretch",
+        "relation": "Application"
+      },
+      {
+        "source": "Dropout",
+        "target": "Purpose",
+        "relation": "Concept"
+      },
+      {
+        "source": "Dropout",
+        "target": "Type",
+        "relation": "Concept"
+      },
+      {
+        "source": "Dropout",
+        "target": "Usage",
+        "relation": "Principle / Math formula"
+      },
+      {
+        "source": "Purpose",
+        "target": "Reduce overfitting",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Type",
+        "target": "Probability",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Usage",
+        "target": "In training",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Usage",
+        "target": "In testing",
+        "relation": "Implementation"
+      },
+      {
+        "source": "LeNet 5",
+        "target": "First Convolutional Network",
+        "relation": "Implementation"
+      },
+      {
+        "source": "LeNet 5",
+        "target": "Early Stopping",
+        "relation": "Implementation"
+      },
+      {
+        "source": "LeNet 5",
+        "target": "Batch Normalization",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Gradient-Based Learning",
+        "target": "Backpropagation",
+        "relation": "Related Knowledge"
+      },
+      {
+        "source": "Gradient-Based Learning",
+        "target": "Batch Normalization",
+        "relation": "Related Knowledge"
+      },
+      {
+        "source": "Gradient-Based Learning",
+        "target": "Dropout",
+        "relation": "Related Knowledge"
+      },
+      {
+        "source": "Gradient-Based Learning",
+        "target": "Adam Optimizer",
+        "relation": "Application"
+      },
+      {
+        "source": "Adam Optimizer",
+        "target": "Adaptive Learning Rate",
+        "relation": "Implementation"
+      },
+      {
+        "source": "Gradient-Based Learning",
+        "target": "RMSProp",
+        "relation": "Application"
+      },
+      {
+        "source": "RMSProp",
+        "target": "Adaptive Learning Rate",
+        "relation": "Implementation"
+      }
+    ]
+  }

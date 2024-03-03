@@ -1,0 +1,197 @@
+[
+        [
+            "Convolutional Networks",
+            "Backpropagation",
+            "Gradient Descent"
+        ],
+        [
+            "Convolutional Networks",
+            "Activation Functions",
+            "ReLU"
+        ],
+        [
+            "Convolutional Networks",
+            "Kernel Size",
+            "Filter Size"
+        ],
+        [
+            "Convolutional Networks",
+            "Padding",
+            "Zero Padding"
+        ],
+        [
+            "Convolutional Networks",
+            "Pooling",
+            "Max Pooling"
+        ],
+        [
+            "Convolutional Networks",
+            "Pooling",
+            "Average Pooling"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Uniform Distribution"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Vectors"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Gradient Descent"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Binary Outputs"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Non-negative Weights"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Hidden Units"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Training Data"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Parameter Learning"
+        ],
+        [
+            "Deep Belief Networks",
+            "Restricted Boltzmann Machine (RBM)",
+            "Variational Inference"
+        ],
+        [
+            "Data Augmentation",
+            "Image",
+            "Random Rotation"
+        ],
+        [
+            "Data Augmentation",
+            "Image",
+            "Random Horizontal Flip"
+        ],
+        [
+            "Data Augmentation",
+            "Image",
+            "Random Crop"
+        ],
+        [
+            "Data Augmentation",
+            "Text",
+            "Random Swap Word Order"
+        ],
+        [
+            "Data Augmentation",
+            "Text",
+            "Random Insertion"
+        ],
+        [
+            "Data Augmentation",
+            "Text",
+            "Random Deletion"
+        ],
+        [
+            "Data Augmentation",
+            "Video",
+            "Random Speed Change"
+        ],
+        [
+            "Data Augmentation",
+            "Video",
+            "Random Cut"
+        ],
+        [
+            "Data Augmentation",
+            "Audio",
+            "Random Pitch Shift"
+        ],
+        [
+            "Data Augmentation",
+            "Audio",
+            "Random Time Stretch"
+        ],
+        [
+            "Dropout",
+            "Purpose",
+            "Reduce overfitting"
+        ],
+        [
+            "Dropout",
+            "Type",
+            "Probability"
+        ],
+        [
+            "Dropout",
+            "Usage",
+            "In training"
+        ],
+        [
+            "Dropout",
+            "Usage",
+            "In testing"
+        ],
+        [
+            "Convolutional Networks",
+            "LeNet 5",
+            "First Convolutional Network"
+        ],
+        [
+            "Convolutional Networks",
+            "LeNet 5",
+            "Early Stopping"
+        ],
+        [
+            "Convolutional Networks",
+            "LeNet 5",
+            "Backpropagation"
+        ],
+        [
+            "Convolutional Networks",
+            "LeNet 5",
+            "Dropout"
+        ],
+        [
+            "Convolutional Networks",
+            "LeNet 5",
+            "Batch Normalization"
+        ],
+        [
+            "Gradient-Based Learning",
+            "Backpropagation",
+            "Weight Update"
+        ],
+        [
+            "Gradient-Based Learning",
+            "Batch Normalization",
+            "Accelerate Training"
+        ],
+        [
+            "Gradient-Based Learning",
+            "Dropout",
+            "Regularize Neural Network"
+        ],
+        [
+            "Gradient-Based Learning",
+            "Adam Optimizer",
+            "Adaptive Learning Rate"
+        ],
+        [
+            "Gradient-Based Learning",
+            "RMSProp",
+            "Adaptive Learning Rate"
+        ]
+    ]

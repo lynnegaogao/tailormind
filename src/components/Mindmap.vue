@@ -146,7 +146,6 @@ cytoscape.use(coseBilkent);
 cytoscape.use(fcose);
 // cytoscape.use(undoRedo);
 
-import data from './MindmapData.json'
 export default {
     components: {
         CaretUpOutlined,

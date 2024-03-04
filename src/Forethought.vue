@@ -54,7 +54,7 @@
             QUESTION RECOMMENDATION
           </div>
           <div class="module-component">
-            <questionRmd :questionRmdData="questionRmdData"/>
+            <questionRmd :questionRmdData="questionRmdData" />
           </div>
         </div>
 
@@ -70,7 +70,8 @@
           </div>
           <div class="module-component">
             <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud'
-              :wordCloudData='wordCloudData' :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd' />
+              :wordCloudData='wordCloudData' :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'
+              :rmdMindmapOrNot='rmdMindmapOrNot' />
             <noteEditor style="flex: 2;" />
           </div>
         </div>
@@ -82,7 +83,7 @@
             LEARNING PATH
           </div>
           <div class="module-component">
-            <learningPath />
+            <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"/>
           </div>
         </div>
 
@@ -157,7 +158,8 @@ export default {
       mindMapData: [],
       nodeToQuestionRmd: '',
       rmdMindmapOrNot: true,
-      questionRmdData:[],
+      questionRmdData: [],
+      learningPathData:[],
 
     }
   },
@@ -171,7 +173,8 @@ export default {
       this.fileStructureData = filedata[1]
       this.fileSummary = filedata[2]
       this.mindMapData = filedata[3]
-      this.questionRmdData=filedata[4]
+      this.questionRmdData = filedata[4]
+      this.learningPathData=filedata[5]
 
       // 获取wordcard数据
       var childrenContents = []
@@ -219,12 +222,13 @@ export default {
 
     // 用户重新定义mindmap数据为default
     onChangeMindmapToDefault() {
-      var recommendedMindmapData=this.mindMapData
+      var recommendedMindmapData = this.mindMapData
       recommendedMindmapData.nodes.forEach(node => {
         node.level = 0;
         node.size = 3;
       });
-      this.mindMapData=recommendedMindmapData
+      this.rmdMindmapOrNot=false
+      this.mindMapData = recommendedMindmapData
     }
   },
 

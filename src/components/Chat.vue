@@ -143,7 +143,6 @@ export default {
                         requestDetails.body.messages[0].text = 'change mindmap data to default'
                     }
                 }
-
                 return requestDetails
             }
             //     if(historyMessages[historyMessages.length-1].message.text=='Yes'){
@@ -169,12 +168,12 @@ export default {
                 if (response['file']) {
                     // console.log('file-structure:',response['filestructure'])
                     // console.log('file:',response['file'])
-                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary'], response['mindmap'],response['questionrmd']])
+                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary'], response['mindmap'],response['questionrmd'],response['learningpath']])
                     // console.log({ 'text': response['chatdata']['text'], 'text': response['filesummary'] })
                     return { 'text': response['chatdata']['text'], 'text': response['filesummary'] }
                 }
 
-                if(response['chatdata']['text']=='Changing the Mindmap View to default...'){
+                if(response['chatdata']&&response['chatdata']['text']=='Changing the Mindmap View to default...'){
                     console.log('changeMindmapToDefault')
                     this.$emit('changeMindmapToDefault')
                 }

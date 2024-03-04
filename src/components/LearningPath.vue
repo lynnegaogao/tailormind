@@ -2,7 +2,7 @@
     <div ref="LearningPath" id="learningpath-area">
     </div>
 </template>
-  
+
 <script>
 import * as d3 from "d3";
 
@@ -25,173 +25,50 @@ export default {
                 "#fffb96",
                 "#87ccff",
             ],
-            milestones: [
-                {
-                    "start": 0.00,
-                    "level": 6,
-                    "milestone": "Ensemble Learning",
-                    "importance": 4,
-                    "subknowledge": [
-                        {
-                            "level": 2,
-                            "knowledge": "Concept of Ensemble Learning",
-                            "importance": 5
-                        },
-                        {
-                            "level": 2,
-                            "knowledge": "Benefits of Ensemble Learning",
-                            "importance": 2
-                        },
-                        {
-                            "level": 2,
-                            "knowledge": "Basic Ensemble Methods",
-                            "importance": 5
-                        }
-                    ]
-                },
-                {
-                    "start": 0.30,
-                    "level": 3,
-                    "milestone": "Bagging",
-                    "importance": 2,
-                    "subknowledge": [
-                        {
-                            "level": 4,
-                            "knowledge": "Principles of Bagging",
-                            "importance": 3
-                        },
-                        {
-                            "level": 4,
-                            "knowledge": "Implementing Bagging Models",
-                            "importance": 3
-                        },
-                        {
-                            "level": 4,
-                            "knowledge": "Advantages and Limitations of Bagging",
-                            "importance": 3
-                        }
-                    ]
-                },
-                {
-                    "start": 0.5,
-                    "level": 3,
-                    "milestone": "Boosting",
-                    "importance": 2,
-                    "subknowledge": [
-                        {
-                            "level": 4,
-                            "knowledge": "Basics of Boosting",
-                            "importance": 3
-                        },
-                        {
-                            "level": 4,
-                            "knowledge": "Types of Boosting Algorithms",
-                            "importance": 3
-                        },
-                        {
-                            "level": 4,
-                            "knowledge": "Boosting vs Bagging",
-                            "importance": 3
-                        }
-                    ]
-                },
-                {
-                    "start": 0.63,
-                    "level": 8,
-                    "milestone": "Random Forests",
-                    "importance": 5,
-                    "subknowledge": [
-                        {
-                            "level": 6,
-                            "knowledge": "Introduction to Random Forests",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "How Random Forests Work",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "Applying Random Forests in Real-World Scenarios",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "Introduction to Random Forests",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "How Random Forests Work",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "Applying Random Forests in Real-World Scenarios",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "Introduction to Random Forests",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "How Random Forests Work",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "Applying Random Forests in Real-World Scenarios",
-                            "importance": 3
-                        }
-                    ]
-                },
-                {
-                    "start": 0.9,
-                    "level": 5,
-                    "milestone": "Stacking",
-                    "importance": 2,
-                    "subknowledge": [
-                        {
-                            "level": 6,
-                            "knowledge": "Introduction to Stacking",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "How Stacking Works",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "Implementing Stacking Models",
-                            "importance": 3
-                        },
-                        {
-                            "level": 6,
-                            "knowledge": "Use Cases and Examples of Stacking",
-                            "importance": 3
-                        }
-                    ]
-                }
-            ],
         };
     },
     props: {
-
+        learningPathData: {
+            type: Array,
+            default: function () { return []; },
+        },
+        rmdMindmapOrNot: {
+            type: Boolean,
+            default: true,
+        }
 
     },
     watch: {
+        'learningPathData': {
+            // 深度监听参数中具体数值的变化，一般监听只能发现数值的地址变化
+            deep: true,
+            handler(newValue, oldValue) {
+                console.log(newValue, oldValue)
+                if (this.rmdMindmapOrNot) {
+                    this.$nextTick(() => {
+                        this.drawLearningPath(newValue);
+                    })
+                }
 
+            }
+        },
+
+        rmdMindmapOrNot(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            if (!newValue) {
+                this.$nextTick(() => {
+                    this.drawLearningPath([]);
+                })
+            }
+
+        },
     },
     mounted() {
         this.drawLearningPath();
     },
     emits: [],
     methods: {
-        drawLearningPath() {
+        drawLearningPath(learningPathData) {
             d3.selectAll("#learningpath-area svg").remove();
 
             // 预设参数
@@ -199,13 +76,13 @@ export default {
             const height = 390;
             const offsetX = 50;
             const offsetY = 0;
-            const lineOffsetY = height *0.8
+            const lineOffsetY = height * 0.8
             const timelineWidth = 25;
             const firstFlagOffsetX = 10;
             const distanceFromLine = 25;
             const extendedPoleHeight = timelineWidth + 40;
             const dashlineStroke = 2
-            const milestonesNum = this.milestones.length
+            const milestonesNum = learningPathData ? learningPathData.length : 0
 
             // 创建SVG元素
             const svg = d3.select('#learningpath-area').append('svg')
@@ -249,60 +126,64 @@ export default {
             })
 
             // 绘制milestone
-            this.milestones.forEach((milestone, index) => {
+            if (learningPathData) {
+                learningPathData.forEach((milestone, index) => {
 
-                var milestoneSvg = allMilestoneSvg.append('g')
-                    .attr('id', `${milestone["milestone"]}`)
-                    .attr('x', scale(milestone['start']))
+                    var milestoneSvg = allMilestoneSvg.append('g')
+                        .attr('id', `${milestone["milestone"]}`)
+                        .attr('x', scale(milestone['start']))
 
-                // 绘制flag
-                var flagHeight = milestone["importance"] * 20
-                var flagWidth = milestone["importance"] * 10
-                var poleHeight = milestone["level"] * distanceFromLine + flagHeight / 4 + dashlineStroke / 2
-                var poleWidth = 3
-                var flagOffsetX = scale(milestone['start'])
-                var flagOffsetY = lineOffsetY - timelineWidth / 2 - poleHeight
-                var flagColor = this.levelcolor[milestone["level"] - 1]
+                    // 绘制flag
+                    var flagHeight = milestone["importance"] * 20
+                    var flagWidth = milestone["importance"] * 10
+                    var poleHeight = milestone["level"] * distanceFromLine + flagHeight / 4 + dashlineStroke / 2
+                    var poleWidth = 3
+                    var flagOffsetX = scale(milestone['start'])
+                    var flagOffsetY = lineOffsetY - timelineWidth / 2 - poleHeight
+                    var flagColor = this.levelcolor[milestone["level"] - 1]
 
-                this.drawFlag(milestoneSvg, { 'x': flagOffsetX, 'y': flagOffsetY }, index, flagColor, poleHeight, poleWidth, flagHeight, flagWidth, extendedPoleHeight)
+                    this.drawFlag(milestoneSvg, { 'x': flagOffsetX, 'y': flagOffsetY }, index, flagColor, poleHeight, poleWidth, flagHeight, flagWidth, extendedPoleHeight)
 
-                // 绘制标签
-                var textX = scale(milestone['start']) + 10; // 文本的X位置
-                var textY = flagOffsetY - 20; // 第一行文本的Y位置
+                    // 绘制标签
+                    var textX = scale(milestone['start']) + 10; // 文本的X位置
+                    var textY = flagOffsetY - 20; // 第一行文本的Y位置
 
-                var textElement = milestoneSvg.append('text')
-                    .attr('x', textX)
-                    .attr('y', textY)
-                    .attr('font-size', '13px') // 设置字体大小
-                    .attr('font-weight', 'bold'); // 设置字体加粗
+                    var textElement = milestoneSvg.append('text')
+                        .attr('x', textX)
+                        .attr('y', textY)
+                        .attr('font-size', '13px') // 设置字体大小
+                        .attr('font-weight', 'bold'); // 设置字体加粗
 
-                textElement.append('tspan')
-                    .attr('x', textX)
-                    .attr('y', textY)
-                    .attr('text-anchor', 'left')
-                    .text(`Milestone-${index}`);
-                textElement.append('tspan')
-                    .attr('x', textX)
-                    .attr('y', textY + 15) // 增加偏移量以创建第二行，假设每行高度约为15px
-                    .attr('text-anchor', 'left')
-                    .text(milestone["milestone"]);
+                    textElement.append('tspan')
+                        .attr('x', textX)
+                        .attr('y', textY)
+                        .attr('text-anchor', 'left')
+                        .text(`Milestone-${index}`);
+                    textElement.append('tspan')
+                        .attr('x', textX)
+                        .attr('y', textY + 15) // 增加偏移量以创建第二行，假设每行高度约为15px
+                        .attr('text-anchor', 'left')
+                        .text(milestone["milestone"]);
 
-                // 绘制knowledge points
-                var knowledgePointsOffsetX = flagOffsetX + poleWidth + 10
-                var knowledgePointsOffsetY = lineOffsetY + timelineWidth / 2 + 15
-                var maxNum = Math.floor((scale(1) - knowledgePointsOffsetX) / 20)
-                if (index + 1 < milestonesNum) {
-                    maxNum = Math.floor((scale(this.milestones[index + 1]['start']) - knowledgePointsOffsetX) / 20)
-                }
-                this.drawKnowledgePoints(milestoneSvg, { 'x': knowledgePointsOffsetX, 'y': knowledgePointsOffsetY }, maxNum, milestone['subknowledge'])
+                    // 绘制knowledge points
+                    var knowledgePointsOffsetX = flagOffsetX + poleWidth + 10
+                    var knowledgePointsOffsetY = lineOffsetY + timelineWidth / 2 + 15
+                    var maxNum = Math.floor((scale(1) - knowledgePointsOffsetX) / 20)
+                    if (learningPathData && index + 1 < milestonesNum) {
+                        maxNum = Math.floor((scale(learningPathData[index + 1]['start']) - knowledgePointsOffsetX) / 20)
+                    }
+                    this.drawKnowledgePoints(milestoneSvg, { 'x': knowledgePointsOffsetX, 'y': knowledgePointsOffsetY }, maxNum, milestone['subknowledge'])
 
-            });
+                });
+            }
+
 
             // 添加交互
             // 对于每个flag和level虚线，添加mouseover和mouseout事件监听器
-            const milestones = this.milestones
+            const milestones = learningPathData
             const levelcolor = this.levelcolor
-            svg.selectAll('.flag')
+            if (milestones) {
+                svg.selectAll('.flag')
                 .on('mouseover', function (event, d) {
                     // 增加flag和对应level虚线的透明度
                     var currentLevel = d3.select(this).attr('data-level');
@@ -316,8 +197,8 @@ export default {
                     // 创建tooltip组
                     var tooltipOffsetX = event.pageX - 1200
                     var tooltipOffsetY = event.pageY - 900
-                    console.log(tooltipOffsetX,tooltipOffsetY)
-                    if (tooltipOffsetX  > 590) {
+                    console.log(tooltipOffsetX, tooltipOffsetY)
+                    if (tooltipOffsetX > 590) {
                         tooltipOffsetX = tooltipOffsetX - 300
                     }
                     if (tooltipOffsetY > 500) {
@@ -380,6 +261,8 @@ export default {
                     // 移除tooltip组
                     svg.selectAll('.tooltip-group').remove();
                 });
+            }
+
         },
 
         // 绘制flag
@@ -470,11 +353,10 @@ export default {
     }
 }
 </script>
-  
+
 <style>
 #learningpath-area {
     width: 100%;
     height: 90%;
 }
 </style>
- 

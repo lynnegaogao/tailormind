@@ -34,7 +34,6 @@ import { Tag } from 'ant-design-vue';
 import { Button } from 'ant-design-vue';
 import { CopyOutlined, ReloadOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
-import questionData from './QuestionData.json';
 
 export default {
   components: {

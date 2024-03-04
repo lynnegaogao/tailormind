@@ -104,7 +104,7 @@ class Custom:
                         relations=json.load(file)
                 with open('E:/Vis24-TailorMind/tailormind/back/history/4-mindmap.json', 'r') as file:
                         mindmap=json.load(file)
-            # # 用户实际数据
+            # 用户实际数据
             else:
                 for knowledge in knowledgeList:
                     prompt="For a given AI-related knowledge point, generate a triad of knowledge points associated with it. Each triad should be expressed in the form of [Topic,Relationship,Object] as a way to form a complete knowledge representation. Topic is the given knowledge point, object is the extended knowledge point related to the topic, and relation is the logical relationship between topic and object. For example, [[\"Convolutional Networks\", \"Loss Function\", \"Cross Entropy Loss\"],...]. The knowledge point is:"
@@ -128,6 +128,7 @@ class Custom:
             if historical==True:
                 with open('E:/Vis24-TailorMind/tailormind/back/history/5-question_rmd.json', 'r') as file:
                         questions_rmd=json.load(file)
+            # 用户实际数据
             else:
                 for knowledge in knowledgeList:
                     for level_index in range(0,len(knowledgeLevel)):
@@ -145,14 +146,25 @@ class Custom:
                             print(question_obj)
                             questions_rmd.append(question_obj)
             # with open('E:/Vis24-TailorMind/tailormind/back/history/5-question_rmd.json', 'w') as file:
-            #     json.dump(questions_rmd, file)      
+            #     json.dump(questions_rmd, file)   
+            
+            # 请求openai api获取learning path数据
+             # 使用历史数据
+            if historical==True:
+                with open('E:/Vis24-TailorMind/tailormind/back/history/6-learning_path.json', 'r') as file:
+                        learningPath=json.load(file)
+            # 用户实际数据
+            else:
+                learningPath=self.get_learningpath(mindmap)
+                
             response={
                 'chatdata':{"text": "Get files! Loading..."},
                 'filestructure':fileStructure,
                 'file':file_data,
                 'filesummary':fileSummary,
                 'mindmap':mindmap,
-                'questionrmd':questions_rmd
+                'questionrmd':questions_rmd,
+                'learningpath':learningPath
             }
             
             return response
@@ -184,6 +196,7 @@ class Custom:
                 }
             # 接受推荐的mindmap数据+生成推荐的learning path
             elif body=='keep mindmap data':
+                
                 response={
                     "text": "Generating recommended Learning Path...",
                 }
@@ -396,6 +409,131 @@ class Custom:
         sample_str = "```json\n" + json.dumps(sample) + "\n```"
         prompt="Parsing the content of this paragraph, each ternary represents [subject, relationship, object], the following data conversion: 1.subject and object are both elements in nodes, \"id\" and \"label\" are the same. 2.\"level\" is an integer between [1,8], 1-8 corresponds to the relationship of learning level as {1: \"Concept\",2: \"Principle / Math formula\",3: \"Application\",4: \"Implementation\",5: \" Significance / Influence\",6: \"Related Knowledge\",7: \"Contrast Knowledge\",8: \"Extended Knowledge\"}, please make a recommendation to a beginner based on the level of knowledge a beginner need to master this knowledge; 3. \"size\" is an integer between [1,5], which indicates the importance of this knowledge, 1 means common, 5 means important, need to be differentiated, please make a recommendation to a beginner; 4. each ternary as links in the elements, \"source\" for the subject, \"target\" is the object, \"relationship\" is the relationship. Only return json data, the format is as follows:"
         user_input=content+prompt+sample_str
+        
+        OPENAI_API_KEY="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"
+        client = OpenAI(api_key=OPENAI_API_KEY)
+        assistant = client.beta.assistants.create(
+            name="Education Specialist",
+            instructions="You are an educational expert who specializes in tutoring beginners in self-study, deleting processed data while giving beginners advice on how to learn. If you cannot parse the required Json output, you can give an empty structure that contains only keys.",
+            tools=[{"type": "code_interpreter"}],
+            model="gpt-4-0125-preview"
+        )
+
+        thread = client.beta.threads.create()
+
+ # 创建消息
+        message = client.beta.threads.messages.create(
+                thread_id=thread.id,
+                role="user",
+                content=user_input
+            )
+
+            # 4. run thread
+            # Thread 默认不会运行，需要创建一个 Run 任务来执行 Thread。
+        run = client.beta.threads.runs.create(
+                thread_id=thread.id,
+                assistant_id=assistant.id,
+            )
+
+            # 等待运行任务完成
+            # Thread 是异步执行的，需要轮询检查是否执行完成。
+            # Thread 执行时会上锁，在执行完成前不可以再添加 message 或者提交新的 Run 任务。
+        while True:
+            run = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+            if run.status not in ["queued", "in_progress"]:
+                break
+        time.sleep(1)
+
+            # 获取 AI 输出结果
+        messages = client.beta.threads.messages.list(thread_id=thread.id)
+            # 从消息中取出 AI 输出的 JSON 字符串
+        ai_output = messages.data[0].content[0].text.value
+        
+        # 正则表达式获取```json```内的内容
+        def extract_json_from_string(input_string):
+            # 使用正则表达式匹配JSON部分
+            json_pattern = r'```json\n(.*?)```'
+            match = re.search(json_pattern, input_string, re.DOTALL)
+
+            if match:
+                json_str = match.group(1).strip()
+                # 转换为JSON对象
+                json_data = json.loads(json_str)
+                return json_data
+            else:
+                return None
+            
+        ai_output_json=extract_json_from_string(ai_output)
+        
+        return ai_output_json
+    
+    def get_learningpath(self,content):
+        sample=[{
+          "start": 0.00,
+          "level": 1,
+          "milestone": "Ensemble Learning",
+          "importance": 4,
+          "subknowledge": [
+              {
+                  "level": 2,
+                  "knowledge": "Concept of Ensemble Learning",
+                  "importance": 5,
+                  "content": "Ensemble Learning is a machine learning technique that combines several base models in order to produce one optimal predictive model."
+              },
+              {
+                  "level": 2,
+                  "knowledge": "Benefits of Ensemble Learning",
+                  "importance": 2,
+                  "content": "Enhances prediction accuracy and reduces the likelihood of model overfitting by leveraging the strengths of multiple models."
+              },
+          ]
+      },   
+      {
+          "start": 0.6,
+          "level": 5,
+          "milestone": "Stacking",
+          "importance": 2,
+          "subknowledge": [
+              {
+                  "level": 6,
+                  "knowledge": "Introduction to Stacking",
+                  "importance": 3,
+                  "content": "Stacking involves training a new model to combine the predictions of several base models for improved prediction accuracy."
+              },
+              {
+                  "level": 6,
+                  "knowledge": "How Stacking Works",
+                  "importance": 3,
+                  "content": "It works by using a meta-learner or blender that learns how to best combine the predictions of multiple base models."
+              },
+              {
+                  "level": 6,
+                  "knowledge": "Implementing Stacking Models",
+                  "importance": 3,
+                  "content": "Implementation involves selecting base models, training them on the data, and then training a meta-model to aggregate their predictions."
+              },
+              {
+                  "level": 6,
+                  "knowledge": "Use Cases and Examples of Stacking",
+                  "importance": 3,
+                  "content": "Stacking is widely used in various domains like finance, healthcare, and image recognition for enhancing predictive performance."
+              }
+          ]
+      }]
+        sample_str = "```json\n" + json.dumps(sample) + "\n```"
+        prompt = """
+        Drawing from the structured knowledge map provided, we propose a self-learning pathway tailored for beginners, comprising approximately 8-10 pivotal milestones. 
+        The pathway initiates at a starting point labeled "start" ranging from 0 to 1. 
+        Each learning objective is categorized under "level" with a scale from 1 to 8, where each level represents a progressive learning stage as follows:
+        {1: "Concept", 2: "Principle / Math formula", 3: "Principle / Math formula", 4: "Implementation", 5: "Significance / Influence", 6: "Related Knowledge", 7: "Contrast Knowledge", 8: "Extended Knowledge"}. 
+        This categorization aids in crafting a bespoke recommendation for beginners, aligning with the essential knowledge levels they must achieve.
+        Furthermore, "milestone" signifies critical knowledge points within the entire knowledge map, serving as significant markers in the learning journey. 
+        The "importance" of each milestone is rated on a scale from 1 to 5, with higher values indicating greater significance. 
+        Additionally, "subknowledge" outlines essential subtopics under each milestone, where "knowledge" refers to the specific knowledge point, and "content" provides a concise explanation of this point.
+        Please ensure the returned data is in JSON format, with the array length exceeding 8 entries, structured as outlined:
+        """
+
+        user_input=json.dumps(content)+prompt+sample_str
         
         OPENAI_API_KEY="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"
         client = OpenAI(api_key=OPENAI_API_KEY)

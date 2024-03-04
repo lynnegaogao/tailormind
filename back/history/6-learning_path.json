@@ -1,0 +1,144 @@
+[
+    {
+      "start": 0.0,
+      "level": 8,
+      "milestone": "Convolutional Networks",
+      "importance": 5,
+      "subknowledge": [
+        {
+          "level": 2,
+          "knowledge": "Backpropagation",
+          "importance": 4,
+          "content": "Backpropagation is a method used to calculate the gradient of the loss function with respect to the weights in the network."
+        },
+        {
+          "level": 2,
+          "knowledge": "Activation Functions",
+          "importance": 3,
+          "content": "Activation functions introduce non-linearity into the output of a neuron."
+        },
+        {
+          "level": 3,
+          "knowledge": "ReLU",
+          "importance": 3,
+          "content": "ReLU stands for Rectified Linear Unit and is a popular activation function that allows models to solve non-linear problems."
+        },
+        {
+          "level": 3,
+          "knowledge": "Pooling",
+          "importance": 3,
+          "content": "Pooling reduces the dimensionality of each feature map but retains the most important information."
+        }
+      ]
+    },
+    {
+      "start": 0.2,
+      "level": 5,
+      "milestone": "Gradient-Based Learning",
+      "importance": 3,
+      "subknowledge": [
+        {
+          "level": 3,
+          "knowledge": "Batch Normalization",
+          "importance": 4,
+          "content": "Batch Normalization is a technique to provide any layer in a neural network with inputs that are zero mean/unit variance."
+        },
+        {
+          "level": 3,
+          "knowledge": "Dropout",
+          "importance": 4,
+          "content": "Dropout is a regularization technique that prevents overfitting by dropping out units in neural networks."
+        },
+        {
+          "level": 3,
+          "knowledge": "Adam Optimizer",
+          "importance": 3,
+          "content": "The Adam Optimizer combines the best properties of the AdaGrad and RMSProp algorithms to provide an optimization algorithm that can handle sparse gradients on noisy problems."
+        },
+        {
+          "level": 3,
+          "knowledge": "RMSProp",
+          "importance": 3,
+          "content": "RMSProp is an optimization algorithm designed to address Adagrad's radically diminishing learning rates."
+        }
+      ]
+    },
+    {
+      "start": 0.4,
+      "level": 1,
+      "milestone": "Data Augmentation",
+      "importance": 2,
+      "subknowledge": [
+        {
+          "level": 2,
+          "knowledge": "Image Augmentation",
+          "importance": 3,
+          "content": "Techniques like rotation, flipping, and cropping are used to artificially expand the dataset."
+        },
+        {
+          "level": 2,
+          "knowledge": "Text Augmentation",
+          "importance": 3,
+          "content": "Methods include swapping word order, inserting random words, or deleting some words to create variations."
+        },
+        {
+          "level": 2,
+          "knowledge": "Audio Augmentation",
+          "importance": 3,
+          "content": "Involves changing pitch, speed, and adding noise to make models robust in audio recognition tasks."
+        }
+      ]
+    },
+    {
+      "start": 0.6,
+      "level": 7,
+      "milestone": "Dropout",
+      "importance": 5,
+      "subknowledge": [
+        {
+          "level": 2,
+          "knowledge": "Purpose of Dropout",
+          "importance": 3,
+          "content": "To reduce overfitting by preventing complex co-adaptations on training data."
+        },
+        {
+          "level": 2,
+          "knowledge": "Probability in Dropout",
+          "importance": 4,
+          "content": "Determines the likelihood of neurons being dropped out during training, commonly set to 0.5."
+        },
+        {
+          "level": 2,
+          "knowledge": "Usage in Training and Testing",
+          "importance": 3,
+          "content": "Used during training to drop units; during testing, all units are used but with their outputs weighted by the dropout probability."
+        }
+      ]
+    },
+    {
+      "start": 0.8,
+      "level": 3,
+      "milestone": "Deep Belief Networks",
+      "importance": 3,
+      "subknowledge": [
+        {
+          "level": 2,
+          "knowledge": "Restricted Boltzmann Machine (RBM)",
+          "importance": 4,
+          "content": "RBMs are stochastic neural networks that can learn a probability distribution over its set of inputs."
+        },
+        {
+          "level": 3,
+          "knowledge": "Training Data and Parameter Learning",
+          "importance": 4,
+          "content": "Involves the use of training data for effective network parametrization and learning fine-tuned parameters."
+        },
+        {
+          "level": 3,
+          "knowledge": "Variational Inference",
+          "importance": 3,
+          "content": "A method used to approximate complex probabilistic models in RBMs and other networks."
+        }
+      ]
+    }
+  ]

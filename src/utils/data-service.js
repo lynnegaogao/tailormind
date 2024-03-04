@@ -22,9 +22,9 @@ let DataService = {
 
     },
 
-    getWordCloudData(node,noteContext, callback) {
+    getWordCloudData(node, noteContext, callback) {
         axios.post(`${this.dataServerUrl}/get-wordclouddata`, {
-            nodeId:node.id(),
+            nodeId: node.id(),
             noteContext: noteContext
         }, {
             headers: {
@@ -32,17 +32,31 @@ let DataService = {
             }
         })
             .then(function (response) {
-                callback(response.data)
+                callback(response.data);
             })
             .catch(error => {
                 console.error('Error getting note context:', error);
             });
     },
 
+    getCustomizedNote(callback) {
+        // TODO: query backend for customized note.
 
-
-
-
+        // Below load a demo markdown file from assets and handle the document to the renderer.
+        fetch('src/assets/MarkdownDemo.md')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(text => {
+                callback(text);
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+    }
 }
 
 

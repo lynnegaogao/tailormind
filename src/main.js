@@ -1,9 +1,8 @@
 import { createApp } from 'vue'
 import './style.css'
-import App from './Forethought.vue'
+import App from './Performance.vue'
 import router from '../router/index.js'
 import axios from "axios";
-
 
 // 按照教程引用
 // import Antd from 'ant-design-vue';
@@ -15,5 +14,4 @@ axios.defaults.baseURL = "http://localhost:8000/";
 
 const app = createApp(App)
 app.use(router)
-// app.use(Antd)
 app.mount('#app')

@@ -3,6 +3,7 @@
 
     <div class="system-header">
       Tailor-Mind
+      <div class="system-introduction"> Advancing Your Self-Regulated Learning Journey </div>
     </div>
 
     <div class="system-component">
@@ -83,7 +84,7 @@
             LEARNING PATH
           </div>
           <div class="module-component">
-            <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"/>
+            <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot" />
           </div>
         </div>
 
@@ -159,7 +160,7 @@ export default {
       nodeToQuestionRmd: '',
       rmdMindmapOrNot: true,
       questionRmdData: [],
-      learningPathData:[],
+      learningPathData: [],
 
     }
   },
@@ -174,7 +175,7 @@ export default {
       this.fileSummary = filedata[2]
       this.mindMapData = filedata[3]
       this.questionRmdData = filedata[4]
-      this.learningPathData=filedata[5]
+      this.learningPathData = filedata[5]
 
       // 获取wordcard数据
       var childrenContents = []
@@ -227,7 +228,7 @@ export default {
         node.level = 0;
         node.size = 3;
       });
-      this.rmdMindmapOrNot=false
+      this.rmdMindmapOrNot = false
       this.mindMapData = recommendedMindmapData
     }
   },
@@ -245,17 +246,24 @@ export default {
 
 .system-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
   margin-bottom: 5px;
-  background-color: #eee1c7;
-  color: #7e7d7f;
+  background-color: #4c5874d1;
+  color: #ffffff;
   text-align: left;
   font-weight: bold;
-  font-size: 1em;
+  font-size: 18px;
   padding: 5px;
   flex-grow: 1;
+}
+
+.system-introduction {
+  color: #A8B0C3;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 4px;
+  font-family: 'Arial', sans-serif; 
+  font-weight: 100; 
+  font-style: italic; 
 }
 
 .system-component {
@@ -274,7 +282,7 @@ export default {
 }
 
 .module-header {
-  color: #aaa;
+  color: #565d6bb7; 
   font-size: 0.8em;
   margin-top: 5px;
   /*margin-bottom: 20px;*/

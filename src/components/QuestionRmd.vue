@@ -55,14 +55,14 @@ export default {
       activeKey: ['1'],
       items: [],
       levelcolor: [
-        '#ff9f6d',
-        '#d88c9a',
-        '#a17fda',
-        '#c3e6a1',
-        '#4caead',
-        '#82b461',
-        '#fffb96',
-        '#87ccff'],
+        "#9B6072",
+        "#CE8D68",
+        "#CFAD6D",
+        "#9CA767",
+        "#527840",
+        "#406868",
+        "#4C5874",
+        "#776B9F"],
       learningLevelExpl: [
         'Concept',
         'Principle / Math formula',
@@ -85,7 +85,7 @@ export default {
       deep: true,
       handler(newValue, oldValue) {
         console.log(newValue, oldValue)
-        this.$nextTick(() => { 
+        this.$nextTick(() => {
           this.initializeItems();
         })
       }

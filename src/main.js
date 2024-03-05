@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
-import App from './Performance.vue'
+import App from './Forethought.vue'
 import router from '../router/index.js'
 import axios from "axios";
 

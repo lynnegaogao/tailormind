@@ -6,13 +6,13 @@
       "importance": 5,
       "subknowledge": [
         {
-          "level": 2,
+          "level": 5,
           "knowledge": "Backpropagation",
           "importance": 4,
           "content": "Backpropagation is a method used to calculate the gradient of the loss function with respect to the weights in the network."
         },
         {
-          "level": 2,
+          "level": 5,
           "knowledge": "Activation Functions",
           "importance": 3,
           "content": "Activation functions introduce non-linearity into the output of a neuron."
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "start": 0.2,
+      "start": 0.3,
       "level": 5,
       "milestone": "Gradient-Based Learning",
       "importance": 3,
@@ -50,13 +50,13 @@
           "content": "Dropout is a regularization technique that prevents overfitting by dropping out units in neural networks."
         },
         {
-          "level": 3,
+          "level": 1,
           "knowledge": "Adam Optimizer",
           "importance": 3,
           "content": "The Adam Optimizer combines the best properties of the AdaGrad and RMSProp algorithms to provide an optimization algorithm that can handle sparse gradients on noisy problems."
         },
         {
-          "level": 3,
+          "level": 1,
           "knowledge": "RMSProp",
           "importance": 3,
           "content": "RMSProp is an optimization algorithm designed to address Adagrad's radically diminishing learning rates."
@@ -90,13 +90,13 @@
       ]
     },
     {
-      "start": 0.6,
+      "start": 0.5,
       "level": 7,
       "milestone": "Dropout",
       "importance": 5,
       "subknowledge": [
         {
-          "level": 2,
+          "level": 1,
           "knowledge": "Purpose of Dropout",
           "importance": 3,
           "content": "To reduce overfitting by preventing complex co-adaptations on training data."
@@ -108,7 +108,7 @@
           "content": "Determines the likelihood of neurons being dropped out during training, commonly set to 0.5."
         },
         {
-          "level": 2,
+          "level": 4,
           "knowledge": "Usage in Training and Testing",
           "importance": 3,
           "content": "Used during training to drop units; during testing, all units are used but with their outputs weighted by the dropout probability."
@@ -122,7 +122,7 @@
       "importance": 3,
       "subknowledge": [
         {
-          "level": 2,
+          "level": 1,
           "knowledge": "Restricted Boltzmann Machine (RBM)",
           "importance": 4,
           "content": "RBMs are stochastic neural networks that can learn a probability distribution over its set of inputs."
@@ -134,7 +134,7 @@
           "content": "Involves the use of training data for effective network parametrization and learning fine-tuned parameters."
         },
         {
-          "level": 3,
+          "level": 1,
           "knowledge": "Variational Inference",
           "importance": 3,
           "content": "A method used to approximate complex probabilistic models in RBMs and other networks."

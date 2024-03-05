@@ -12,7 +12,7 @@
         <div id="main-legend-content"></div>
     </div>
     <div class="toolbar-container">
-        <a-config-provider :theme="{ token: { colorPrimary: '#B97E0FC7' } }">
+        <a-config-provider :theme="{ token: { colorPrimary: '#4C5874' } }">
             <div id="layout-title" class="title"
                 style="line-height: 25px; vertical-align: middle; display: inline-block;">Layout
                 <a-select v-model:value="chartLayout" class="custom-select" clearIcon=""
@@ -41,7 +41,7 @@
         </div> <!-- Quill编辑器将被初始化在这个div中 -->
     </div>
     <div id="wordCloud"></div>
-    <a-config-provider :theme="{ token: { colorPrimary: '#B97E0FC7' } }">
+    <a-config-provider :theme="{ token: { colorPrimary: '#4C5874' } }">
         <a-modal v-model:open="addNodeModalVisible" title="Add knowledge points to your mindmap!" @ok="handleNodeSubmit"
             @cancel="handleNodeCancel">
             <a-form ref="nodeForm" :model="formData" @submit.prevent="handleNodeSubmit">
@@ -239,15 +239,25 @@ export default {
                 },
             },
             learningLevelColor: {
-                "L1": "#ff9f6d",
-                "L2": "#d88c9a",
-                "L3": "#a17fda",
-                "L4": "#c3e6a1",
-                "L5": "#4caead",
-                "L6": "#82b461",
-                "L7": "#fffb96",
-                "L8": "#87ccff",
+                "L1": "#9B6072",
+                "L2": "#CE8D68",
+                "L3": "#CFAD6D",
+                "L4": "#9CA767",
+                "L5": "#527840",
+                "L6": "#406868",
+                "L7": "#4C5874",
+                "L8": "#776B9F",
             },
+            levelcolor: [
+                "#9B6072",
+                "#CE8D68",
+                "#CFAD6D",
+                "#9CA767",
+                "#527840",
+                "#406868",
+                "#4C5874",
+                "#776B9F"
+            ],
             historyStack: [],
         };
     },
@@ -293,16 +303,7 @@ export default {
         // 绘制网络图
         drawMindmap() {
             d3.selectAll("#mindmap-area svg").remove();
-            const levelcolor = [
-                "#ff9f6d",
-                "#d88c9a",
-                "#a17fda",
-                "#c3e6a1",
-                "#4caead",
-                "#82b461",
-                "#fffb96",
-                "#87ccff",
-            ];
+
             console.log("mindmap数据：", this.mindMapData)
             const elements = this.transformData(this.mindMapData);
             // 初始化
@@ -320,7 +321,7 @@ export default {
                             'height': 'data(size)',
                             'background-color': (ele) => {
                                 if (ele.data('level') < 1) return "#eee1c7"
-                                else return levelcolor[ele.data('level') - 1]
+                                else return this.levelcolor[ele.data('level') - 1]
                             },
 
                         }
@@ -779,14 +780,14 @@ export default {
 
             let learningLevel = ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8"];
             let learningLevelColor = {
-                L1: "#ff9f6d",
-                L2: "#d88c9a",
-                L3: "#a17fda",
-                L4: "#c3e6a1",
-                L5: "#4caead",
-                L6: "#82b461",
-                L7: "#fffb96",
-                L8: "#87ccff",
+                L1: "#9B6072",
+                L2: "#CE8D68",
+                L3: "#CFAD6D",
+                L4: "#9CA767",
+                L5: "#527840",
+                L6: "#406868",
+                L7: "#4C5874",
+                L8: "#776B9F",
             };
 
             let learningLevelExpl = {
@@ -1068,8 +1069,8 @@ export default {
 }
 
 .title {
-    color: rgba(184, 148, 70, 0.883);
-    font-size: 0.8em;
+    color: #4C5874;
+    font-size: 13px;
     width: 100%;
     font-weight: bold;
     display: flex;
@@ -1129,7 +1130,7 @@ export default {
     top: 75px;
     right: 330px;
     display: flex;
-    gap: 5px;
+    gap: 8px;
 
 }
 

@@ -13,14 +13,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+/* a {
   font-weight: 500;
   color: #eee1c7;
   text-decoration: inherit;
 }
 a:hover {
   color: #eee1c7;
-}
+} */
 
 body {
   display: flex;
@@ -63,11 +63,11 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #c78603;
+    color: #4C5874;
     background-color: #ffffff;
   }
   a:hover {
-    color: #c78603;
+    color: #4C5874;
   }
   button {
     background-color: #eee1c793;

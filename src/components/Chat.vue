@@ -4,7 +4,7 @@
             <deep-chat class="chat-area" id="deepChatComponent" ref="chatElementRef" :mixedFiles="true"
                 :request="requestConfig" :introMessage="introMessage" :initialMessages="initialMessages"
                 :messageStyles="messageStyles" :inputAreaStyle="inputAreaStyle"
-                style="border-radius: 1px 1px 5px 5px;border: #fff;width:24vw;height:94vh">
+                style="border-radius: 1px 1px 5px 5px;border: #8F939C;width:24vw;height:94vh">
             </deep-chat>
         </div>
 
@@ -110,7 +110,7 @@ export default {
                     }
                 }
             };
-            this.inputAreaStyle = { backgroundColor: "#EEE1C7A2" };
+            this.inputAreaStyle = { backgroundColor: "#ADB5C7" };
         },
 
         // 捕捉当前返回的消息

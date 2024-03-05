@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-
+    <router-view :key="$route.fullPath"></router-view>
     <div class="system-header">
       Tailor-Mind
       <div class="system-introduction"> Advancing Your Self-Regulated Learning Journey </div>
@@ -18,7 +18,7 @@
           </div>
           <div class="module-component">
             <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" :getFileStatus="getFileStatus"
-              @changeMindmapToDefault="onChangeMindmapToDefault" @submitChatHistory="onSubmitChatHistory"/>
+              @changeMindmapToDefault="onChangeMindmapToDefault" @submitChatHistory="onSubmitChatHistory" :isReflection="isReflection"/>
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
           <div class="module-component">
             <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud'
               :wordCloudData='wordCloudData' :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'
-              :rmdMindmapOrNot='rmdMindmapOrNot' @getLearningPathDataByUser='onGetLearningPathDataByUser'/>
+              :rmdMindmapOrNot='rmdMindmapOrNot' @getLearningPathDataByUser='onGetLearningPathDataByUser' />
             <noteEditor style="flex: 2;" />
           </div>
         </div>
@@ -72,7 +72,8 @@
             LEARNING PATH
           </div>
           <div class="module-component">
-            <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot" @resetLearningPathData="onResetLearningPathData"/>
+            <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
+              @resetLearningPathData="onResetLearningPathData" />
           </div>
         </div>
 
@@ -116,7 +117,8 @@ export default {
       rmdMindmapOrNot: true,
       questionRmdData: [],
       learningPathData: [],
-      submitChatData:[],
+      submitChatData: [],
+      isReflection: false,
 
     }
   },
@@ -189,20 +191,25 @@ export default {
     },
 
     // 用户重新定义learning path + mindmap数据为default
-    onResetLearningPathData(data){
-      this.learningPathData=data
+    onResetLearningPathData(data) {
+      this.learningPathData = data
       this.onChangeMindmapToDefault()
     },
 
     // 获取用户重新定义的learning path数据
-    onGetLearningPathDataByUser(data){
-      this.learningPathData=data
+    onGetLearningPathDataByUser(data) {
+      this.learningPathData = data
     },
 
     // 进入reflection之前对聊天数据进行保存
-    onSubmitChatHistory(data){
-      this.submitChatData=data
-      console.log(this.submitChatData)
+    onSubmitChatHistory(data) {
+      this.submitChatData = data
+      this.$store.dispatch('submitChatData', this.submitChatData);
+      this.$store.dispatch('learningPathData', this.learningPathData);
+      this.$store.dispatch('mindMapData', this.mindMapData);
+      this.$router.push({
+        name: 'reflection',
+      });
     },
   },
 
@@ -234,9 +241,9 @@ export default {
   font-size: 15px;
   padding-left: 10px;
   padding-top: 4px;
-  font-family: 'Arial', sans-serif; 
-  font-weight: 100; 
-  font-style: italic; 
+  font-family: 'Arial', sans-serif;
+  font-weight: 100;
+  font-style: italic;
 }
 
 .system-component {
@@ -255,7 +262,7 @@ export default {
 }
 
 .module-header {
-  color: #565d6bb7; 
+  color: #565d6bb7;
   font-size: 0.8em;
   margin-top: 5px;
   /*margin-bottom: 20px;*/

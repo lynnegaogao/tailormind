@@ -100,15 +100,27 @@ export default {
             }
 
         },
+        isReflection(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            if (newValue) {
+                this.$nextTick(() => {
+                    this.drawLearningPath(this.learningPathData);
+                })
+            }
+
+        },
     },
     mounted() {
-        this.drawLearningPath();
+        this.drawLearningPath(this.learningPathData);
+        if (this.isReflection) {
+            this.drawLearningPath(this.learningPathData);
+        }
     },
     emits: ['resetLearningPathData'],
     methods: {
         drawLearningPath(learningPathData) {
             d3.selectAll("#learningpath-area svg").remove();
-
+            console.log("learning path数据：",learningPathData)
             // 预设参数
             const width = 1000;
             const height = 390;
@@ -296,8 +308,8 @@ export default {
                         // 解析当前hover的milestone ID来获取subKnowledge
                         var milestoneIndex = this.id.split('-')[1];
                         var hoveredMilestones = milestones[milestoneIndex].subknowledge;
-                        
-                        if (hoveredMilestones.length!=0) {
+
+                        if (hoveredMilestones.length != 0) {
                             // 创建tooltip组
                             var tooltipOffsetX = event.pageX - 1170 //数字越大，越靠右
                             var tooltipOffsetY = event.pageY - 850 //数字越大，越靠下

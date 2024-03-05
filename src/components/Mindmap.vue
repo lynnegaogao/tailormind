@@ -300,6 +300,10 @@ export default {
             type: Object,
             default: function () { return {}; },
         },
+        isReflection: {
+            type: Boolean,
+            default: false,
+        },
     },
     watch: {
         wordCloudData(newValue, oldValue) {
@@ -320,12 +324,28 @@ export default {
                 })
             }
         },
+        isReflection(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            if (newValue) {
+                this.$nextTick(() => {
+                    this.drawMindmap()
+                    this.drawLegend()
+                    this.dragElement(document.getElementById("main-legend"))
+                })
+            }
+
+        },
 
     },
     mounted() {
         // this.drawMindmap()
         this.drawLegend()
         this.dragElement(document.getElementById("main-legend"))
+        if (this.isReflection) {
+            this.drawMindmap()
+            this.drawLegend()
+            this.dragElement(document.getElementById("main-legend"))
+        }
 
     },
     emits: ['click', 'generateWordCloud', 'getQuestionRmd', 'getLearningPathDataByUser'],
@@ -335,7 +355,7 @@ export default {
             d3.selectAll("#mindmap-area svg").remove();
 
             console.log("mindmap数据：", this.mindMapData)
-            const elements = this.transformData(this.mindMapData); 
+            const elements = this.transformData(this.mindMapData);
             // 初始化
             const cy = cytoscape({
                 container: this.$refs.MainMindmap,
@@ -760,8 +780,8 @@ export default {
             // 定义一个redo undo更改颜色的函数
             const doFunc = () => {
                 selectNode.style('background-color', nodeColor);
-                selectNode.style('height', nodeImportance*5);
-                selectNode.style('width', nodeImportance*5);
+                selectNode.style('height', nodeImportance * 5);
+                selectNode.style('width', nodeImportance * 5);
 
             };
             const undoFunc = () => {
@@ -775,8 +795,8 @@ export default {
 
             this.formData.level = '';
             this.formData.start = 0;
-            this.formData.start='',
-            this.selectedNodes = null;
+            this.formData.start = '',
+                this.selectedNodes = null;
             this.selectLevelVisible = false;
         },
 

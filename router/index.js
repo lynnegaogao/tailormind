@@ -1,19 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Forethought from '../src/Forethought.vue';
-// import Performance from '../src/Performance.vue';
+import Reflection from '../src/Reflection.vue';
 
 const routes = [
     {
-        path: '/forethought',
+        path: '/',
         name: 'forethought',
         component: Forethought
     },
-    // {
-    //     path: '/performance',
-    //     name: 'performance',
-    //     component: Performance
-    // },
-  
+    {
+        path: '/reflection',
+        name: 'reflection',
+        component: Reflection
+    },
+
+
 ];
 
 const router = createRouter({

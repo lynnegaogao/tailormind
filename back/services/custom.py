@@ -206,7 +206,7 @@ class Custom:
             # 询问是否进入reflection阶段
             elif body=='end':
                 response={
-                    "text": "👻Will you finish your learning? \nAnd be ready to start the **Reflection** phase?🤩",
+                    "text": "👻Will you finish your learning? \nAnd ready to start the **Reflection** phase?🤩",
                     "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">Yes</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">No</button></div>",
                 }
             elif body=='continue learning':
@@ -216,6 +216,11 @@ class Custom:
             elif body=='start reflection phase':
                 response={
                     "text": "🥳Let's move on to the self-reflection~",
+                }
+            elif body=="Let's start the last phase!🎈":
+                response={
+                    "text": "👻Will you finish your reviewing? \nAnd ready to do any tests?🤩",
+                    "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">Yes</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">No</button></div>",
                 }
             # 其他正常问答
             else:

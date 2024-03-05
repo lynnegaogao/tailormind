@@ -49,7 +49,11 @@ export default {
         getFileStatus: {
             type: Boolean,
             default: false,
-        }
+        },
+        isReflection: {
+            type: Boolean,
+            default: false,
+        },
 
     },
     watch: {
@@ -64,6 +68,15 @@ export default {
             if (newValue) {
                 this.$nextTick(() => {
                     this.setupMindMapRmd()
+                })
+            }
+
+        },
+        isReflection(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            if (newValue) {
+                this.$nextTick(() => {
+                    this.setupReflectionStart()
                 })
             }
 
@@ -92,7 +105,6 @@ export default {
             </div>`,
                     role: 'ai',
                 },
-                //
             ];
             this.messageStyles = {
                 default: {
@@ -141,7 +153,7 @@ export default {
                     }
                 }
                 // 拦截是否结束学习，进入reflection阶段
-                if (historyMessages[historyMessages.length - 2] && historyMessages[historyMessages.length - 2].message.text == "👻Will you finish your learning? \nAnd be ready to start the **Reflection** phase?🤩") {
+                if (historyMessages[historyMessages.length - 2] && historyMessages[historyMessages.length - 2].message.text == "👻Will you finish your learning? \nAnd ready to start the **Reflection** phase?🤩") {
                     if (historyMessages[historyMessages.length - 1].message.text == 'Yes') {
                         requestDetails.body.messages[0].text = 'start reflection phase'
                     }
@@ -151,17 +163,6 @@ export default {
                 }
                 return requestDetails
             }
-            //     if(historyMessages[historyMessages.length-1].message.text=='Yes'){
-            //         requestDetails.body.messages[0].text='keep mindmap data'
-            //         console.log(historyMessages[historyMessages.length-2])
-            //     }else if(historyMessages[historyMessages.length-1].message.text=='No'){
-            //         requestDetails.body.messages[0].text='change mindmap data to default'
-            //     }
-            // if(this.historyMessages[-1]){
-            //     console.log('请求:',requestDetails);
-            // }
-
-            // return requestDetails; // 返回修改后的请求详情
 
 
 
@@ -205,6 +206,13 @@ export default {
             const chatElementRef = this.$refs.chatElementRef;
             chatElementRef.submitUserMessage({ 'text': 'The learning material information has been loaded.' });
 
+        },
+
+        // interact with reflection router：没用呢。。。
+        setupReflectionStart() {
+            const chatElementRef = this.$refs.chatElementRef;
+            chatElementRef.submitUserMessage({ 'text': "Let's start the last phase!🎈" });
+            console.log(1)
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div v-html="renderedMarkdown"></div>
+    <div v-html="renderedMarkdown" class="markdown-container"></div>
 </template>
 
 <script>
@@ -21,5 +21,10 @@ export default {
 </script>
 
 <style>
-/* Add styles for your markdown content if necessary */
+.markdown-container{
+    width: 100%;
+    height: 100%;
+    max-height: 720px;
+}
+
 </style>

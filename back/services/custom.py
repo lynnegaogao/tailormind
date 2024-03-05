@@ -170,17 +170,15 @@ class Custom:
             return response
 
         else:
-            # When sending text messages without any files - they are stored inside a json
-
             body = request.json["messages"][0]['text']
             print("Text messages:",body )
             # 引导问题
             if body=='What is Self-Regulated Learning (SRL)?':
-                response={"text":"Self-Regulated Learning (SRL) consists of 3 phases:\n 1. **Forethought**, planning and activation \n 2. **Performance**, monitoring and control \n 3. Reaction and **reflection**","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">What does each view of Tailor-Mind do?</button><br><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
+                response={"text":"Self-Regulated Learning (SRL) consists of 3 phases:📑📑📑\n 1. **Forethought**, planning and activation \n 2. **Performance**, monitoring and control \n 3. Reaction and **reflection**","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">What does each view of Tailor-Mind do?</button><br><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
             elif body=='What does each view of Tailor-Mind do?':
-                response={"text":"Some guidances will be coming...","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
+                response={"text":"🎈Some guidances will be coming...","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
             elif body=='How can I start my SRL journey?':
-                response={"text":"**Upload your learning material** and start your SRL journey!"}
+                response={"text":"🥳**Upload your learning material** and start your SRL journey!"}
             # 问题推荐
             elif body.startswith("Recommend some questions"):
                 response=minderllm.generate(query=body)
@@ -191,19 +189,33 @@ class Custom:
             # 询问是否接受推荐的mindmap数据
             elif body=='The learning material information has been loaded.':
                 response={
-                    "text": "Will you take the **Mindmap View** recommended by Tailor-Mind and make the next step in the **Learning Path View**?",
+                    "text": "🤲Will you take the **Mindmap View** recommended by Tailor-Mind and make the next step in the **Learning Path View**?",
                     "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">Yes</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">No</button></div>",
                 }
             # 接受推荐的mindmap数据+生成推荐的learning path
             elif body=='keep mindmap data':
                 
                 response={
-                    "text": "Generating recommended Learning Path...",
+                    "text": "👻Generating recommended Learning Path...",
                 }
             # 将mindmap修改为默认数据（level=0和size=1）
             elif body=='change mindmap data to default':
                 response={
-                    "text": "Changing the Mindmap View to default...",
+                    "text": "🎈Changing the Mindmap View to default...",
+                }
+            # 询问是否进入reflection阶段
+            elif body=='end':
+                response={
+                    "text": "👻Will you finish your learning? \nAnd be ready to start the **Reflection** phase?🤩",
+                    "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">Yes</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">No</button></div>",
+                }
+            elif body=='continue learning':
+                response={
+                    "text": "👻Please follow the learning path to continue your learning...",
+                }
+            elif body=='start reflection phase':
+                response={
+                    "text": "🥳Let's move on to the self-reflection~",
                 }
             # 其他正常问答
             else:
@@ -214,8 +226,6 @@ class Custom:
             print("Response:",response)
             return {'chatdata':response}
 
-        # Sends response back to Deep Chat using the Response format:
-        # https://deepchat.dev/docs/connect/#Response
 
     def get_file_insights(self, file_path):
         # prompt-1 file structure + overview

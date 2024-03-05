@@ -82,11 +82,11 @@ export default {
             deep: true,
             handler(newValue, oldValue) {
                 console.log(newValue, oldValue)
-                if (this.rmdMindmapOrNot) {
-                    this.$nextTick(() => {
-                        this.drawLearningPath(newValue);
-                    })
-                }
+                // if (this.rmdMindmapOrNot) {
+                this.$nextTick(() => {
+                    this.drawLearningPath(newValue);
+                })
+                // }
 
             }
         },
@@ -104,7 +104,7 @@ export default {
     mounted() {
         this.drawLearningPath();
     },
-    emits: [],
+    emits: ['resetLearningPathData'],
     methods: {
         drawLearningPath(learningPathData) {
             d3.selectAll("#learningpath-area svg").remove();
@@ -220,12 +220,12 @@ export default {
                 // 添加标签
                 svg.append('text')
                     .attr('x', scale(1) + 2)
-                    .attr('y', dashOffsetY) 
-                    .attr('fill', color) 
-                    .style('opacity', 0.9) 
+                    .attr('y', dashOffsetY)
+                    .attr('fill', color)
+                    .style('opacity', 0.9)
                     .style('font-size', '12px')
-                    .attr('alignment-baseline', 'middle') 
-                    .text(this.learningLevelExpl[index]); 
+                    .attr('alignment-baseline', 'middle')
+                    .text(this.learningLevelExpl[index]);
             })
 
             // 绘制milestone
@@ -296,63 +296,66 @@ export default {
                         // 解析当前hover的milestone ID来获取subKnowledge
                         var milestoneIndex = this.id.split('-')[1];
                         var hoveredMilestones = milestones[milestoneIndex].subknowledge;
-
-                        // 创建tooltip组
-                        var tooltipOffsetX = event.pageX - 1170 //数字越大，越靠右
-                        var tooltipOffsetY = event.pageY - 850 //数字越大，越靠下
-                        console.log(tooltipOffsetX, tooltipOffsetY)
-                        if (tooltipOffsetX > 590) {
-                            tooltipOffsetX = tooltipOffsetX - 300
-                        }
-                        if (tooltipOffsetY > 500) {
-                            tooltipOffsetY = tooltipOffsetY - 300
-                        }
-                        var tooltipGroup = svg.append('g')
-                            .attr('class', 'tooltip-group')
-                            .attr('transform', `translate(${tooltipOffsetX}, ${tooltipOffsetY})`);
-
-                        // 首先，为了确保背景矩形位于其他元素之下，我们先添加它，但实际的尺寸稍后设置
-                        var tooltipBackground = tooltipGroup.append('rect')
-                            .style('fill', '#7e7d7f') // 设置灰色背景
-                            .attr('rx', 5) // 圆角
-                            .attr('ry', 5) // 圆角
-                            .attr('width', 200) // 预设宽度，稍后根据内容调整
-                            .attr('height', hoveredMilestones.length * 20 + 10) // 预设高度，根据项数动态调整
-                            .attr('opacity', 0.1); // 可选：设置透明度以提高视觉效果
-
-                        // 初始化文本宽度的变量，用于动态计算背景宽度
-                        var maxTextWidth = 0;
-
-                        // 对于每个subKnowledge，添加一个小圆形和文本
-                        hoveredMilestones.forEach((knowledge, index) => {
-                            // 添加小圆形
-                            let radius = 2 + knowledge.importance;
-                            let circleColor = 'steelblue'
-                            if (knowledge.level >= 1 && knowledge.level <= 8) {
-                                circleColor = levelcolor[knowledge.level - 1]
+                        
+                        if (hoveredMilestones.length!=0) {
+                            // 创建tooltip组
+                            var tooltipOffsetX = event.pageX - 1170 //数字越大，越靠右
+                            var tooltipOffsetY = event.pageY - 850 //数字越大，越靠下
+                            console.log(tooltipOffsetX, tooltipOffsetY)
+                            if (tooltipOffsetX > 590) {
+                                tooltipOffsetX = tooltipOffsetX - 300
                             }
-                            tooltipGroup.append('circle')
-                                .attr('cx', 10) // 小圆形的初始x位置
-                                .attr('cy', index * 20 + 10) // 假设每个项的垂直间距是20，加10为顶部留白
-                                .attr('r', radius) // 小圆形半径
-                                .style('fill', circleColor)
-                                .style('opacity', 0.5);
+                            if (tooltipOffsetY > 500) {
+                                tooltipOffsetY = tooltipOffsetY - 300
+                            }
+                            var tooltipGroup = svg.append('g')
+                                .attr('class', 'tooltip-group')
+                                .attr('transform', `translate(${tooltipOffsetX}, ${tooltipOffsetY})`);
 
-                            // 添加文本解释
-                            var textElement = tooltipGroup.append('text')
-                                .attr('x', 20) // 文本相对于小圆形的水平偏移
-                                .attr('y', index * 20 + 10) // 与对应小圆形垂直对齐，加10为顶部留白
-                                .attr('dominant-baseline', 'middle') // 确保文本垂直居中
-                                .attr('font-size', '13px')
-                                .text(knowledge.knowledge);
+                            // 首先，为了确保背景矩形位于其他元素之下，我们先添加它，但实际的尺寸稍后设置
+                            var tooltipBackground = tooltipGroup.append('rect')
+                                .style('fill', '#7e7d7f') // 设置灰色背景
+                                .attr('rx', 5) // 圆角
+                                .attr('ry', 5) // 圆角
+                                .attr('width', 200) // 预设宽度，稍后根据内容调整
+                                .attr('height', hoveredMilestones.length * 20 + 10) // 预设高度，根据项数动态调整
+                                .attr('opacity', 0.1); // 可选：设置透明度以提高视觉效果
 
-                            // 获取并更新最大文本宽度
-                            var textWidth = textElement.node().getComputedTextLength();
-                            maxTextWidth = Math.max(maxTextWidth, textWidth);
-                        });
+                            // 初始化文本宽度的变量，用于动态计算背景宽度
+                            var maxTextWidth = 0;
 
-                        // 根据最大文本宽度动态调整背景矩形的宽度
-                        tooltipBackground.attr('width', maxTextWidth + 30); // 加30为文本左侧和右侧留白
+                            // 对于每个subKnowledge，添加一个小圆形和文本
+                            hoveredMilestones.forEach((knowledge, index) => {
+                                // 添加小圆形
+                                let radius = 2 + knowledge.importance;
+                                let circleColor = 'steelblue'
+                                if (knowledge.level >= 1 && knowledge.level <= 8) {
+                                    circleColor = levelcolor[knowledge.level - 1]
+                                }
+                                tooltipGroup.append('circle')
+                                    .attr('cx', 10) // 小圆形的初始x位置
+                                    .attr('cy', index * 20 + 10) // 假设每个项的垂直间距是20，加10为顶部留白
+                                    .attr('r', radius) // 小圆形半径
+                                    .style('fill', circleColor)
+                                    .style('opacity', 0.5);
+
+                                // 添加文本解释
+                                var textElement = tooltipGroup.append('text')
+                                    .attr('x', 20) // 文本相对于小圆形的水平偏移
+                                    .attr('y', index * 20 + 10) // 与对应小圆形垂直对齐，加10为顶部留白
+                                    .attr('dominant-baseline', 'middle') // 确保文本垂直居中
+                                    .attr('font-size', '13px')
+                                    .text(knowledge.knowledge);
+
+                                // 获取并更新最大文本宽度
+                                var textWidth = textElement.node().getComputedTextLength();
+                                maxTextWidth = Math.max(maxTextWidth, textWidth);
+                            });
+
+                            // 根据最大文本宽度动态调整背景矩形的宽度
+                            tooltipBackground.attr('width', maxTextWidth + 30); // 加30为文本左侧和右侧留白
+                        }
+
 
                     })
                     .on('mouseout', function (event, d) {
@@ -412,6 +415,9 @@ export default {
             let { x, y } = position;
             const circleSpacingBase = 10; // 圆圈之间的间距
             const circleRadiusBase = 2; // 基础半径大小
+
+
+
             // 只用展示一行knowledge points
             if (maxNum >= subKnowledge.length) {
                 subKnowledge.forEach((knowledge, index) => {
@@ -424,7 +430,82 @@ export default {
                         .attr('cx', x + (index * (2 * circleRadiusBase + circleSpacingBase))) // 计算每个圆圈的x位置
                         .attr('cy', y) // y位置保持不变
                         .attr('r', radius) // 设置圆圈半径
-                        .style('fill', circleColor); // 设置填充颜色，你可以根据需要调整
+                        .style('fill', circleColor)
+                    // .on('click', function () { // 添加点击事件
+                    //     // 计算tooltip和线的位置
+                    //     let tooltipOffset = 20
+                    //     let tooltipHeight = 50
+                    //     let tooltipWidth = 100
+                    //     let lineStartX = x + (index * (2 * circleRadiusBase + circleSpacingBase));
+                    //     let lineStartY = y;
+                    //     let lineEndX = lineStartX + tooltipOffset;
+                    //     let lineEndY = lineStartY - tooltipOffset;
+
+
+                    //     // 文本拆分和自适应高度的函数
+                    //     function wrapText(text, width) {
+                    //         let words = text.split(/\s+/).reverse(),
+                    //             word,
+                    //             line = [],
+                    //             lineNumber = 0,
+                    //             lineHeight = 1.1, // ems
+                    //             x = lineEndX + 5,
+                    //             y = lineEndY - tooltipHeight,
+                    //             dy = 0,
+                    //             tspan = svg.append('text').attr('x', x).attr('y', y).attr('dy', dy + 'em').style('fill', 'black').attr('alignment-baseline', 'middle');
+
+                    //         while (word = words.pop()) {
+                    //             line.push(word);
+                    //             tspan.text(line.join(' '));
+                    //             if (tspan.node().getComputedTextLength() > width) {
+                    //                 line.pop();
+                    //                 tspan.text(line.join(' '));
+                    //                 line = [word];
+                    //                 tspan = svg.append('text').attr('x', x).attr('y', y).attr('dy', ++lineNumber * lineHeight + 'em').text(word).style('fill', 'black').attr('alignment-baseline', 'middle');
+                    //             }
+                    //         }
+                    //         return lineNumber + 1; // 返回总行数
+                    //     }
+
+                    //     // 绘制线段
+                    //     svg.append('line')
+                    //         .attr('x1', lineStartX)
+                    //         .attr('y1', lineStartY)
+                    //         .attr('x2', lineEndX)
+                    //         .attr('y2', lineEndY)
+                    //         .attr('stroke', 'black')
+                    //         .style('stroke-width', 1);
+
+                    //     // 绘制tooltip方块
+                    //     svg.append('rect')
+                    //         .attr('x', lineEndX)
+                    //         .attr('y', lineEndY - tooltipHeight)
+                    //         .attr('width', tooltipWidth)
+                    //         .attr('height', tooltipHeight)
+                    //         .style('fill', 'white')
+                    //         .style('stroke', 'black');
+
+                    //     // 在tooltip方块中添加文本
+                    //     svg.append('text')
+                    //         .attr('x', lineEndX + 5)
+                    //         .attr('y', lineEndY - tooltipHeight / 2)
+                    //         .text(knowledge.content)
+                    //         .style('fill', 'black')
+                    //         .attr('alignment-baseline', 'middle');
+
+                    //     let lineCount = wrapText(knowledge.content, tooltipWidth - 10); // 减去一些padding
+                    //     tooltipHeight = lineCount * 20; // 假设每行20像素高，这个值可以根据实际字体大小调整
+
+                    //     // 重新绘制tooltip方块以匹配新的高度
+                    //     svg.select('rect').remove(); // 移除旧的方块
+                    //     svg.append('rect')
+                    //         .attr('x', lineEndX)
+                    //         .attr('y', lineEndY - tooltipHeight)
+                    //         .attr('width', tooltipWidth)
+                    //         .attr('height', tooltipHeight)
+                    //         .style('fill', 'white')
+                    //         .style('stroke', 'black');
+                    // });
                 })
             }
             // 展示多行knowledge points
@@ -452,6 +533,11 @@ export default {
                         .style('fill', circleColor);
                 });
             }
+        },
+
+        // 清空所有learning path数据
+        resetAction() {
+            this.$emit('resetLearningPathData', [])
         },
 
 

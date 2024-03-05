@@ -33,6 +33,9 @@
             <a-button @click="rollbackAction" style="height:25px;line-height: normal; vertical-align: middle;">
                 <RollbackOutlined />Rollback
             </a-button>
+            <a-button @click="submitAction" style="height:25px;line-height: normal; vertical-align: middle;">
+                <CheckOutlined />Submit
+            </a-button>
             <DownloadOutlined id="download-icon" class="download-icon" @click="handleDownload" />
         </a-config-provider>
     </div>
@@ -94,6 +97,19 @@
                         <a-select-option value="L8">L8-Extended Knowledge</a-select-option>
                     </a-select>
                 </a-form-item>
+                <a-form-item label="Important Degree" name="size">
+                    <a-select v-model:value="formData.size" placeholder="Please select...">
+                        <a-select-option value="very important">very important</a-select-option>
+                        <a-select-option value="important">important</a-select-option>
+                        <a-select-option value="moderate">moderate</a-select-option>
+                        <a-select-option value="ordinary">ordinary</a-select-option>
+                        <a-select-option value="very ordinary">very ordinary</a-select-option>
+                    </a-select>
+                </a-form-item>
+                <a-form-item label="Learning Path Starting" name="progress">
+                    <!-- <a-slider v-model="formData.start" min="0" max="1" step="0.01" /> -->
+                    <a-input-number v-model:value="formData.start" min="0" max="1" step="0.1" />
+                </a-form-item>
             </a-form>
         </a-modal>
     </a-config-provider>
@@ -120,7 +136,8 @@ import {
     DownloadOutlined,
     UndoOutlined,
     RedoOutlined,
-    RollbackOutlined
+    RollbackOutlined,
+    CheckOutlined
 } from "@ant-design/icons-vue";
 import {
     Form,
@@ -129,9 +146,10 @@ import {
     Select,
     Button,
     ConfigProvider,
-    theme
+    theme,
+    Slider,
 } from 'ant-design-vue';
-
+import AInputNumber from 'ant-design-vue/lib/input-number';
 import "cytoscape-navigator/cytoscape.js-navigator.css";
 import 'quill/dist/quill.snow.css';
 
@@ -154,6 +172,8 @@ export default {
         UndoOutlined,
         RedoOutlined,
         RollbackOutlined,
+        CheckOutlined,
+        AInputNumber,
         'a-form': Form,
         'a-form-item': Form.Item,
         'a-select': Select,
@@ -161,7 +181,8 @@ export default {
         'a-input': Input,
         'a-modal': Modal,
         'a-button': Button,
-        'a-config-provider': ConfigProvider
+        'a-config-provider': ConfigProvider,
+        'a-slider': Slider,
     },
     setup() {
         // 修改ant-design默认配色
@@ -184,9 +205,11 @@ export default {
                 label: '',
                 size: '',
                 level: '',
-                relation: ''
+                relation: '',
+                start: 0
             },
             selectedNodes: null,
+            milestonesByUser: [],
             chartLayout: '',
             layoutOptionDict: {
                 euler: {
@@ -258,6 +281,13 @@ export default {
                 "#4C5874",
                 "#776B9F"
             ],
+            formDataSize: {
+                'very important': 5,
+                'important': 4,
+                'moderate': 3,
+                'ordinary': 2,
+                'very ordinary': 1
+            },
             historyStack: [],
         };
     },
@@ -298,14 +328,14 @@ export default {
         this.dragElement(document.getElementById("main-legend"))
 
     },
-    emits: ['click', 'generateWordCloud', 'getQuestionRmd'],
+    emits: ['click', 'generateWordCloud', 'getQuestionRmd', 'getLearningPathDataByUser'],
     methods: {
         // 绘制网络图
         drawMindmap() {
             d3.selectAll("#mindmap-area svg").remove();
 
             console.log("mindmap数据：", this.mindMapData)
-            const elements = this.transformData(this.mindMapData);
+            const elements = this.transformData(this.mindMapData); 
             // 初始化
             const cy = cytoscape({
                 container: this.$refs.MainMindmap,
@@ -352,36 +382,6 @@ export default {
                             'font-size': 8,
                         }
                     },
-                    //{
-                    //    selector: '.has-notes',
-                    //    style: {
-                    //        'border-width': 3,
-                    //        'border-color': (ele) => {
-                    //            var backgroundColor=ele.style('background-color')
-                    //            // 笔记提交生成词云之后进行level修改
-                    //            if (ele.hasClass('.selected')) {
-                    //                console.log("笔记提交生成词云之后进行level修改")
-                    //                return this.learningLevelColor[this.formData.level]
-
-                    //            }
-                    //            else if (ele.data('level') < 0){
-                    //                return "#eee1c7"
-                    //            }
-
-                    //            // 笔记提交生成词云之前就修改过level
-                    //            else
-                    //            {
-                    //                console.log("根据背景对应修改border")
-                    //                return backgroundColor
-
-                    //            }
-                    //            //if (ele.data('level') < 0) return "#eee1c7"
-                    //            //else return levelcolor[ele.data('level')]
-                    //            //ele.style('background-color')
-                    //        },
-                    //        'background-color':'white'
-                    //    }
-                    //}
                 ],
                 layout: {
                     name: 'cose',
@@ -620,14 +620,7 @@ export default {
         handleNodeSubmit() {
             const pos = this.modalPos;
             const cy = this.cyInstance;
-            let formDataSize = {
-                'very important': 5,
-                'important': 4,
-                'moderate': 3,
-                'ordinary': 2,
-                'very ordinary': 1
-            };
-            const nodeSize = formDataSize[this.formData.size]
+            const nodeSize = this.formDataSize[this.formData.size]
             const nodeColor = this.learningLevelColor[this.formData.level]
             const nodeLabel = this.formData.label
             const doFunc = () => {
@@ -740,20 +733,49 @@ export default {
         handleLevelSubmit() {
             const selectNode = this.selectedNodes
             const oldNodeColor = selectNode.style('background-color')
+            const oldNodeSize = [selectNode.style('height'), selectNode.style('width')]
+            console.log(oldNodeSize)
             const nodeColor = this.learningLevelColor[this.formData.level]
+            const nodeLevel = parseInt(this.formData.level.match(/\d+/)[0])
+            const nodeStart = this.formData.start
+            const nodeImportance = this.formDataSize[this.formData.size]
+            const newMilestone = {
+                "start": nodeStart,
+                "level": nodeLevel,
+                "milestone": selectNode.id(),
+                "importance": nodeImportance,
+                "subknowledge": []
+            }
+            // 查找具有相同milestone值的对象在数组中的索引
+            const index = this.milestonesByUser.findIndex(m => m.milestone === newMilestone.milestone);
+
+            if (index !== -1) {
+                // 如果找到了具有相同milestone的对象，就替换这个对象
+                this.milestonesByUser[index] = newMilestone;
+            } else {
+                // 如果没有找到，就添加新的对象到数组
+                this.milestonesByUser.push(newMilestone);
+            }
 
             // 定义一个redo undo更改颜色的函数
             const doFunc = () => {
                 selectNode.style('background-color', nodeColor);
+                selectNode.style('height', nodeImportance*5);
+                selectNode.style('width', nodeImportance*5);
+
             };
             const undoFunc = () => {
                 selectNode.style('background-color', oldNodeColor);
+                selectNode.style('height', oldNodeSize[0]);
+                selectNode.style('width', oldNodeSize[1]);
             };
             const customAction = this.ur.action("change-node-color", doFunc, undoFunc);
             // 存储action到堆栈中
             this.ur.do("change-node-color", customAction);
 
             this.formData.level = '';
+            this.formData.start = 0;
+            this.formData.start='',
             this.selectedNodes = null;
             this.selectLevelVisible = false;
         },
@@ -995,6 +1017,12 @@ export default {
             console.log(this.ur.actions)
             this.ur.undoAll();
         },
+        submitAction() {
+            if (this.milestonesByUser) {
+                this.$emit('getLearningPathDataByUser', this.milestonesByUser)
+            }
+
+        },
 
 
 
@@ -1055,7 +1083,7 @@ export default {
 #main-legend {
     position: absolute;
     width: 150px;
-    top: 80px;
+    top: 110px;
     right: 850px;
     /* 数字越大 越靠左*/
     background: rgba(238, 238, 238, 0.439);
@@ -1127,7 +1155,7 @@ export default {
 
 .toolbar-container {
     position: absolute;
-    top: 75px;
+    top: 80px;
     right: 330px;
     display: flex;
     gap: 8px;

@@ -18,21 +18,9 @@
           </div>
           <div class="module-component">
             <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" :getFileStatus="getFileStatus"
-              @changeMindmapToDefault="onChangeMindmapToDefault" />
+              @changeMindmapToDefault="onChangeMindmapToDefault" @submitChatHistory="onSubmitChatHistory"/>
           </div>
         </div>
-        <!-- 文件上传 -->
-        <!--<div id="upload-file-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Upload.png" alt="Icon" class="icon" />
-            UPLOAD FILE
-          </div>
-          <div class="module-component">
-            <uploadFile @getFileContent="onGetFileContent"/>
-          </div>
-        </div>-->
-
-
       </div>
 
       <!-- 文件预览+问题推荐 -->
@@ -72,7 +60,7 @@
           <div class="module-component">
             <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud'
               :wordCloudData='wordCloudData' :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'
-              :rmdMindmapOrNot='rmdMindmapOrNot' />
+              :rmdMindmapOrNot='rmdMindmapOrNot' @getLearningPathDataByUser='onGetLearningPathDataByUser'/>
             <noteEditor style="flex: 2;" />
           </div>
         </div>
@@ -84,42 +72,9 @@
             LEARNING PATH
           </div>
           <div class="module-component">
-            <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot" />
+            <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot" @resetLearningPathData="onResetLearningPathData"/>
           </div>
         </div>
-
-        <!-- 编辑笔记 -->
-        <!--<div id="edit-notes-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Note.png" alt="Icon" class="icon" />
-            EDIT NOTES
-          </div>
-          <div class="module-component">
-
-          </div>
-        </div>-->
-
-        <!-- 自测 -->
-        <!--<div id="self-examination-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Exam.png" alt="Icon" class="icon" />
-            SELF EXAMINATION
-          </div>
-          <div class="module-component">
-
-          </div>
-        </div>-->
-
-        <!-- 反馈 -->
-        <!--<div id="feedback-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Feedback.png" alt="Icon" class="icon" />
-            FEEDBACK
-          </div>
-          <div class="module-component">
-
-          </div>
-        </div>-->
 
       </div>
 
@@ -161,6 +116,7 @@ export default {
       rmdMindmapOrNot: true,
       questionRmdData: [],
       learningPathData: [],
+      submitChatData:[],
 
     }
   },
@@ -230,7 +186,24 @@ export default {
       });
       this.rmdMindmapOrNot = false
       this.mindMapData = recommendedMindmapData
-    }
+    },
+
+    // 用户重新定义learning path + mindmap数据为default
+    onResetLearningPathData(data){
+      this.learningPathData=data
+      this.onChangeMindmapToDefault()
+    },
+
+    // 获取用户重新定义的learning path数据
+    onGetLearningPathDataByUser(data){
+      this.learningPathData=data
+    },
+
+    // 进入reflection之前对聊天数据进行保存
+    onSubmitChatHistory(data){
+      this.submitChatData=data
+      console.log(this.submitChatData)
+    },
   },
 
 }
@@ -257,7 +230,7 @@ export default {
 }
 
 .system-introduction {
-  color: #A8B0C3;
+  color: #c5d0ea;
   font-size: 15px;
   padding-left: 10px;
   padding-top: 4px;

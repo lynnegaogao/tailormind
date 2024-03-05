@@ -75,12 +75,12 @@ export default {
         this.setupRequestInterceptor();
         this.setupResponseInterceptor()
     },
-    emits: ['getFileData','changeMindmapToDefault'],
+    emits: ['getFileData', 'changeMindmapToDefault','submitChatHistory'],
     methods: {
         // 初始化
         initializeChat() {
             this.introMessage = {
-                text: "Hi! I am your **AI Self-Regulated Learning (SRL)** assistant of Tailor-Mind~",
+                text: "Hi! I am your **AI Self-Regulated Learning (SRL)** assistant of Tailor-Mind~🤩",
             };
             this.initialMessages = [
                 {
@@ -122,9 +122,7 @@ export default {
             }
         },
         handleNewMessage(message) {
-            // console.log("新消息: ", message);
             this.historyMessages.push(message)
-            // console.log(this.historyMessages)
         },
 
         // request拦截器
@@ -134,13 +132,21 @@ export default {
             var historyMessages = this.historyMessages
             chatElementRef.requestInterceptor = (requestDetails) => {
                 // 拦截是否接受推荐mindmap的请求
-                if (historyMessages[historyMessages.length - 2]&&historyMessages[historyMessages.length - 2].message.text == "Will you take the **Mindmap View** recommended by Tailor-Mind and make the next step in the **Learning Path View**?") {
+                if (historyMessages[historyMessages.length - 2] && historyMessages[historyMessages.length - 2].message.text == "🤲Will you take the **Mindmap View** recommended by Tailor-Mind and make the next step in the **Learning Path View**?") {
                     if (historyMessages[historyMessages.length - 1].message.text == 'Yes') {
                         requestDetails.body.messages[0].text = 'keep mindmap data'
-                        // console.log(historyMessages[historyMessages.length - 2])
                     }
                     else if (historyMessages[historyMessages.length - 1].message.text == 'No') {
                         requestDetails.body.messages[0].text = 'change mindmap data to default'
+                    }
+                }
+                // 拦截是否结束学习，进入reflection阶段
+                if (historyMessages[historyMessages.length - 2] && historyMessages[historyMessages.length - 2].message.text == "👻Will you finish your learning? \nAnd be ready to start the **Reflection** phase?🤩") {
+                    if (historyMessages[historyMessages.length - 1].message.text == 'Yes') {
+                        requestDetails.body.messages[0].text = 'start reflection phase'
+                    }
+                    else if (historyMessages[historyMessages.length - 1].message.text == 'No') {
+                        requestDetails.body.messages[0].text = 'continue learning'
                     }
                 }
                 return requestDetails
@@ -168,14 +174,19 @@ export default {
                 if (response['file']) {
                     // console.log('file-structure:',response['filestructure'])
                     // console.log('file:',response['file'])
-                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary'], response['mindmap'],response['questionrmd'],response['learningpath']])
+                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary'], response['mindmap'], response['questionrmd'], response['learningpath']])
                     // console.log({ 'text': response['chatdata']['text'], 'text': response['filesummary'] })
                     return { 'text': response['chatdata']['text'], 'text': response['filesummary'] }
                 }
 
-                if(response['chatdata']&&response['chatdata']['text']=='Changing the Mindmap View to default...'){
-                    console.log('changeMindmapToDefault')
+                if (response['chatdata'] && response['chatdata']['text'] == '🎈Changing the Mindmap View to default...') {
+                    console.log('change mindmap to default')
                     this.$emit('changeMindmapToDefault')
+                }
+
+                if(response['chatdata'] && response['chatdata']['text'] =="🥳Let's move on to the self-reflection~"){
+                    console.log('submit history messages')
+                    this.$emit('submitChatHistory',this.historyMessages)
                 }
                 return response['chatdata']
             }
@@ -185,7 +196,7 @@ export default {
         // interact with mindmap：对知识点进行问题推荐
         setupUserRequestQuestionRmd() {
             const chatElementRef = this.$refs.chatElementRef;
-            chatElementRef.submitUserMessage({ 'text': `Recommend some questions about **${this.nodeToQuestionRmd}** for learning.` });
+            chatElementRef.submitUserMessage({ 'text': `Recommend some questions about **${this.nodeToQuestionRmd}** for learning.👀` });
 
         },
 

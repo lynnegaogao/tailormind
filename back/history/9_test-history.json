@@ -1,0 +1,128 @@
+[
+    {
+        "message": {
+            "role": "ai",
+            "text": "What is the purpose of the ReLU activation function?"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "B. To prevent the loss function from becoming unbounded"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "ai",
+            "text": "What is the purpose of using gradient descent?"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "D. All of the above"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "ai",
+            "text": "What is the purpose of data augmentation?"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "A. To reduce the size of the dataset"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "ai",
+            "text": "What is the purpose of dropout?"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "C. Prevent overfitting"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "ai",
+            "text": "Convolutional Networks are used for image recognition tasks."
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "True"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "ai",
+            "text": "Convolutional Networks can be used to detect objects in images."
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "True"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "ai",
+            "text": "Gradient-Based Learning is a method of machine learning that uses the gradient of the loss function to update the weights and biases of the model."
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "True"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "ai",
+            "text": "Data augmentation is an effective method for improving the performance of machine learning models by creating new training data from existing data."
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "True"
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "ai",
+            "text": "Dropout is an artificial intelligence technique used in neural networks to prevent overfitting and improve generalization performance."
+        },
+        "isInitial": false
+    },
+    {
+        "message": {
+            "role": "user",
+            "text": "True"
+        },
+        "isInitial": false
+    }
+]

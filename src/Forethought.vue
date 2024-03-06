@@ -25,71 +25,103 @@
         </div>
       </div>
 
-      <!-- 文件预览+问题推荐 -->
+
       <div id="column-2" class="column">
-        <!-- 文件预览 -->
-        <div id="file-preview-view" class="module-block" style="position: relative;">
-          <div class="module-header" v-if="!isReflection">
-            <img src="./assets/Documents.png" alt="Icon" class="icon" />
-            FILE PREVIEW
-            <Switch :checked="isReflectionShow" @change="toggleView"
-              style="float: right; position: absolute; top:8px;right:10px" size="small" />
+
+        <!-- 文件预览+知识点思维导图 -->
+        <div id="row-1" class="row">
+          <!-- 文件预览 -->
+          <div id="file-preview-view" class="module-block" style="position: relative;">
+            <div class="module-header" v-if="!isReflection">
+              <img src="./assets/Documents.png" alt="Icon" class="icon" />
+              FILE PREVIEW
+              <Switch :checked="isReflectionShow" @change="toggleView"
+                style="float: right; position: absolute; top:8px;right:10px" size="small" />
+            </div>
+            <div class="module-header" v-else>
+              <img src="./assets/Note.png" alt="Icon" class="icon" />
+              NOTES
+              <Switch :checked="isReflectionShow" @change="toggleView"
+                style="float: right; position: absolute; top:8px;right:10px" size="small" />
+            </div>
+            <div class="module-component">
+              <filePreview v-if="!isReflectionShow" :fileStructureData="fileStructureData" :fileData="fileData"
+                :pdfUrl="pdfUrl" :cardData="cardData" />
+              <markdownRenderer v-else style="padding:10px" :markdownData="markdownData" />
+            </div>
           </div>
-          <div class="module-header" v-else>
-            <img src="./assets/Note.png" alt="Icon" class="icon" />
-            NOTES
-            <Switch :checked="isReflectionShow" @change="toggleView"
-              style="float: right; position: absolute; top:8px;right:10px" size="small" />
-          </div>
-          <div class="module-component">
-            <filePreview v-if="!isReflectionShow" :fileStructureData="fileStructureData" :fileData="fileData"
-              :pdfUrl="pdfUrl" :cardData="cardData" />
-            <markdownRenderer v-else style="padding:10px" :markdownData="markdownData" />
+
+          <!-- 知识点思维导图 -->
+          <div id="knowledge-mindmap-view" class="module-block">
+            <div class="module-header">
+              <img src="./assets/Mindmap.png" alt="Icon" class="icon" />
+              KNOWLEDGE MINDMAP
+            </div>
+            <div class="module-component">
+              <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud'
+                :wordCloudData='wordCloudData' :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'
+                :rmdMindmapOrNot='rmdMindmapOrNot' @getLearningPathDataByUser='onGetLearningPathDataByUser' />
+              <noteEditor style="flex: 2;" />
+            </div>
           </div>
         </div>
 
-        <!-- 问题推荐 -->
-        <div id="question-recommendation-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Recommendation.png" alt="Icon" class="icon" />
-            QUESTION RECOMMENDATION
-          </div>
-          <div class="module-component">
-            <questionRmd :questionRmdData="questionRmdData" />
-          </div>
-        </div>
+        <!-- 问题推荐+学习路径 -->
+        <div id="row-2" class="row">
+          <template v-if="!isPathContrast">
+            <!-- 问题推荐 -->
+            <div id="question-recommendation-view" class="module-block">
+              <div class="module-header">
+                <img src="./assets/Recommendation.png" alt="Icon" class="icon" />
+                QUESTION RECOMMENDATION
+              </div>
+              <div class="module-component">
+                <questionRmd :questionRmdData="questionRmdData" />
+              </div>
+            </div>
 
+            <!-- 学习路径 -->
+            <div id="learning-path-view" class="module-block">
+              <div class="module-header">
+                <img src="./assets/Learningpath.png" alt="Icon" class="icon" />
+                LEARNING PATH
+              </div>
+              <div class="module-component">
+                <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
+                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast"/>
+              </div>
+            </div>
+          </template>
+
+          <template v-else>
+            <!-- 第一个学习路径组件，flex为1 -->
+            <div id="learning-path-before" class="module-block" style="flex: 1;">
+              <div class="module-header">
+                <img src="./assets/Learningpath.png" alt="Icon" class="icon" />
+                LEARNING PATH -- BEFORE
+              </div>
+              <div class="module-component" >
+                <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
+                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast"/>
+              </div>
+            </div>
+
+            <div id="learning-path-after" class="module-block" style="flex: 1;">
+              <div class="module-header">
+                <img src="./assets/Learningpath.png" alt="Icon" class="icon" />
+                LEARNING PATH -- AFTER
+              </div>
+              <div class="module-component" >
+                <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
+                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast"/>
+              </div>
+            </div>
+
+          </template>
+
+        </div>
       </div>
 
-      <!-- 知识点思维导图+学习路径 -->
-      <div id="column-3" class="column">
-        <!-- 知识点思维导图 -->
-        <div id="knowledge-mindmap-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Mindmap.png" alt="Icon" class="icon" />
-            KNOWLEDGE MINDMAP
-          </div>
-          <div class="module-component">
-            <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud'
-              :wordCloudData='wordCloudData' :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'
-              :rmdMindmapOrNot='rmdMindmapOrNot' @getLearningPathDataByUser='onGetLearningPathDataByUser' />
-            <noteEditor style="flex: 2;" />
-          </div>
-        </div>
-
-        <!-- 学习路径 -->
-        <div id="learning-path-view" class="module-block">
-          <div class="module-header">
-            <img src="./assets/Learningpath.png" alt="Icon" class="icon" />
-            LEARNING PATH
-          </div>
-          <div class="module-component">
-            <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
-              @resetLearningPathData="onResetLearningPathData" />
-          </div>
-        </div>
-
-      </div>
 
     </div>
 
@@ -140,6 +172,7 @@ export default {
       isReflectionShow: false,
       markdownData: "",
       testingQuestionList: [],
+      isPathContrast: true,
     }
   },
   mounted() {
@@ -254,6 +287,7 @@ export default {
     // 切换file-preview & notes
     toggleView(checked) {
       this.isReflectionShow = checked;
+      this.isReflection = checked
 
     },
 
@@ -262,7 +296,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 #container {
   display: flex;
   flex-direction: column;
@@ -350,12 +384,15 @@ export default {
   flex: 2;
   height: 100%;
   width: 100%;
+
 }
 
 #column-2 {
-  flex: 2.5;
+  flex: 6.5;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 #column-3 {
@@ -364,9 +401,35 @@ export default {
   width: 100%;
 }
 
+#row-1 {
+  flex: 7;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: row;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  margin-bottom: 5px;
+  margin-right: 3px;
+  max-height: 760px;
+
+}
+
+#row-2 {
+  flex: 4;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: row;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
+  background-color: #fff;
+  margin-bottom: 5px;
+  margin-right: 3px;
+}
+
 
 #file-preview-view {
-  flex: 7;
+  flex: 4;
   /* max-height: 700px; */
 }
 
@@ -377,7 +440,7 @@ export default {
 }
 
 #learning-path-view {
-  flex: 4;
+  flex: 7;
 }
 
 #question-recommendation-view {
@@ -385,6 +448,14 @@ export default {
 }
 
 #chat-view {
+  flex: 1;
+}
+
+#learning-path-before{
+  flex: 1;
+}
+
+#learning-path-after{
   flex: 1;
 }
 </style>

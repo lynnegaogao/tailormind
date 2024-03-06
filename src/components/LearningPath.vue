@@ -73,7 +73,11 @@ export default {
         rmdMindmapOrNot: {
             type: Boolean,
             default: true,
-        }
+        },
+        isPathContrast: {
+            type: Boolean,
+            default: false,
+        },
 
     },
     watch: {
@@ -90,7 +94,6 @@ export default {
 
             }
         },
-
         rmdMindmapOrNot(newValue, oldValue) {
             console.log(newValue, oldValue)
             if (!newValue) {
@@ -101,6 +104,15 @@ export default {
 
         },
         isReflection(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            if (newValue) {
+                this.$nextTick(() => {
+                    this.drawLearningPath(this.learningPathData);
+                })
+            }
+
+        },
+        isPathContrast(newValue, oldValue) {
             console.log(newValue, oldValue)
             if (newValue) {
                 this.$nextTick(() => {
@@ -122,7 +134,7 @@ export default {
             d3.selectAll("#learningpath-area svg").remove();
             console.log("learning path数据：",learningPathData)
             // 预设参数
-            const width = 1000;
+            const width = this.isPathContrast?800:1000
             const height = 390;
             const offsetX = 20;
             const offsetY = 10;

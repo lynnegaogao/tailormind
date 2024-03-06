@@ -241,11 +241,15 @@ class Custom:
                 }
             # 生成feedback
             elif body=='test finished':  
-                  
-                response={"text":'🤩',}
-                   
-       
-     
+                if historical:
+                    with open('E:/Vis24-TailorMind/tailormind/back/history/10-feedback.md','r',encoding='utf-8') as file:
+                        feedback=file.read()
+                else:
+                    test_content=request.json['history']
+                    feedback=self.get_feedback(json.dumps(test_content))
+                response={"text":feedback}
+    
+
             # 其他正常问答
             else:
                 response=minderllm.generate(query=body)
@@ -631,6 +635,57 @@ class Custom:
         
         return ai_output_json
     
+    def get_feedback(self,content):
+        prompt = """
+        The answers are analysed on the basis of the chat transcripts provided for the user-answered self-tests.
+        Please start by giving a summary of the accuracy of the answers, as well as the overall knowledge gained.
+        Then analyse each question for correct or incorrect answers. All require an explanation of the reason for the answer.
+        Return in the form of String.
+        """
+
+        user_input=prompt+content
+
+        OPENAI_API_KEY="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"
+        client = OpenAI(api_key=OPENAI_API_KEY)
+
+        assistant = client.beta.assistants.create(
+                    name="Education Specialist",
+                    instructions="You are an educational expert who specializes in tutoring beginners in self-study, deleting processed data while giving beginners advice on how to learn. If you cannot parse the required Json output, you can give an empty structure that contains only keys.",
+                    tools=[{"type": "code_interpreter"}],
+                    model="gpt-4-0125-preview"
+                )
+
+        thread = client.beta.threads.create()
+
+        # 创建消息
+        message = client.beta.threads.messages.create(
+                        thread_id=thread.id,
+                        role="user",
+                        content=user_input
+                    )
+
+                    # 4. run thread
+                    # Thread 默认不会运行，需要创建一个 Run 任务来执行 Thread。
+        run = client.beta.threads.runs.create(
+                        thread_id=thread.id,
+                        assistant_id=assistant.id,
+                    )
+
+                    # 等待运行任务完成
+                    # Thread 是异步执行的，需要轮询检查是否执行完成。
+                    # Thread 执行时会上锁，在执行完成前不可以再添加 message 或者提交新的 Run 任务。
+        while True:
+            run = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+            if run.status not in ["queued", "in_progress"]:
+                break
+        time.sleep(1)
+
+                    # 获取 AI 输出结果
+        messages = client.beta.threads.messages.list(thread_id=thread.id)
+                    # 从消息中取出 AI 输出的 JSON 字符串
+        ai_output = messages.data[0].content[0].text.value
+        return ai_output
+    
     def convert_rmdText_to_html(self, response):
         questions = response['text'].split('\n')
         html_str = '<div class="deep-chat-temporary-message">'
@@ -650,4 +705,3 @@ class Custom:
            
         return  {"text": text, "html": options_formatted}
     
-    # def convert_judgements_to_html(self,response):

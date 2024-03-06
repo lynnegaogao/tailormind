@@ -6,14 +6,14 @@ from flask_cors import CORS
 from flask import Flask,request
 from requests.exceptions import ConnectionError
 from services.custom import Custom
-from services.openAI import OpenAI
+from openai import OpenAI
+import json,re,time
 from services.sft import MinderLLM
 from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 import jieba
 from collections import Counter
-import re
 import subprocess
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer,GenerationConfig
@@ -89,20 +89,20 @@ def files():
 
 # ------------------ OPENAI API ------------------
 
-open_ai = OpenAI()
+# open_ai = OpenAI()
 
-@app.route("/openai-chat", methods=["POST"])
-def openai_chat():
-    body = request.json
-    return open_ai.chat(body)
+# @app.route("/openai-chat", methods=["POST"])
+# def openai_chat():
+#     body = request.json
+#     return open_ai.chat(body)
 
-@app.route("/openai-chat-stream", methods=["POST"])
-def openai_chat_stream():
-    body = request.json
-    return open_ai.chat_stream(body)
+# @app.route("/openai-chat-stream", methods=["POST"])
+# def openai_chat_stream():
+#     body = request.json
+#     return open_ai.chat_stream(body)
 
-@app.route("/openai-image", methods=["POST"])
-def openai_image():
+# @app.route("/openai-image", methods=["POST"])
+# def openai_image():
     files = request.files.getlist("files")
     return open_ai.image_variation(files)
 
@@ -110,28 +110,72 @@ def openai_image():
 
     
 # minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
+historical=True
+# historical=False
+@app.route('/get-customziednotedata', methods=["POST"])
+def sft_chat():
+    if historical:
+        with open('./history/8-markdown.md', 'r', encoding='utf-8') as file:
+                content = file.read()
+        return [content]
+    else:
+        data = request.json
+        content=json.dumps(data.get('submitChatData', ''))
+        print(content)
+        
+        prompt = """
+        Please generate summarised and structured notes in markdown form based on multiple rounds of dialogue chats.
+        Please ignore the content about Self-Regulated Learning(SRL) and guided dialogues. 
+        Only process chat content related to deep learning or AI knowledge points.
+        Generate rich markdown forms, such as tables, etc., where possible, and add underlining if there are key statements that need to be highlighted.
+        Only return markdown data, the format is as follows: 
+        ```markdown 
+        ```
+        """
+        user_input=prompt+content
+        OPENAI_API_KEY="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"
+        client = OpenAI(api_key=OPENAI_API_KEY)
 
-# @app.route('/sft-chat', methods=["POST"])
-# def sft_chat():
-#     files = request.files.getlist("files")
-#     body = request.json["messages"][0]['text']
-#     print('文件信息:',files)
-#     if files:
-#         print("Files:")
-#         for file in files:
-#             print(file.filename)
-    
-#     else:
-#         if body=='What is Self-Regulated Learning (SRL)?':
-#             fixedResponse={"text":"Self-Regulated Learning (SRL) consists of 3 phases:\n 1. **Forethought**, planning and activation \n 2. **Performance**, monitoring and control \n 3. Reaction and **reflection**"}
-#             return fixedResponse
-#         elif body=='How can I start my SRL journey?':
-#             fixedResponse={"text":"**Upload your learning material** and start your SRL journey!"}
-#             return fixedResponse
-#         else:
-#             response=minderllm.generate(query=body)
-#             print(response)
-#             return response
+        assistant = client.beta.assistants.create(
+                    name="Education Specialist",
+                    instructions="You are an educational expert who specializes in tutoring beginners in self-study, deleting processed data while giving beginners advice on how to learn. If you cannot parse the required Json output, you can give an empty structure that contains only keys.",
+                    tools=[{"type": "code_interpreter"}],
+                    model="gpt-4-0125-preview"
+                )
+
+        thread = client.beta.threads.create()
+
+        # 创建消息
+        message = client.beta.threads.messages.create(
+                        thread_id=thread.id,
+                        role="user",
+                        content=user_input
+                    )
+
+                    # 4. run thread
+                    # Thread 默认不会运行，需要创建一个 Run 任务来执行 Thread。
+        run = client.beta.threads.runs.create(
+                        thread_id=thread.id,
+                        assistant_id=assistant.id,
+                    )
+
+                    # 等待运行任务完成
+                    # Thread 是异步执行的，需要轮询检查是否执行完成。
+                    # Thread 执行时会上锁，在执行完成前不可以再添加 message 或者提交新的 Run 任务。
+        while True:
+            run = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+            if run.status not in ["queued", "in_progress"]:
+                break
+        time.sleep(1)
+
+                    # 获取 AI 输出结果
+        messages = client.beta.threads.messages.list(thread_id=thread.id)
+                    # 从消息中取出 AI 输出的 markdown 字符串
+        ai_output = messages.data[0].content[0].text.value
+        pattern = r'```markdown(.*?)```'
+        markdownData = re.findall(pattern, ai_output, re.DOTALL)
+        print("markdown data:",markdownData)
+        return markdownData
     
     
 

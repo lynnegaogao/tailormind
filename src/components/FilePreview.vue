@@ -10,7 +10,7 @@
         <div class="right-column">
             <!-- 2-1文件目录 -->
             <div class="file-struct sub-module-block">
-                <a-tree v-model:expandedKeys="expandedKeys" :tree-data="fileStructData" :show-line="true"
+                <a-tree v-model:expandedKeys="expandedKeys" :tree-data="fileStructureData" :show-line="true"
                     style="font-size: medium; margin: 10px 0px 0 20px" @select=scrollToCard class="file-struct-tree">
                     <template #title="{ key: key, title }">
                         <a-dropdown :trigger="['contextmenu']">
@@ -22,10 +22,12 @@
             </div>
             <!-- 2-2知识卡片 -->
             <div class="knowledge-card sub-module-block">
-                <a-tree ref="cardList" :tree-data="cardData" :show-icon="false" :height="500" style="font-size: medium;">
+                <a-tree ref="cardList" :tree-data="cardData" :show-icon="false" :height="500"
+                    style="font-size: medium;">
+
                     <template #title="{ key: key, title, content }">
                         <a-dropdown :trigger="['contextmenu']">
-                            <a-card size="small" :key="key" :title="key +' '+ title"
+                            <a-card size="small" :key="key" :title="key + ' ' + title"
                                 :style="{ border: selectedKey == key ? '2px solid rgb(199,151,48)' : '' }" class="card">
                                 <div class="card-content">
                                     <p>{{ content }}</p>
@@ -35,7 +37,8 @@
                             <template #overlay>
                                 <a-menu>
                                     <a-menu-item key="1" @Click="copyCard(title, content)">Copy</a-menu-item>
-                                    <a-menu-item key="2" @Click="askAI(title, content)">Ask AI Tutor</a-menu-item>
+                                    <a-menu-item key="2" @Click="askAI(title, content)">Ask Tailor-Mind
+                                        Tutor</a-menu-item>
                                 </a-menu>
                             </template>
                         </a-dropdown>
@@ -64,10 +67,8 @@ export default {
     data() {
         return {
             pdfUrl: null,
-            fileStructData: [
-            ],
-            cardData: [
-            ],
+            fileStructureData: [],
+            cardData: [],
             expandedKeys: ['1'],
             selectedKey: '',
         }
@@ -87,13 +88,17 @@ export default {
             type: Array,
             default: function () { return []; },
         },
+        pdfUrl: {
+            type: String,
+            default: function () { return ''; },
+        },
     },
     watch: {
         // 用于展示文件结构
         fileStructureData(newValue, oldValue) {
             console.log(newValue, oldValue)
             this.$nextTick(() => {
-                this.fileStructData = newValue;
+                this.fileStructureData = newValue;
             })
         },
         // 用于展示单词卡

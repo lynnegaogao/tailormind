@@ -949,22 +949,27 @@ export default {
 
         // 数据处理
         transformData(data) {
-            //console.log(data.nodes)
+            // 首先检查data是否为空或不包含nodes和links
+            if (!data || !Array.isArray(data.nodes) || !Array.isArray(data.links)) {
+                return []; // 返回空数组，避免执行后续代码导致错误
+            }
+
+            // 处理nodes，确保每个node都包含必要的属性
             const nodes = data.nodes.map(node => ({
                 data: {
-                    id: node.id,
-                    label: node.label,
-                    size: node.size * 5, // 调整大小
-                    isSpecified: node.isSpecified,
-                    level: node.level
+                    id: node.id || '', // 如果id不存在，则默认为空字符串
+                    label: node.label || '', // 如果label不存在，则默认为空字符串
+                    size: typeof node.size === 'number' ? node.size * 5 : 10, // 如果size不是数字，则默认为10（调整后的大小）
+                    level: node.level || 0 // 如果level不存在，则默认为0
                 }
             }));
 
+            // 处理links，确保每个link都包含必要的属性
             const edges = data.links.map(link => ({
                 data: {
-                    source: link.source,
-                    target: link.target,
-                    relation: link.relation
+                    source: link.source || '', // 如果source不存在，则默认为空字符串
+                    target: link.target || '', // 如果target不存在，则默认为空字符串
+                    relation: link.relation || '' // 如果relation不存在，则默认为空字符串
                 }
             }));
 

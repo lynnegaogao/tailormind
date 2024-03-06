@@ -39,22 +39,19 @@ let DataService = {
             });
     },
 
-    getCustomizedNote(callback) {
-        // TODO: query backend for customized note.
-
-        // Below load a demo markdown file from assets and handle the document to the renderer.
-        fetch('src/assets/MarkdownDemo.md')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(text => {
-                callback(text);
+    getCustomizedNote(submitChatData,callback) {
+        axios.post(`${this.dataServerUrl}/get-customziednotedata`, {
+            submitChatData: submitChatData
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                callback(response.data);
             })
             .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
+                console.error('Error getting note context:', error);
             });
     }
 }

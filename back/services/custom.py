@@ -15,6 +15,7 @@ historical=True
 OPENAI_API_KEY="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"
 minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
 
+
 knowledgeLevel=["Concept","Principle / Math formula","Application","Implementation","Significance / Influence","Related Knowledge","Contrast Knowledge","Extended Knowledge"]
 class Custom:
     def chat(self, body):
@@ -176,7 +177,9 @@ class Custom:
             if body=='What is Self-Regulated Learning (SRL)?':
                 response={"text":"Self-Regulated Learning (SRL) consists of 3 phases:📑📑📑\n 1. **Forethought**, planning and activation \n 2. **Performance**, monitoring and control \n 3. Reaction and **reflection**","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">What does each view of Tailor-Mind do?</button><br><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
             elif body=='What does each view of Tailor-Mind do?':
-                response={"text":"🎈Some guidances will be coming...","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
+                response={"text":"🎈Some guidances will be coming...",
+                          "html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"
+                          }
             elif body=='How can I start my SRL journey?':
                 response={"text":"🥳**Upload your learning material** and start your SRL journey!"}
             # 问题推荐
@@ -211,7 +214,7 @@ class Custom:
                 }
             elif body=='continue learning':
                 response={
-                    "text": "👻Please follow the learning path to continue your learning...",
+                    "text": "👻Continue your learning...",
                 }
             elif body=='start reflection phase':
                 response={
@@ -219,9 +222,30 @@ class Custom:
                 }
             elif body=="Let's start the last phase!🎈":
                 response={
-                    "text": "👻Will you finish your reviewing? \nAnd ready to do any tests?🤩",
+                    "text": "👻Will you finish your reviewing? \nAnd ready to do any tests?💯",
                     "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">Yes</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">No</button></div>",
                 }
+            # 生成选择测试题
+            elif body=='start testing!' or body=='continue asking selections':
+                selection_query="Give a multiple choice question on "+request.json['milestone']+" in single choice questions."
+                selection_rmd=minderllm.generate(query=selection_query)["text"]
+                print("selections from sft:",selection_rmd)
+                response=self.convert_selections_to_html(selection_rmd)
+            elif body=='continue asking TRUE OR FALSE judgement':
+                judgement_query="Give me a TRUE OR FALSE judgement question on "+request.json['milestone']+". Do not give answers."
+                judgement_rmd=minderllm.generate(query=judgement_query)["text"]
+                print("judgements from sft:",judgement_rmd)
+                response={
+                    "text":judgement_rmd,
+                    "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">True</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">False</button></div>",
+                }
+            # 生成feedback
+            elif body=='test finished':  
+                  
+                response={"text":'🤩',}
+                   
+       
+     
             # 其他正常问答
             else:
                 response=minderllm.generate(query=body)
@@ -619,3 +643,11 @@ class Custom:
         html_str += '</div>'
 
         return {'html': html_str}
+    
+    def convert_selections_to_html(self,response):
+        text, options = response.split('\n', 1)
+        options_formatted = ''.join([f'<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">{option}</button>' for option in options.split('\n')])
+           
+        return  {"text": text, "html": options_formatted}
+    
+    # def convert_judgements_to_html(self,response):

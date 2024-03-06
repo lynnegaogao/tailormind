@@ -18,7 +18,9 @@
           </div>
           <div class="module-component">
             <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" :getFileStatus="getFileStatus"
-              @changeMindmapToDefault="onChangeMindmapToDefault" @submitChatHistory="onSubmitChatHistory" :isReflection="isReflection"/>
+              @changeMindmapToDefault="onChangeMindmapToDefault" @submitChatHistory="onSubmitChatHistory"
+              :isReflection="isReflection" :testingQuestionList="testingQuestionList"
+              :learningPathData="learningPathData" />
           </div>
         </div>
       </div>
@@ -26,13 +28,23 @@
       <!-- 文件预览+问题推荐 -->
       <div id="column-2" class="column">
         <!-- 文件预览 -->
-        <div id="file-preview-view" class="module-block">
-          <div class="module-header">
+        <div id="file-preview-view" class="module-block" style="position: relative;">
+          <div class="module-header" v-if="!isReflection">
             <img src="./assets/Documents.png" alt="Icon" class="icon" />
             FILE PREVIEW
+            <Switch :checked="isReflectionShow" @change="toggleView"
+              style="float: right; position: absolute; top:8px;right:10px" size="small" />
+          </div>
+          <div class="module-header" v-else>
+            <img src="./assets/Note.png" alt="Icon" class="icon" />
+            NOTES
+            <Switch :checked="isReflectionShow" @change="toggleView"
+              style="float: right; position: absolute; top:8px;right:10px" size="small" />
           </div>
           <div class="module-component">
-            <filePreview :fileStructureData="fileStructureData" :fileData="fileData" :cardData="cardData" />
+            <filePreview v-if="!isReflectionShow" :fileStructureData="fileStructureData" :fileData="fileData"
+              :pdfUrl="pdfUrl" :cardData="cardData" />
+            <markdownRenderer v-else style="padding:10px" :markdownData="markdownData" />
           </div>
         </div>
 
@@ -91,8 +103,11 @@ import mindmap from './components/Mindmap.vue'
 import noteEditor from './components/NoteEditor.vue'
 import learningPath from './components/LearningPath.vue'
 import questionRmd from './components/QuestionRmd.vue'
+import markdownRenderer from './components/MarkdownRenderer.vue'
 
 import DataService from "./utils/data-service"
+
+import { Switch } from 'ant-design-vue';
 
 export default {
   name: 'forethought',
@@ -102,13 +117,16 @@ export default {
     mindmap,
     noteEditor,
     learningPath,
-    questionRmd
+    questionRmd,
+    markdownRenderer,
+    Switch
   },
   data() {
     return {
+      pdfUrl: '',
       getFileStatus: false,
       wordCloudData: null,
-      fileStructureData: null,
+      fileStructureData: [],
       fileData: null,
       fileSummary: '',
       cardData: [],
@@ -119,7 +137,9 @@ export default {
       learningPathData: [],
       submitChatData: [],
       isReflection: false,
-
+      isReflectionShow: false,
+      markdownData: "",
+      testingQuestionList: [],
     }
   },
   mounted() {
@@ -134,7 +154,7 @@ export default {
       this.mindMapData = filedata[3]
       this.questionRmdData = filedata[4]
       this.learningPathData = filedata[5]
-
+      this.pdfUrl = `../../back/uploads/${filedata[0][0].filename}`
       // 获取wordcard数据
       var childrenContents = []
       filedata[1].forEach(item => {
@@ -207,10 +227,36 @@ export default {
       this.$store.dispatch('submitChatData', this.submitChatData);
       this.$store.dispatch('learningPathData', this.learningPathData);
       this.$store.dispatch('mindMapData', this.mindMapData);
-      this.$router.push({
-        name: 'reflection',
-      });
+      this.isReflection = true
+      this.isReflectionShow = true
+
+      DataService.getCustomizedNote(data, (markdownData) => {
+        this.markdownData = markdownData[0]
+        console.log("Markdown数据：", markdownData[0])
+      })
+
+      // // 创建一个Blob对象，并保存聊天记录
+      // const blob = new Blob([JSON.stringify(this.submitChatData, null, 2)], { type: 'application/json' });
+      // // 创建一个指向该Blob的URL
+      // const url = URL.createObjectURL(blob);
+      // // 创建一个临时的a标签用于下载
+      // const link = document.createElement('a');
+      // link.href = url;
+      // link.download = 'chat-history.json';
+      // // 模拟点击该链接实现下载
+      // document.body.appendChild(link); // 将链接添加到文档中
+      // link.click(); // 触发下载
+      // // 清理：移除链接并释放创建的blob URL
+      // document.body.removeChild(link);
+      // URL.revokeObjectURL(url);
     },
+
+    // 切换file-preview & notes
+    toggleView(checked) {
+      this.isReflectionShow = checked;
+
+    },
+
   },
 
 }

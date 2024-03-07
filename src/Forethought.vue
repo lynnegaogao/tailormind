@@ -20,7 +20,7 @@
             <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" :getFileStatus="getFileStatus"
               @changeMindmapToDefault="onChangeMindmapToDefault" @submitChatHistory="onSubmitChatHistory"
               :isReflection="isReflection" :testingQuestionList="testingQuestionList"
-              :learningPathData="learningPathData" />
+              :learningPathData="learningPathData" @changePathContrast="onChangePathContrast"/>
           </div>
         </div>
       </div>
@@ -112,8 +112,8 @@
                 LEARNING PATH -- AFTER
               </div>
               <div class="module-component" >
-                <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
-                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast"/>
+                <learningPathAfter :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
+                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast" />
               </div>
             </div>
 
@@ -136,7 +136,7 @@ import noteEditor from './components/NoteEditor.vue'
 import learningPath from './components/LearningPath.vue'
 import questionRmd from './components/QuestionRmd.vue'
 import markdownRenderer from './components/MarkdownRenderer.vue'
-
+import learningPathAfter from './components/LearningPathAfter.vue'
 import DataService from "./utils/data-service"
 
 import { Switch } from 'ant-design-vue';
@@ -149,9 +149,10 @@ export default {
     mindmap,
     noteEditor,
     learningPath,
+    learningPathAfter,
     questionRmd,
     markdownRenderer,
-    Switch
+    Switch,
   },
   data() {
     return {
@@ -172,7 +173,7 @@ export default {
       isReflectionShow: false,
       markdownData: "",
       testingQuestionList: [],
-      isPathContrast: true,
+      isPathContrast: false,
     }
   },
   mounted() {
@@ -290,6 +291,11 @@ export default {
       this.isReflection = checked
 
     },
+
+    onChangePathContrast(){
+      this.isPathContrast=true
+    }
+
 
   },
 
@@ -430,17 +436,15 @@ export default {
 
 #file-preview-view {
   flex: 4;
-  /* max-height: 700px; */
 }
 
 
 #knowledge-mindmap-view {
-  flex: 7;
-  /* max-height: 700px; */
+  flex: 6.5;
 }
 
 #learning-path-view {
-  flex: 7;
+  flex: 6.5;
 }
 
 #question-recommendation-view {

@@ -105,7 +105,7 @@ export default {
         this.setupRequestInterceptor();
         this.setupResponseInterceptor()
     },
-    emits: ['getFileData', 'changeMindmapToDefault', 'submitChatHistory', ],
+    emits: ['getFileData', 'changeMindmapToDefault', 'submitChatHistory', 'changePathContrast'],
     methods: {
         // 初始化
         initializeChat() {
@@ -221,6 +221,7 @@ export default {
                         requestDetails.body.messages[0].text = 'test finished'
                         requestDetails.body.history=this.reflectionHistoryMessages
                         console.log(requestDetails)
+                        this.$emit('changePathContrast')
                     }
 
                 }

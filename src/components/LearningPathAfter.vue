@@ -66,7 +66,7 @@ export default {
         };
     },
     props: {
-        learningPathData: {
+        learningPathData_After: {
             type: Array,
             default: function () { return []; },
         },
@@ -81,7 +81,7 @@ export default {
 
     },
     watch: {
-        'learningPathData': {
+        'learningPathData_After': {
             // 深度监听参数中具体数值的变化，一般监听只能发现数值的地址变化
             deep: true,
             handler(newValue, oldValue) {
@@ -107,7 +107,7 @@ export default {
             console.log(newValue, oldValue)
             if (newValue) {
                 this.$nextTick(() => {
-                    this.drawLearningPath(this.learningPathData);
+                    this.drawLearningPath(this.learningPathData_After);
                 })
             }
 
@@ -116,23 +116,23 @@ export default {
             console.log(newValue, oldValue)
             if (newValue) {
                 this.$nextTick(() => {
-                    this.drawLearningPath(this.learningPathData);
+                    this.drawLearningPath(this.learningPathData_After);
                 })
             }
 
         },
     },
     mounted() {
-        this.drawLearningPath(this.learningPathData);
+        this.drawLearningPath(this.learningPathData_After);
         if (this.isReflection) {
-            this.drawLearningPath(this.learningPathData);
+            this.drawLearningPath(this.learningPathData_After);
         }
     },
     emits: ['resetLearningPathData'],
     methods: {
-        drawLearningPath(learningPathData) {
+        drawLearningPath(learningPathData_After) {
             d3.selectAll("#learningpath-area-after svg").remove();
-            console.log("learning path数据：",learningPathData)
+            console.log("learning path数据：",learningPathData_After)
             // 预设参数
             const width = this.isPathContrast?800:1000
             const height = 390;
@@ -145,7 +145,7 @@ export default {
             const distanceFromLine = 25;
             const extendedPoleHeight = timelineWidth + 40;
             const dashlineStroke = 2
-            const milestonesNum = learningPathData ? learningPathData.length : 0
+            const milestonesNum = learningPathData_After ? learningPathData_After.length : 0
 
             // 处理stack area chart数据
             const processSubknowledgeLevels = (data) => {
@@ -175,8 +175,8 @@ export default {
             };
 
             let levelData = []
-            if (learningPathData) {
-                levelData = processSubknowledgeLevels(learningPathData);
+            if (learningPathData_After) {
+                levelData = processSubknowledgeLevels(learningPathData_After);
             }
             let stack = d3.stack()
                 .keys(["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8"]);
@@ -253,8 +253,8 @@ export default {
             })
 
             // 绘制milestone
-            if (learningPathData) {
-                learningPathData.forEach((milestone, index) => {
+            if (learningPathData_After) {
+                learningPathData_After.forEach((milestone, index) => {
 
                     var milestoneSvg = allMilestoneSvg.append('g')
                         .attr('id', `${milestone["milestone"]}`)
@@ -296,8 +296,8 @@ export default {
                     var knowledgePointsOffsetX = flagOffsetX + poleWidth + 10
                     var knowledgePointsOffsetY = lineOffsetY + timelineWidth / 2 + 15
                     var maxNum = Math.floor((scale(1) - knowledgePointsOffsetX) / 20)
-                    if (learningPathData && index + 1 < milestonesNum) {
-                        maxNum = Math.floor((scale(learningPathData[index + 1]['start']) - knowledgePointsOffsetX) / 20)
+                    if (learningPathData_After && index + 1 < milestonesNum) {
+                        maxNum = Math.floor((scale(learningPathData_After[index + 1]['start']) - knowledgePointsOffsetX) / 20)
                     }
                     this.drawKnowledgePoints(milestoneSvg, { 'x': knowledgePointsOffsetX, 'y': knowledgePointsOffsetY }, maxNum, milestone['subknowledge'])
 
@@ -307,7 +307,7 @@ export default {
 
             // 添加交互
             // 对于每个flag和level虚线，添加mouseover和mouseout事件监听器
-            const milestones = learningPathData
+            const milestones = learningPathData_After
             const levelcolor = this.levelcolor
             if (milestones) {
                 svg.selectAll('.flag')
@@ -323,7 +323,7 @@ export default {
 
                         if (hoveredMilestones.length != 0) {
                             // 创建tooltip组
-                            var tooltipOffsetX = event.pageX - 1170 //数字越大，越靠右
+                            var tooltipOffsetX = event.pageX - 1320 //数字越大，越靠右
                             var tooltipOffsetY = event.pageY - 850 //数字越大，越靠下
                             console.log(tooltipOffsetX, tooltipOffsetY)
                             if (tooltipOffsetX > 590) {

@@ -323,7 +323,7 @@ export default {
 
                         if (hoveredMilestones.length != 0) {
                             // 创建tooltip组
-                            var tooltipOffsetX = event.pageX - 1170 //数字越大，越靠右
+                            var tooltipOffsetX = this.isPathContrast?event.pageX +1000:event.pageX - 1170 //数字越大，越靠右
                             var tooltipOffsetY = event.pageY - 850 //数字越大，越靠下
                             console.log(tooltipOffsetX, tooltipOffsetY)
                             if (tooltipOffsetX > 590) {

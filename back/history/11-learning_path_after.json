@@ -1,152 +1,60 @@
-[
-    {
-      "start": 0.0,
-      "level": 8,
-      "milestone": "Deep Learning Foundations",
-      "importance": 5,
-      "subknowledge": [
-        {
-          "level": 1,
-          "knowledge": "Introduction to Neural Networks",
-          "importance": 5,
-          "content": "Basics of neural networks, including their architecture and how they mimic the human brain."
-        },
-        {
-          "level": 2,
-          "knowledge": "Activation Functions",
-          "importance": 4,
-          "content": "Understanding different activation functions, focusing on ReLU, and its purpose to introduce non-linearity."
-        },
-        {
-          "level": 3,
-          "knowledge": "Loss Functions",
-          "importance": 3,
-          "content": "Explaining how loss functions measure model performance and guide weight adjustments."
-        }
-      ]
-    },
-    {
-      "start": 0.2,
-      "level": 5,
-      "milestone": "Convolutional Networks",
-      "importance": 5,
-      "subknowledge": [
-        {
-          "level": 5,
-          "knowledge": "Backpropagation",
-          "importance": 4,
-          "content": "Backpropagation in the context of CNNs and its importance for learning from errors."
-        },
-        {
-          "level": 5,
-          "knowledge": "Understanding Pooling",
-          "importance": 4,
-          "content": "The theory and application of pooling layers in CNNs to reduce feature dimensionality."
-        },
-        {
+[{
+  "start": 0.1,
+  "level": 4,
+  "milestone": "Data Augmentation",
+  "importance": 4,
+  "subknowledge": [
+      {
           "level": 4,
-          "knowledge": "Applying Convolutional Layers",
-          "importance": 3,
-          "content": "How convolutional layers extract features from data, focusing on image recognition and object detection."
-        }
-      ]
-    },
-    {
-      "start": 0.4,
-      "level": 5,
-      "milestone": "Data Augmentation",
-      "importance": 4,
-      "subknowledge": [
-        {
-          "level": 2,
-          "knowledge": "Principles of Data Augmentation",
+          "knowledge": "Techniques",
           "importance": 4,
-          "content": "Covering the aim of increasing data diversity to prevent overfitting and improve model generalization."
-        },
-        {
-          "level": 2,
-          "knowledge": "Applying Image Augmentation",
-          "importance": 3,
-          "content": "Detailed examples of image transformations and their impact on model training."
-        },
-        {
-          "level": 2,
-          "knowledge": "Beyond Images: Augmentation for Text and Audio",
-          "importance": 3,
-          "content": "Exploring augmentation techniques for other types of data such as text and audio."
-        }
-      ]
-    },
-    {
-      "start": 0.6,
-      "level": 5,
-      "milestone": "Gradient-Based Learning",
-      "importance": 4,
-      "subknowledge": [
-        {
-          "level": 3,
-          "knowledge": "Understanding Gradient Descent",
-          "importance": 5,
-          "content": "A deep dive into gradient descent and its variants, focusing on why it's fundamental for training neural networks."
-        },
-        {
+          "content": "Overview of various data augmentation techniques and their specific applications."
+      },
+      {
           "level": 4,
-          "knowledge": "Implementing Optimizers",
+          "knowledge": "Benefits",
           "importance": 4,
-          "content": "Exploring how different optimizers like Adam and RMSProp work, and when to use them."
-        },
-        {
-          "level": 3,
-          "knowledge": "Regularization Techniques",
-          "importance": 3,
-          "content": "Introducing concepts like Dropout and Batch Normalization to combat overfitting."
-        }
-      ]
-    },
-    {
-      "start": 0.8,
-      "level": 7,
-      "milestone": "Dropout and Overfitting",
-      "importance": 4,
-      "subknowledge": [
-        {
-          "level": 2,
-          "knowledge": "In-depth Analysis of Dropout",
-          "importance": 5,
-          "content": "Explaining Dropout's mechanics, its impact during training vs. testing, and how it prevents overfitting."
-        },
-        {
-          "level": 5,
-          "knowledge": "Practical Dropout Implementation",
-          "importance": 4,
-          "content": "Guidelines for implementing Dropout in models and adjusting dropout rates based on the context."
-        }
-      ]
-    },
-    {
-      "start": 0.9,
-      "level": 3,
-      "milestone": "Capstone Project",
-      "importance": 5,
-      "subknowledge": [
-        {
-          "level": 1,
-          "knowledge": "Project Planning",
-          "importance": 4,
-          "content": "Choosing a real-world problem and planning a project to apply deep learning concepts learned."
-        },
-        {
-          "level": 4,
-          "knowledge": "Model Building and Evaluation",
-          "importance": 5,
-          "content": "Using the knowledge acquired to build, train, and evaluate a neural network model on a dataset."
-        },
-        {
-          "level": 5,
-          "knowledge": "Presentation and Feedback",
-          "importance": 3,
-          "content": "Presenting the project results and receiving feedback to understand areas of strength and improvement."
-        }
-      ]
-    }
+          "content": "How data augmentation improves model generalization and performance."
+      }
   ]
+},
+{
+  "start": 0.2,
+  "level": 5,
+  "milestone": "ReLU Activation Function",
+  "importance": 4,
+  "subknowledge": [
+      {
+          "level": 5,
+          "knowledge": "Non-Linearity",
+          "importance": 4,
+          "content": "Explanation of how ReLU introduces non-linearity and its benefits over other activation functions."
+      }
+  ]
+},
+{
+  "start": 0.3,
+  "level": 6,
+  "milestone": "Machine Learning Techniques Review",
+  "importance": 3,
+  "subknowledge": [
+      {
+          "level": 6,
+          "knowledge": "Gradient Descent",
+          "importance": 3,
+          "content": "Deep dive into gradient descent and its role in optimizing models."
+      },
+      {
+          "level": 6,
+          "knowledge": "Dropout",
+          "importance": 3,
+          "content": "Understanding dropout and its effectiveness in preventing overfitting."
+      },
+      {
+          "level": 6,
+          "knowledge": "Convolutional Networks",
+          "importance": 3,
+          "content": "Basics and importance of convolutional networks in deep learning."
+      }
+  ]
+}]

@@ -29,7 +29,7 @@ export default {
     data() {
         return {
             historyMessages: [],
-            reflectionHistoryMessages:[],
+            reflectionHistoryMessages: [],
             newMessage: '',
             requestConfig: {
                 url: "http://127.0.0.1:5000/files",
@@ -41,7 +41,7 @@ export default {
             inputAreaStyle: {},
             userSelection: 0,
             milestoneNum: 0,
-            isTesting:false,
+            isTesting: false,
         };
     },
     props: {
@@ -65,7 +65,10 @@ export default {
             type: Array,
             default: function () { return []; },
         },
-
+        knowledgeCard:{
+            type: String,
+            default: function () { return ''; },
+        }
     },
     watch: {
         nodeToQuestionRmd(newValue, oldValue) {
@@ -92,12 +95,15 @@ export default {
             }
 
         },
-        // isTesting(newValue, oldValue) {
-        //     if (newValue && this.testingQuestionList) {
-        //         console.log(newValue, this.testingQuestionList)
-        //         this.setupTesting(this.testingQuestionList)
-        //     }
-        // },
+        knowledgeCard(newValue, oldValue) {
+            console.log(newValue, oldValue)
+            if (newValue) {
+                this.$nextTick(() => {
+                    this.setupAskKnowledgeCard(newValue)
+                })
+            }
+
+        },
     },
     mounted() {
         this.setupDeepChat();
@@ -105,7 +111,7 @@ export default {
         this.setupRequestInterceptor();
         this.setupResponseInterceptor()
     },
-    emits: ['getFileData', 'changeMindmapToDefault', 'submitChatHistory', 'changePathContrast'],
+    emits: ['getFileData', 'changeMindmapToDefault', 'submitChatHistory', 'changePathContrast','getAdjustedLearningPathData'],
     methods: {
         // 初始化
         initializeChat() {
@@ -151,12 +157,12 @@ export default {
             }
         },
         handleNewMessage(message) {
-            if(!this.isTesting){
+            if (!this.isTesting) {
                 this.historyMessages.push(message)
-            }else{
+            } else {
                 this.reflectionHistoryMessages.push(message)
             }
-            
+
         },
 
         // request拦截器
@@ -178,7 +184,7 @@ export default {
                 if (historyMessages[historyMessages.length - 2] && historyMessages[historyMessages.length - 2].message.text == "👻Will you finish your learning? \nAnd ready to start the **Reflection** phase?🤩") {
                     if (historyMessages[historyMessages.length - 1].message.text == 'Yes') {
                         requestDetails.body.messages[0].text = 'start reflection phase'
-                        
+
                     }
                     else if (historyMessages[historyMessages.length - 1].message.text == 'No') {
                         requestDetails.body.messages[0].text = 'continue learning'
@@ -188,8 +194,8 @@ export default {
                 if (historyMessages[historyMessages.length - 2] && historyMessages[historyMessages.length - 2].message.text == "👻Will you finish your reviewing? \nAnd ready to do any tests?💯") {
                     if (historyMessages[historyMessages.length - 1].message.text == 'Yes') {
                         requestDetails.body.messages[0].text = 'start testing!'
-                        this.isTesting=true
-                        historyMessages=this.reflectionHistoryMessages
+                        this.isTesting = true
+                        historyMessages = this.reflectionHistoryMessages
                         requestDetails.body.milestone = this.learningPathData[0].milestone
                         this.milestoneNum += 1
                         // console.log(requestDetails)
@@ -199,7 +205,7 @@ export default {
                     }
                 }
                 // 拦截是否继续出选择题
-                if (historyMessages[historyMessages.length - 1]&&historyMessages[historyMessages.length - 1].message.text && this.startsWithABCD(historyMessages[historyMessages.length - 1].message.text) && this.milestoneNum < this.learningPathData.length) {
+                if (historyMessages[historyMessages.length - 1] && historyMessages[historyMessages.length - 1].message.text && this.startsWithABCD(historyMessages[historyMessages.length - 1].message.text) && this.milestoneNum < this.learningPathData.length) {
                     // console.log(requestDetails)
                     requestDetails.body.messages[0].text = 'continue asking selections'
                     requestDetails.body.milestone = this.learningPathData[this.milestoneNum].milestone
@@ -212,14 +218,15 @@ export default {
                     }
                 }
                 //拦截是否继续出判断题
-                if (historyMessages[historyMessages.length - 1]&&historyMessages[historyMessages.length - 1].message.text && this.startsWithTrueOrFalse(historyMessages[historyMessages.length - 1].message.text) && this.milestoneNum < this.learningPathData.length) {
+                if (historyMessages[historyMessages.length - 1] && historyMessages[historyMessages.length - 1].message.text && this.startsWithTrueOrFalse(historyMessages[historyMessages.length - 1].message.text) && this.milestoneNum < this.learningPathData.length) {
                     requestDetails.body.messages[0].text = 'continue asking TRUE OR FALSE judgement'
                     requestDetails.body.milestone = this.learningPathData[this.milestoneNum].milestone
                     this.milestoneNum += 1
                     // 结束自测，进入评估
                     if (this.milestoneNum == this.learningPathData.length) {
                         requestDetails.body.messages[0].text = 'test finished'
-                        requestDetails.body.history=this.reflectionHistoryMessages
+                        requestDetails.body.history = this.reflectionHistoryMessages
+                        requestDetails.body.learningpath = this.learningPathData
                         console.log(requestDetails)
                         this.$emit('changePathContrast')
                     }
@@ -234,22 +241,33 @@ export default {
         setupResponseInterceptor() {
             const chatElementRef = this.$refs.chatElementRef;
             chatElementRef.responseInterceptor = (response) => {
+                // 获取上传的learning material相关数据
                 if (response['file']) {
-                    // console.log('file-structure:',response['filestructure'])
-                    // console.log('file:',response['file'])
-                    this.$emit('getFileData', [response['file'], response['filestructure'], response['filesummary'], response['mindmap'], response['questionrmd'], response['learningpath']])
-                    // console.log({ 'text': response['chatdata']['text'], 'text': response['filesummary'] })
+                    this.$emit('getFileData',
+                        [
+                            response['file'],
+                            response['filestructure'],
+                            response['filesummary'],
+                            response['mindmap'],
+                            response['questionrmd'],
+                            response['learningpath']
+                        ]
+                    )
                     return { 'text': response['chatdata']['text'], 'text': response['filesummary'] }
                 }
-
+                // 用户自定义mindmap和learning path
                 if (response['chatdata'] && response['chatdata']['text'] == '🎈Changing the Mindmap View to default...') {
                     console.log('change mindmap to default')
                     this.$emit('changeMindmapToDefault')
                 }
-
+                // 提交学习阶段的对话数据
                 if (response['chatdata'] && response['chatdata']['text'] == "🥳Let's move on to the self-reflection~") {
                     console.log('submit history messages')
                     this.$emit('submitChatHistory', this.historyMessages)
+                }
+                // 获取反馈之后的adjusted learning path数据
+                if(response['reflection']&&response['learningpath']){
+                    this.$emit('getAdjustedLearningPathData',response['learningpath'])
                 }
                 return response['chatdata']
             }
@@ -283,6 +301,12 @@ export default {
         },
         startsWithTrueOrFalse(str) {
             return str == "True" || str == "False"
+        },
+
+        // interat with file preview: 提问knowledgeCard
+        setupAskKnowledgeCard(knowledgeCard){
+            const chatElementRef = this.$refs.chatElementRef;
+            chatElementRef.submitUserMessage({ 'text': "Please explain the following context:"+knowledgeCard });
         }
     }
 }

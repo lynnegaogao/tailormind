@@ -153,7 +153,7 @@ class Custom:
              # 使用历史数据
             if historical==True:
                 with open('E:/Vis24-TailorMind/tailormind/back/history/6-learning_path.json', 'r') as file:
-                        learningPath=json.load(file)
+                    learningPath=json.load(file)
             # 用户实际数据
             else:
                 learningPath=self.get_learningpath(mindmap)
@@ -244,11 +244,20 @@ class Custom:
                 if historical:
                     with open('E:/Vis24-TailorMind/tailormind/back/history/10-feedback.md','r',encoding='utf-8') as file:
                         feedback=file.read()
+                    with open('E:/Vis24-TailorMind/tailormind/back/history/11-learning_path_after.json','r') as file:
+                        learningpath_adjust=json.load(file)
                 else:
                     test_content=request.json['history']
+                    learningpath_before=request.json['learningpath']
                     feedback=self.get_feedback(json.dumps(test_content))
+                    learningpath_adjust=self.get_learningpath_after(feedback,learningpath_before)
                 response={"text":feedback}
-    
+                return {
+                    'chatdata':response,
+                    'reflection':True,
+                    'learningpath':learningpath_adjust
+                    }
+
 
             # 其他正常问答
             else:
@@ -637,13 +646,65 @@ class Custom:
     
     def get_feedback(self,content):
         prompt = """
-        The answers are analysed on the basis of the chat transcripts provided for the user-answered self-tests.
-        Please start by giving a summary of the accuracy of the answers, as well as the overall knowledge gained.
-        Then analyse each question for correct or incorrect answers. All require an explanation of the reason for the answer.
-        Return in the form of String.
-        """
+                The answers are analysed on the basis of the chat transcripts provided for the user-answered self-tests.
+                Please start by giving a summary of the accuracy of the answers, as well as the overall learning performance of the beginner.
+                Then analyse each question for correct or incorrect answers. All require an explanation of the reason for the answer.
+                At last, plaese conclude a summary of the user's learning suggestions, such as which knowledge points should be reinforced.
+                Return in the form of String.
+                """
 
         user_input=prompt+content
+
+        OPENAI_API_KEY="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"
+        client = OpenAI(api_key=OPENAI_API_KEY)
+
+        assistant = client.beta.assistants.create(
+            name="Education Specialist",
+            instructions="You are an educational expert who specializes in tutoring beginners in self-study and giving beginners advice on how to learn.",
+            tools=[{"type": "code_interpreter"}],
+            model="gpt-4-0125-preview"
+        )
+
+        thread = client.beta.threads.create()
+
+        # 创建消息
+        message = client.beta.threads.messages.create(
+                        thread_id=thread.id,
+                        role="user",
+                        content=user_input
+                    )
+
+                    # 4. run thread
+                    # Thread 默认不会运行，需要创建一个 Run 任务来执行 Thread。
+        run = client.beta.threads.runs.create(
+                        thread_id=thread.id,
+                        assistant_id=assistant.id,
+                    )
+
+                    # 等待运行任务完成
+                    # Thread 是异步执行的，需要轮询检查是否执行完成。
+                    # Thread 执行时会上锁，在执行完成前不可以再添加 message 或者提交新的 Run 任务。
+        while True:
+            run = client.beta.threads.runs.retrieve(thread_id=thread.id, run_id=run.id)
+            if run.status not in ["queued", "in_progress"]:
+                break
+        time.sleep(1)
+
+                    # 获取 AI 输出结果
+        messages = client.beta.threads.messages.list(thread_id=thread.id)
+                    # 从消息中取出 AI 输出的 JSON 字符串
+        ai_output = messages.data[0].content[0].text.value
+        return ai_output
+    
+    def get_learningpath_after(self,feedback,learningpath_before):
+        prompt = """
+        Based on the user's mastery of the knowledge points in the feedback, 
+        combined with the existing learning path data, a set of learning programmes are improved for the user, returning the adjusted learning path for this learner.
+        Please make sure that the json data you return to me is not the same as the learning path data I give you. Modifications should be obvious. 
+        Modifications should be obvious. For example, a user who has not mastered a certain knowledge point can be added as a milestone object, and a user who has mastered a certain knowledge can delete this milestone object.
+        Feedback:\n
+        """
+        user_input=prompt+feedback+'\nThe current learning path:\n'+learningpath_before+"Return the same json format as current learning path.And add '```json\n' at the top and '\n```' at the end."
 
         OPENAI_API_KEY="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"
         client = OpenAI(api_key=OPENAI_API_KEY)
@@ -684,7 +745,23 @@ class Custom:
         messages = client.beta.threads.messages.list(thread_id=thread.id)
                     # 从消息中取出 AI 输出的 JSON 字符串
         ai_output = messages.data[0].content[0].text.value
-        return ai_output
+        # 正则表达式获取```json```内的内容
+        def extract_json_from_string(input_string):
+            # 使用正则表达式匹配JSON部分
+            json_pattern = r'```json\n(.*?)```'
+            match = re.search(json_pattern, input_string, re.DOTALL)
+
+            if match:
+                json_str = match.group(1).strip()
+                # 转换为JSON对象
+                json_data = json.loads(json_str)
+                return json_data
+            else:
+                return None
+            
+        ai_output_json=extract_json_from_string(ai_output)
+        
+        return ai_output_json
     
     def convert_rmdText_to_html(self, response):
         questions = response['text'].split('\n')

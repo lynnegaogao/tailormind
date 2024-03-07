@@ -20,7 +20,8 @@
             <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" :getFileStatus="getFileStatus"
               @changeMindmapToDefault="onChangeMindmapToDefault" @submitChatHistory="onSubmitChatHistory"
               :isReflection="isReflection" :testingQuestionList="testingQuestionList"
-              :learningPathData="learningPathData" @changePathContrast="onChangePathContrast"/>
+              :learningPathData="learningPathData" @changePathContrast="onChangePathContrast" @getAdjustedLearningPathData="onGetAdjustedLearningPathData"
+              :knowledgeCard="knowledgeCard"/>
           </div>
         </div>
       </div>
@@ -46,7 +47,7 @@
             </div>
             <div class="module-component">
               <filePreview v-if="!isReflectionShow" :fileStructureData="fileStructureData" :fileData="fileData"
-                :pdfUrl="pdfUrl" :cardData="cardData" />
+                :pdfUrl="pdfUrl" :cardData="cardData" @askKnowledgeCard="onAskKnowledgeCard"/>
               <markdownRenderer v-else style="padding:10px" :markdownData="markdownData" />
             </div>
           </div>
@@ -112,7 +113,7 @@
                 LEARNING PATH -- AFTER
               </div>
               <div class="module-component" >
-                <learningPathAfter :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
+                <learningPathAfter :learningPathData_After="learningPathData_After" :rmdMindmapOrNot="rmdMindmapOrNot"
                   @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast" />
               </div>
             </div>
@@ -168,12 +169,14 @@ export default {
       rmdMindmapOrNot: true,
       questionRmdData: [],
       learningPathData: [],
+      learningPathData_After:[],
       submitChatData: [],
       isReflection: false,
       isReflectionShow: false,
       markdownData: "",
       testingQuestionList: [],
       isPathContrast: false,
+      knowledgeCard:'',
     }
   },
   mounted() {
@@ -292,9 +295,20 @@ export default {
 
     },
 
+    // 切换learning path contrast
     onChangePathContrast(){
       this.isPathContrast=true
-    }
+    },
+
+    // 获取修改之后的learning path
+    onGetAdjustedLearningPathData(data){
+      this.learningPathData_After=data
+    },
+
+    // file preview-从card提问
+    onAskKnowledgeCard(data){
+      this.knowledgeCard=data
+    },
 
 
   },

@@ -121,6 +121,7 @@ export default {
             })
         }
     },
+    emits: ['askKnowledgeCard'],
     methods: {
         // 点击文件目录树节点，滚动到对应的知识卡片
         scrollToCard(selectedKeys, e) {
@@ -146,12 +147,13 @@ export default {
         },
         // 调用AI接口
         askAI(title, content) {
+            console.log('ask ai:', content)
+            this.$emit('askKnowledgeCard', content)
             message
                 .loading('Asking AI Tutor, waiting...', 2.5)
                 .then(
                     () => message.success('Loading finished', 2.5),
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    () => { },
+                    () => {},
                 )
                 .then(() => message.info('Successfully asked', 2.5));
             //TODO

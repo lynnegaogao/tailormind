@@ -11,7 +11,19 @@ from openai import OpenAI
 
 historical=True
 # historical=False
-
+material='history'
+# material='stanford_nlp_5'
+# material='Nbayes'
+# material='transformer'
+# material='stanford_nlp_1'
+file_path = 'E:/Vis24-TailorMind/tailormind/back/'+material+'/1_material_overview.json'
+# 获取文件路径的目录部分
+directory = os.path.dirname(file_path)
+# 如果目录不存在，则创建目录
+if not os.path.exists(directory):
+    os.makedirs(directory)
+    print(f'目录{directory}已创建。')
+    
 OPENAI_API_KEY="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"
 minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
 
@@ -83,9 +95,9 @@ class Custom:
                 # 请求openai api获取file structure + knowledge list
                 # 使用历史数据
                 if historical==True:
-                    with open('E:/Vis24-TailorMind/tailormind/back/history/1_material_overview.json', 'r') as file:
+                    with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/1_material_overview.json', 'r') as file:
                         file_insights=json.load(file)
-                    with open('E:/Vis24-TailorMind/tailormind/back/history/2_knowledge_list.json', 'r') as file:
+                    with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/2_knowledge_list.json', 'r') as file:
                         knowledgeList=json.load(file)
                     
                 # 用户实际数据
@@ -93,6 +105,10 @@ class Custom:
                     file_openai_response=self.get_file_insights(file_path)
                     file_insights=file_openai_response['fileoverview']
                     knowledgeList=file_openai_response['knowledgelist']
+                    with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/1_material_overview.json', 'w') as file:
+                        json.dump(file_insights,file)
+                    with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/2_knowledge_list.json', 'w') as file:
+                        json.dump(knowledgeList,file)
                 
                 fileStructure = file_insights['file_structure']
                 fileSummary=file_insights['summary']
@@ -101,39 +117,56 @@ class Custom:
             relations=[]  
             # 使用历史数据
             if historical==True:
-                with open('E:/Vis24-TailorMind/tailormind/back/history/3_relations.json', 'r') as file:
+                with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/3_relations.json', 'r') as file:
                         relations=json.load(file)
-                with open('E:/Vis24-TailorMind/tailormind/back/history/4-mindmap.json', 'r') as file:
+                with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/4-mindmap.json', 'r') as file:
                         mindmap=json.load(file)
             # 用户实际数据
             else:
                 for knowledge in knowledgeList:
-                    prompt="For a given AI-related knowledge point, generate a triad of knowledge points associated with it. Each triad should be expressed in the form of [Topic,Relationship,Object] as a way to form a complete knowledge representation. Topic is the given knowledge point, object is the extended knowledge point related to the topic, and relation is the logical relationship between topic and object. For example, [[\"Convolutional Networks\", \"Loss Function\", \"Cross Entropy Loss\"],...]. The knowledge point is:"
+                    prompt='''
+                    For a given AI-related knowledge point, generate a triad of knowledge points associated with it. 
+                    Each triad should be expressed in the form of [Topic,Relationship,Object] as a way to form a complete knowledge representation. 
+                    Topic is the given knowledge point, object is the extended knowledge point related to the topic, 
+                    and relation is the logical relationship between topic and object. 
+                    For example, 
+                    [["Neural Networks", "Backpropagation", "Gradient Descent"], 
+                    ["Neural Networks", "Activation Functions", "Sigmoid Function"], 
+                    ["Neural Networks", "Activation Functions", "ReLU Function"], 
+                    ["Neural Networks", "Activation Functions", "Tanh Function"], 
+                    ["Neural Networks", "Activation Functions", "Softmax Function"]]. The knowledge point is:
+                    '''
                     body=prompt+knowledge
                     print("正在处理：",knowledge)
                     response=minderllm.generate(query=body)
                     print(response['text'])
-                    relations.append(eval(response['text']))
+                    try:
+                        relations.append(eval(response['text']))
+                    except Exception as e:
+                        print(f"An error occurred: {e}. Skipping this knowledge point.")
+                with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/3_relations.json', 'w') as file:
+                    json.dump(relations, file)
                 print(str(relations))
-                mindmap=self.get_mindmap(str(relations))
-                #     relations.append(relation)
-                # for relation in eval(response['text']): 
-                #     relations.append(relation)
-                # with open('E:/Vis24-TailorMind/tailormind/back/history/3_relations.json', 'w') as file:
-                #     json.dump(relations, file)
+                mindmap = None
+                while mindmap is None or not mindmap['links']:
+                    mindmap = self.get_mindmap(str(relations))
+                
+                with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/4-mindmap.json', 'w') as file:
+                        json.dump(mindmap, file)
+                
             # print("mindmap数据：",mindmap)
             
             # 请求sft获取relations
             questions_rmd=[]
             # 使用历史数据
             if historical==True:
-                with open('E:/Vis24-TailorMind/tailormind/back/history/5-question_rmd.json', 'r') as file:
+                with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/5-question_rmd.json', 'r') as file:
                         questions_rmd=json.load(file)
             # 用户实际数据
             else:
                 for knowledge in knowledgeList:
                     for level_index in range(0,len(knowledgeLevel)):
-                        body="Please recommend 1-2 question(s) about"+knowledge+"from a"+knowledgeLevel[level_index]+"perspective."
+                        body="Please recommend 1-2 question(s) about"+knowledge+"from a"+knowledgeLevel[level_index]+"perspective. Recommended problems should be relevant to deep learning or machine learning knowledge."
                         response=minderllm.generate(query=body)
                         questions = response['text'].split('\n')
                         for question in questions:
@@ -146,17 +179,19 @@ class Custom:
                             }
                             print(question_obj)
                             questions_rmd.append(question_obj)
-            # with open('E:/Vis24-TailorMind/tailormind/back/history/5-question_rmd.json', 'w') as file:
-            #     json.dump(questions_rmd, file)   
+                with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/5-question_rmd.json', 'w') as file:
+                    json.dump(questions_rmd, file)   
             
             # 请求openai api获取learning path数据
              # 使用历史数据
             if historical==True:
-                with open('E:/Vis24-TailorMind/tailormind/back/history/6-learning_path.json', 'r') as file:
+                with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/6-learning_path.json', 'r') as file:
                     learningPath=json.load(file)
             # 用户实际数据
             else:
                 learningPath=self.get_learningpath(mindmap)
+                with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/6-learning_path.json', 'w') as file:
+                    json.dump(learningPath, file) 
                 
             response={
                 'chatdata':{"text": "Get files! Loading..."},
@@ -241,23 +276,27 @@ class Custom:
                 }
             # 生成feedback
             elif body=='test finished':  
-                if historical:
-                    with open('E:/Vis24-TailorMind/tailormind/back/history/10-feedback.md','r',encoding='utf-8') as file:
+                if historical==False:
+                # if historical:
+                    with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/10-feedback.md','r',encoding='utf-8') as file:
                         feedback=file.read()
-                    with open('E:/Vis24-TailorMind/tailormind/back/history/11-learning_path_after.json','r') as file:
+                    with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/11-learning_path_after.json','r') as file:
                         learningpath_adjust=json.load(file)
                 else:
                     test_content=request.json['history']
                     learningpath_before=request.json['learningpath']
                     feedback=self.get_feedback(json.dumps(test_content))
-                    learningpath_adjust=self.get_learningpath_after(feedback,learningpath_before)
+                    learningpath_adjust=self.get_learningpath_after(feedback,json.dumps(learningpath_before))
+                    with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/10-feedback.md','w',encoding='utf-8') as file:
+                        file.write(feedback)
+                    with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/11-learning_path_after.json','w') as file:
+                        json.dump(learningpath_before,file)
                 response={"text":feedback}
                 return {
                     'chatdata':response,
                     'reflection':True,
                     'learningpath':learningpath_adjust
                     }
-
 
             # 其他正常问答
             else:
@@ -270,6 +309,8 @@ class Custom:
 
 
     def get_file_insights(self, file_path):
+        # 计时开始
+        start_time = time.time()
         # prompt-1 file structure + overview
         sample = {
             "summary": "The material begins with an introduction to the basic concepts of convex sets, convex functions, convex optimization problems, and Lagrangian dyadic problems. It then explores different types of convex optimization problems, including linear programming, quadratic programming, QCQP, and SDP, and provides examples of practical applications of these problems to machine learning. References are given at the end of the document.",
@@ -415,10 +456,14 @@ class Custom:
         
         # 5. delete assistant
         # client.beta.assistants.delete(assistant.id)
-
+        # 计时结束
+        end_time = time.time()
+        # 计算并打印执行时间
+        print(f"Function executed in {end_time - start_time:.4f} seconds.")
         return {'fileoverview':file_overview_json,'knowledgelist':knowledge_list_json}
 
     def get_mindmap(self,content):
+        start_time = time.time()
         sample={
         "nodes": [
         {
@@ -459,7 +504,15 @@ class Custom:
     ]
     }
         sample_str = "```json\n" + json.dumps(sample) + "\n```"
-        prompt="Parsing the content of this paragraph, each ternary represents [subject, relationship, object], the following data conversion: 1.subject and object are both elements in nodes, \"id\" and \"label\" are the same. 2.\"level\" is an integer between [1,8], 1-8 corresponds to the relationship of learning level as {1: \"Concept\",2: \"Principle / Math formula\",3: \"Application\",4: \"Implementation\",5: \" Significance / Influence\",6: \"Related Knowledge\",7: \"Contrast Knowledge\",8: \"Extended Knowledge\"}, please make a recommendation to a beginner based on the level of knowledge a beginner need to master this knowledge; 3. \"size\" is an integer between [1,5], which indicates the importance of this knowledge, 1 means common, 5 means important, need to be differentiated, please make a recommendation to a beginner; 4. each ternary as links in the elements, \"source\" for the subject, \"target\" is the object, \"relationship\" is the relationship. Only return json data, the format is as follows:"
+        prompt='''Parsing the content of this paragraph, each ternary represents [subject, relationship, object], the following data conversion: 
+        1.subject and object are both elements in nodes, "id" and "label" are the same. 
+        2."level" is an integer between [1,8], 1-8 corresponds to the relationship of learning level as 
+        {1: "Concept",2: "Principle / Math formula",3: "Application",4: "Implementation",5: " Significance / Influence",6: "Related Knowledge",7: "Contrast Knowledge",8: "Extended Knowledge"}, 
+        please make a recommendation to a beginner based on the level of knowledge a beginner need to master this knowledge;
+        3."size" is an integer between [1,5], which indicates the importance of this knowledge, 1 means common, 5 means important, need to be differentiated, please make a recommendation to a beginner; 
+        4.each ternary as links in the elements, "source" for the subject, "target" is the object, "relationship" is the relationship. Make sure that both the "source" and "target" of the link are defined in the nodes.
+        Only return json data, the format is as follows:"
+        '''
         user_input=content+prompt+sample_str
         
         OPENAI_API_KEY="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"
@@ -516,10 +569,14 @@ class Custom:
                 return None
             
         ai_output_json=extract_json_from_string(ai_output)
-        
+        # 计时结束
+        end_time = time.time()
+        # 计算并打印执行时间
+        print(f"Function executed in {end_time - start_time:.4f} seconds.")
         return ai_output_json
     
     def get_learningpath(self,content):
+        start_time = time.time()
         sample=[{
           "start": 0.00,
           "level": 1,
@@ -641,10 +698,16 @@ class Custom:
                 return None
             
         ai_output_json=extract_json_from_string(ai_output)
-        
+        # 计时结束
+        end_time = time.time()
+
+        # 计算并打印执行时间
+        print(f"Function executed in {end_time - start_time:.4f} seconds.")
         return ai_output_json
     
     def get_feedback(self,content):
+        # 计时开始
+        start_time = time.time()
         prompt = """
                 The answers are analysed on the basis of the chat transcripts provided for the user-answered self-tests.
                 Please start by giving a summary of the accuracy of the answers, as well as the overall learning performance of the beginner.
@@ -694,9 +757,16 @@ class Custom:
         messages = client.beta.threads.messages.list(thread_id=thread.id)
                     # 从消息中取出 AI 输出的 JSON 字符串
         ai_output = messages.data[0].content[0].text.value
+        # 计时结束
+        end_time = time.time()
+
+        # 计算并打印执行时间
+        print(f"Function executed in {end_time - start_time:.4f} seconds.")
         return ai_output
     
     def get_learningpath_after(self,feedback,learningpath_before):
+        # 计时开始
+        start_time = time.time()    
         prompt = """
         Based on the user's mastery of the knowledge points in the feedback, 
         combined with the existing learning path data, a set of learning programmes are improved for the user, returning the adjusted learning path for this learner.
@@ -760,7 +830,11 @@ class Custom:
                 return None
             
         ai_output_json=extract_json_from_string(ai_output)
-        
+        # 计时结束
+        end_time = time.time()
+
+        # 计算并打印执行时间
+        print(f"Function executed in {end_time - start_time:.4f} seconds.")
         return ai_output_json
     
     def convert_rmdText_to_html(self, response):

@@ -1,0 +1,91 @@
+{
+    "nodes": [
+        {
+            "id": "Recurrent Neural Networks",
+            "label": "Recurrent Neural Networks",
+            "level": 5,
+            "size": 5
+        },
+        {
+            "id": "GRU",
+            "label": "GRU",
+            "level": 5,
+            "size": 1
+        },
+        {
+            "id": "Gated Recurrent Units (GRU)",
+            "label": "Gated Recurrent Units (GRU)",
+            "level": 4,
+            "size": 4
+        },
+        {
+            "id": "LSTM",
+            "label": "LSTM",
+            "level": 4,
+            "size": 1
+        },
+        {
+            "id": "Linear Matrix Operation",
+            "label": "Linear Matrix Operation",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Matrix Inversion",
+            "label": "Matrix Inversion",
+            "level": 3,
+            "size": 1
+        },
+        {
+            "id": "Neural Networks",
+            "label": "Neural Networks",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Activation Functions",
+            "label": "Activation Functions",
+            "level": 3,
+            "size": 1
+        },
+        {
+            "id": "Deep RNN",
+            "label": "Deep RNN",
+            "level": 5,
+            "size": 5
+        },
+        {
+            "id": "RNN",
+            "label": "RNN",
+            "level": 5,
+            "size": 1
+        }
+    ],
+    "links": [
+        {
+            "source": "Recurrent Neural Networks",
+            "target": "GRU",
+            "relation": "LSTM"
+        },
+        {
+            "source": "Gated Recurrent Units (GRU)",
+            "target": "LSTM",
+            "relation": "Recurrent Neural Network (RNN)"
+        },
+        {
+            "source": "Linear Matrix Operation",
+            "target": "Matrix Inversion",
+            "relation": "Matrix Multiplication"
+        },
+        {
+            "source": "Neural Networks",
+            "target": "Activation Functions",
+            "relation": "Non-linear Operation"
+        },
+        {
+            "source": "Deep RNN",
+            "target": "RNN",
+            "relation": "Recurrent Neural Network"
+        }
+    ]
+}

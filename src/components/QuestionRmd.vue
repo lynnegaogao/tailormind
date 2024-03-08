@@ -97,8 +97,16 @@ export default {
   methods: {
     initializeItems() {
       const questions = this.questionRmdData;
+      let uniqueQuestions = [];
+      let questionsSeen = {};
 
-      const groupedQuestions = questions.reduce((result, question) => {
+      questions.forEach(item => {
+        if (!questionsSeen[item.question]) {
+          uniqueQuestions.push(item);
+          questionsSeen[item.question] = true;
+        }
+      });
+      const groupedQuestions = uniqueQuestions.reduce((result, question) => {
         const key = question.knowledgepoint;
         if (!result[key]) {
           result[key] = [];

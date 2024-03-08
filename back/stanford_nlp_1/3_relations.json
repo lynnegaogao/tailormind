@@ -1,0 +1,363 @@
+[
+    [
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Stopword Removal"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Punctuation Removal"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Lowercase Transformation"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Word Tokenization"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Sentence Tokenization"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Character Tokenization"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "N-gram Tokenization"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization with Special Characters"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization with Punctuation Marks"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization with Spaces"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization with Non-Alphanumeric Characters"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization with Special Characters"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization with Punctuation Marks"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization with Spaces"
+        ],
+        [
+            "NLP",
+            "Text Preprocessing",
+            "Tokenization with Non-Alphanumeric Characters"
+        ]
+    ],
+    [
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Backpropagation"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Activation Functions"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Gradient Descent"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Dropout"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Batch Normalization"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Convolutional Neural Networks (CNN)"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Recurrent Neural Networks (RNN)"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Generative Adversarial Networks (GAN)"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Autoencoders"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Pre-training and Fine-tuning"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "LSTM (Long Short-Term Memory)"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Transformer"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Attention Mechanism"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Gated Recurrent Unit (GRU)"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "Inception Network"
+        ],
+        [
+            "Deep Learning",
+            "Neural Networks",
+            "ResNet (Residual Network)"
+        ]
+    ],
+    [
+        [
+            "Word Embeddings",
+            "Word2Vec",
+            "GloVe"
+        ],
+        [
+            "Word Embeddings",
+            "FastText",
+            "BERT"
+        ],
+        [
+            "Word Embeddings",
+            "Embedding Matrix",
+            "Vector Space Model"
+        ],
+        [
+            "Word Embeddings",
+            "Embedding Matrix",
+            "Distributed Representation"
+        ],
+        [
+            "Word Embeddings",
+            "Embedding Matrix",
+            "Skip-gram Model"
+        ]
+    ],
+    [
+        [
+            "Word2vec",
+            "Vector Representation",
+            "Embedding Layer"
+        ],
+        [
+            "Word2vec",
+            "\u8bad\u7ec3\u65b9\u6cd5",
+            "Skip-gram Model"
+        ],
+        [
+            "Word2vec",
+            "\u8bad\u7ec3\u65b9\u6cd5",
+            "CBOW Model"
+        ],
+        [
+            "Word2vec",
+            "\u8bad\u7ec3\u53c2\u6570",
+            "\u7a97\u53e3\u5927\u5c0f"
+        ],
+        [
+            "Word2vec",
+            "\u8bad\u7ec3\u53c2\u6570",
+            "\u5411\u91cf\u7ef4\u5ea6"
+        ],
+        [
+            "Word2vec",
+            "\u5e94\u7528\u9886\u57df",
+            "\u81ea\u7136\u8bed\u8a00\u5904\u7406"
+        ],
+        [
+            "Word2vec",
+            "\u5e94\u7528\u9886\u57df",
+            "\u4fe1\u606f\u68c0\u7d22"
+        ],
+        [
+            "Word2vec",
+            "\u5e94\u7528\u9886\u57df",
+            "\u63a8\u8350\u7cfb\u7edf"
+        ],
+        [
+            "Word2vec",
+            "\u5e94\u7528\u9886\u57df",
+            "\u673a\u5668\u7ffb\u8bd1"
+        ],
+        [
+            "Word2vec",
+            "\u5e94\u7528\u9886\u57df",
+            "\u60c5\u611f\u5206\u6790"
+        ],
+        [
+            "Word2vec",
+            "\u5e94\u7528\u9886\u57df",
+            "\u6587\u672c\u5206\u7c7b"
+        ],
+        [
+            "Word2vec",
+            "\u5e94\u7528\u9886\u57df",
+            "\u547d\u540d\u5b9e\u4f53\u8bc6\u522b"
+        ]
+    ],
+    [
+        [
+            "Skip-gram Model",
+            "Word Embeddings",
+            "Word2Vec"
+        ],
+        [
+            "Skip-gram Model",
+            "Word Embeddings",
+            "GloVe"
+        ],
+        [
+            "Skip-gram Model",
+            "Word Embeddings",
+            "FastText"
+        ],
+        [
+            "Skip-gram Model",
+            "Text Classification",
+            "Sentiment Analysis"
+        ],
+        [
+            "Skip-gram Model",
+            "Text Classification",
+            "Named Entity Recognition"
+        ]
+    ],
+    [
+        [
+            "Continuous Bag-of-Words (CBOW)",
+            "Neural Network",
+            "Word Embedding"
+        ],
+        [
+            "Continuous Bag-of-Words (CBOW)",
+            "N-gram",
+            "N-gram model"
+        ],
+        [
+            "Continuous Bag-of-Words (CBOW)",
+            "Skip-gram",
+            "Skip-gram model"
+        ],
+        [
+            "Continuous Bag-of-Words (CBOW)",
+            "GloVe",
+            "GloVe embedding"
+        ],
+        [
+            "Continuous Bag-of-Words (CBOW)",
+            "FastText",
+            "FastText embedding"
+        ]
+    ],
+    [
+        [
+            "Stochastic Gradient Descent",
+            "Optimization Problem",
+            "Minimize Loss Function"
+        ],
+        [
+            "Stochastic Gradient Descent",
+            "Mini-batch",
+            "Reduce Variance"
+        ],
+        [
+            "Stochastic Gradient Descent",
+            "Momentum",
+            "Accelerate Learning"
+        ],
+        [
+            "Stochastic Gradient Descent",
+            "Adagrad",
+            "Adaptive Learning Rate"
+        ],
+        [
+            "Stochastic Gradient Descent",
+            "RMSprop",
+            "Adaptive Learning Rate"
+        ]
+    ],
+    [
+        [
+            "Singular Value Decomposition (SVD)",
+            "Matrix Factorization",
+            "Principal Component Analysis (PCA)"
+        ],
+        [
+            "Singular Value Decomposition (SVD)",
+            "Matrix Completion",
+            "Low Rank Matrix Estimation"
+        ],
+        [
+            "Singular Value Decomposition (SVD)",
+            "Matrix Compression",
+            "Dimensionality Reduction"
+        ],
+        [
+            "Singular Value Decomposition (SVD)",
+            "Matrix Compression",
+            "Compressed Sensing"
+        ],
+        [
+            "Singular Value Decomposition (SVD)",
+            "Matrix Compression",
+            "Sparse Matrix Compression"
+        ]
+    ]
+]

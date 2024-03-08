@@ -1,0 +1,210 @@
+{
+    "nodes": [
+        {
+            "id": "Neural Networks",
+            "label": "Neural Networks",
+            "level": 1,
+            "size": 5
+        },
+        {
+            "id": "Key-Query-Value Mechanism",
+            "label": "Key-Query-Value Mechanism",
+            "level": 3,
+            "size": 4
+        },
+        {
+            "id": "Contextual Representations",
+            "label": "Contextual Representations",
+            "level": 2,
+            "size": 4
+        },
+        {
+            "id": "Position Representations",
+            "label": "Position Representations",
+            "level": 2,
+            "size": 3
+        },
+        {
+            "id": "Normalization Techniques",
+            "label": "Normalization Techniques",
+            "level": 2,
+            "size": 3
+        },
+        {
+            "id": "Word Embeddings",
+            "label": "Word Embeddings",
+            "level": 3,
+            "size": 2
+        },
+        {
+            "id": "BERT",
+            "label": "BERT",
+            "level": 3,
+            "size": 2
+        },
+        {
+            "id": "ELMo",
+            "label": "ELMo",
+            "level": 3,
+            "size": 2
+        },
+        {
+            "id": "GloVe",
+            "label": "GloVe",
+            "level": 3,
+            "size": 2
+        },
+        {
+            "id": "FastText",
+            "label": "FastText",
+            "level": 3,
+            "size": 2
+        },
+        {
+            "id": "Euclidean Distance",
+            "label": "Euclidean Distance",
+            "level": 4,
+            "size": 1
+        },
+        {
+            "id": "Angular Distance",
+            "label": "Angular Distance",
+            "level": 4,
+            "size": 1
+        },
+        {
+            "id": "Orientation Representation",
+            "label": "Orientation Representation",
+            "level": 4,
+            "size": 1
+        },
+        {
+            "id": "Pose Estimation",
+            "label": "Pose Estimation",
+            "level": 4,
+            "size": 1
+        },
+        {
+            "id": "3D Reconstruction",
+            "label": "3D Reconstruction",
+            "level": 4,
+            "size": 1
+        },
+        {
+            "id": "Layer Normalization",
+            "label": "Layer Normalization",
+            "level": 3,
+            "size": 2
+        },
+        {
+            "id": "Batch Normalization",
+            "label": "Batch Normalization",
+            "level": 3,
+            "size": 2
+        },
+        {
+            "id": "Instance Normalization",
+            "label": "Instance Normalization",
+            "level": 3,
+            "size": 2
+        },
+        {
+            "id": "Group Normalization",
+            "label": "Group Normalization",
+            "level": 3,
+            "size": 2
+        }
+    ],
+    "links": [
+        {
+            "source": "Neural Networks",
+            "target": "Key-Query-Value Mechanism",
+            "relation": "enables"
+        },
+        {
+            "source": "Neural Networks",
+            "target": "Contextual Representations",
+            "relation": "uses"
+        },
+        {
+            "source": "Neural Networks",
+            "target": "Position Representations",
+            "relation": "utilizes"
+        },
+        {
+            "source": "Neural Networks",
+            "target": "Normalization Techniques",
+            "relation": "employs"
+        },
+        {
+            "source": "Contextual Representations",
+            "target": "Word Embeddings",
+            "relation": "includes"
+        },
+        {
+            "source": "Contextual Representations",
+            "target": "BERT",
+            "relation": "includes"
+        },
+        {
+            "source": "Contextual Representations",
+            "target": "ELMo",
+            "relation": "includes"
+        },
+        {
+            "source": "Contextual Representations",
+            "target": "GloVe",
+            "relation": "includes"
+        },
+        {
+            "source": "Contextual Representations",
+            "target": "FastText",
+            "relation": "includes"
+        },
+        {
+            "source": "Position Representations",
+            "target": "Euclidean Distance",
+            "relation": "considers"
+        },
+        {
+            "source": "Position Representations",
+            "target": "Angular Distance",
+            "relation": "considers"
+        },
+        {
+            "source": "Position Representations",
+            "target": "Orientation Representation",
+            "relation": "considers"
+        },
+        {
+            "source": "Position Representations",
+            "target": "Pose Estimation",
+            "relation": "involves"
+        },
+        {
+            "source": "Position Representations",
+            "target": "3D Reconstruction",
+            "relation": "involves"
+        },
+        {
+            "source": "Normalization Techniques",
+            "target": "Layer Normalization",
+            "relation": "comprises"
+        },
+        {
+            "source": "Normalization Techniques",
+            "target": "Batch Normalization",
+            "relation": "comprises"
+        },
+        {
+            "source": "Normalization Techniques",
+            "target": "Instance Normalization",
+            "relation": "comprises"
+        },
+        {
+            "source": "Normalization Techniques",
+            "target": "Group Normalization",
+            "relation": "comprises"
+        }
+    ]
+}

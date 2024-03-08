@@ -1,0 +1,146 @@
+[
+    {
+        "start": 0.0,
+        "level": 1,
+        "milestone": "Introduction to NLP",
+        "importance": 3,
+        "subknowledge": [
+            {
+                "level": 2,
+                "knowledge": "What is NLP?",
+                "importance": 5,
+                "content": "Natural Language Processing (NLP) is a field of artificial intelligence that enables computers to understand, interpret, and produce human languages."
+            },
+            {
+                "level": 2,
+                "knowledge": "Applications of NLP",
+                "importance": 4,
+                "content": "Used in various applications like language translation, sentiment analysis, and chatbots."
+            }
+        ]
+    },
+    {
+        "start": 0.1,
+        "level": 4,
+        "milestone": "Text Preprocessing",
+        "importance": 5,
+        "subknowledge": [
+            {
+                "level": 4,
+                "knowledge": "Tokenization",
+                "importance": 4,
+                "content": "The process of dividing text into smaller pieces, such as words or phrases."
+            },
+            {
+                "level": 4,
+                "knowledge": "Stopword Removal",
+                "importance": 3,
+                "content": "Removing common words that usually have little meaning and do not contribute to the context."
+            },
+            {
+                "level": 4,
+                "knowledge": "Punctuation Removal",
+                "importance": 3,
+                "content": "Eliminating punctuation marks from text to reduce noise and focus on textual content."
+            },
+            {
+                "level": 4,
+                "knowledge": "Lowercase Transformation",
+                "importance": 3,
+                "content": "Converting all text to lowercase to ensure consistency and reduce complexity."
+            }
+        ]
+    },
+    {
+        "start": 0.3,
+        "level": 4,
+        "milestone": "Word Embeddings",
+        "importance": 5,
+        "subknowledge": [
+            {
+                "level": 4,
+                "knowledge": "Concept of Word Embeddings",
+                "importance": 5,
+                "content": "Technique in NLP where words or phrases are mapped to vectors of real numbers, capturing their meanings."
+            },
+            {
+                "level": 4,
+                "knowledge": "Use of Word2Vec and GloVe",
+                "importance": 4,
+                "content": "Popular models for creating word embeddings, each differing in methodology but aiming to capture word associations."
+            },
+            {
+                "level": 4,
+                "knowledge": "Implementing Word Embeddings",
+                "importance": 4,
+                "content": "Involves choosing appropriate model parameters, training on large text corpora, and integrating into NLP applications."
+            }
+        ]
+    },
+    {
+        "start": 0.5,
+        "level": 3,
+        "milestone": "Introduction to Deep Learning for NLP",
+        "importance": 4,
+        "subknowledge": [
+            {
+                "level": 4,
+                "knowledge": "Understanding Deep Learning",
+                "importance": 4,
+                "content": "A subset of machine learning involving neural networks with many layers, capable of capturing complex patterns."
+            },
+            {
+                "level": 4,
+                "knowledge": "Role of Neural Networks",
+                "importance": 4,
+                "content": "Neural networks learn to perform tasks by analyzing training examples, automatically discovering the representations needed for feature detection."
+            },
+            {
+                "level": 4,
+                "knowledge": "Significance of Activation Functions",
+                "importance": 3,
+                "content": "Activation functions determine the output of neural network nodes and introduce non-linearity into the model."
+            }
+        ]
+    },
+    {
+        "start": 0.7,
+        "level": 4,
+        "milestone": "Advanced NLP Models",
+        "importance": 4,
+        "subknowledge": [
+            {
+                "level": 4,
+                "knowledge": "Introduction to BERT",
+                "importance": 5,
+                "content": "Bidirectional Encoder Representations from Transformers (BERT) revolutionized NLP tasks by enabling context-aware embeddings."
+            },
+            {
+                "level": 4,
+                "knowledge": "Understanding Skip-gram and CBOW Models",
+                "importance": 4,
+                "content": "Techniques used in Word2Vec for predicting the context of words and vice versa, crucial for understanding word associations."
+            }
+        ]
+    },
+    {
+        "start": 0.9,
+        "level": 1,
+        "milestone": "Optimization Techniques",
+        "importance": 3,
+        "subknowledge": [
+            {
+                "level": 3,
+                "knowledge": "Stochastic Gradient Descent",
+                "importance": 4,
+                "content": "A method to find the minimum of a function by moving in the direction of steepest descent, adjusting parameters iteratively."
+            },
+            {
+                "level": 3,
+                "knowledge": "Minimizing Loss Functions",
+                "importance": 4,
+                "content": "Key goal in training deep learning models, involves finding the set of parameters that result in the lowest possible loss."
+            }
+        ]
+    }
+]

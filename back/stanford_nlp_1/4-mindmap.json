@@ -1,0 +1,232 @@
+{
+    "nodes": [
+      {
+        "id": "Natural Language Processing (NLP)",
+        "label": "Natural Language Processing (NLP)",
+        "level": 1,
+        "size": 5
+      },
+      {
+        "id": "Deep Learning",
+        "label": "Deep Learning",
+        "level": 2,
+        "size": 5
+      },
+      {
+        "id": "Word Embeddings",
+        "label": "Word Embeddings",
+        "level": 3,
+        "size": 4
+      },
+      {
+        "id": "Distributional Semantics",
+        "label": "Distributional Semantics",
+        "level": 4,
+        "size": 3
+      },
+      {
+        "id": "Co-occurrence Matrices",
+        "label": "Co-occurrence Matrices",
+        "level": 5,
+        "size": 3
+      },
+      {
+        "id": "Word2vec",
+        "label": "Word2vec",
+        "level": 6,
+        "size": 4
+      },
+      {
+        "id": "Skip-gram Model",
+        "label": "Skip-gram Model",
+        "level": 7,
+        "size": 3
+      },
+      {
+        "id": "Continuous Bag-of-Words (CBOW)",
+        "label": "Continuous Bag-of-Words (CBOW)",
+        "level": 7,
+        "size": 3
+      },
+      {
+        "id": "Negative Sampling",
+        "label": "Negative Sampling",
+        "level": 6,
+        "size": 3
+      },
+      {
+        "id": "Stochastic Gradient Descent",
+        "label": "Stochastic Gradient Descent",
+        "level": 6,
+        "size": 4
+      },
+      {
+        "id": "Backpropagation",
+        "label": "Backpropagation",
+        "level": 6,
+        "size": 4
+      },
+      {
+        "id": "Singular Value Decomposition (SVD)",
+        "label": "Singular Value Decomposition (SVD)",
+        "level": 4,
+        "size": 3
+      },
+      {
+        "id": "Transformer Models",
+        "label": "Transformer Models",
+        "level": 6,
+        "size": 5
+      },
+      {
+        "id": "BERT",
+        "label": "BERT",
+        "level": 7,
+        "size": 4
+      },
+      {
+        "id": "Attention Mechanism",
+        "label": "Attention Mechanism",
+        "level": 6,
+        "size": 4
+      },
+      {
+        "id": "GloVe",
+        "label": "GloVe",
+        "level": 6,
+        "size": 3
+      },
+      {
+        "id": "FastText",
+        "label": "FastText",
+        "level": 7,
+        "size": 3
+      },
+      {
+        "id": "Neural Network Optimization",
+        "label": "Neural Network Optimization",
+        "level": 5,
+        "size": 4
+      },
+      {
+        "id": "Activation Functions",
+        "label": "Activation Functions",
+        "level": 3,
+        "size": 3
+      },
+      {
+        "id": "Recurrent Neural Networks (RNN)",
+        "label": "Recurrent Neural Networks (RNN)",
+        "level": 6,
+        "size": 4
+      },
+      {
+        "id": "Long Short-Term Memory (LSTM)",
+        "label": "Long Short-Term Memory (LSTM)",
+        "level": 7,
+        "size": 3
+      }
+    ],
+    "links": [
+      {
+        "source": "Natural Language Processing (NLP)",
+        "target": "Deep Learning",
+        "relationship": "uses"
+      },
+      {
+        "source": "Natural Language Processing (NLP)",
+        "target": "Word Embeddings",
+        "relationship": "includes"
+      },
+      {
+        "source": "Word Embeddings",
+        "target": "Distributional Semantics",
+        "relationship": "based on"
+      },
+      {
+        "source": "Distributional Semantics",
+        "target": "Co-occurrence Matrices",
+        "relationship": "utilizes"
+      },
+      {
+        "source": "Word Embeddings",
+        "target": "Word2vec",
+        "relationship": "includes"
+      },
+      {
+        "source": "Word2vec",
+        "target": "Skip-gram Model",
+        "relationship": "includes"
+      },
+      {
+        "source": "Word2vec",
+        "target": "Continuous Bag-of-Words (CBOW)",
+        "relationship": "includes"
+      },
+      {
+        "source": "Word2vec",
+        "target": "Negative Sampling",
+        "relationship": "utilizes"
+      },
+      {
+        "source": "Deep Learning",
+        "target": "Stochastic Gradient Descent",
+        "relationship": "utilizes"
+      },
+      {
+        "source": "Deep Learning",
+        "target": "Backpropagation",
+        "relationship": "utilizes"
+      },
+      {
+        "source": "Distributional Semantics",
+        "target": "Singular Value Decomposition (SVD)",
+        "relationship": "utilizes"
+      },
+      {
+        "source": "Deep Learning",
+        "target": "Transformer Models",
+        "relationship": "includes"
+      },
+      {
+        "source": "Transformer Models",
+        "target": "BERT",
+        "relationship": "includes"
+      },
+      {
+        "source": "Transformer Models",
+        "target": "Attention Mechanism",
+        "relationship": "based on"
+      },
+      {
+        "source": "Word Embeddings",
+        "target": "GloVe",
+        "relationship": "includes"
+      },
+      {
+        "source": "Word Embeddings",
+        "target": "FastText",
+        "relationship": "includes"
+      },
+      {
+        "source": "Deep Learning",
+        "target": "Neural Network Optimization",
+        "relationship": "includes"
+      },
+      {
+        "source": "Deep Learning",
+        "target": "Activation Functions",
+        "relationship": "utilizes"
+      },
+      {
+        "source": "Deep Learning",
+        "target": "Recurrent Neural Networks (RNN)",
+        "relationship": "includes"
+      },
+      {
+        "source": "Recurrent Neural Networks (RNN)",
+        "target": "Long Short-Term Memory (LSTM)",
+        "relationship": "includes"
+      }
+    ]
+  }

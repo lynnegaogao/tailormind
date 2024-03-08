@@ -28,7 +28,7 @@
                     <template #title="{ key: key, title, content }">
                         <a-dropdown :trigger="['contextmenu']">
                             <a-card size="small" :key="key" :title="key + ' ' + title"
-                                :style="{ border: selectedKey == key ? '2px solid rgb(199,151,48)' : '' }" class="card">
+                                :style="{ border: selectedKey == key ? '2px solid rgb(199,151,48)' : '','max-width': '300px' }" class="card">
                                 <div class="card-content">
                                     <p>{{ content }}</p>
                                 </div>
@@ -183,6 +183,7 @@ export default {
 .right-column {
     flex: 3;
     max-height: 720px;
+    max-width: 350px;
 }
 
 .pdf-preview {

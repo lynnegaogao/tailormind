@@ -1,0 +1,274 @@
+{
+    "nodes": [
+        {
+            "id": "Bayesian Inference",
+            "label": "Bayesian Inference",
+            "level": 1,
+            "size": 4
+        },
+        {
+            "id": "Bayes Rule",
+            "label": "Bayes Rule",
+            "level": 2,
+            "size": 5
+        },
+        {
+            "id": "Prior Probability",
+            "label": "Prior Probability",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Posterior Probability",
+            "label": "Posterior Probability",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Evidence",
+            "label": "Evidence",
+            "level": 4,
+            "size": 2
+        },
+        {
+            "id": "Conditional Probability",
+            "label": "Conditional Probability",
+            "level": 2,
+            "size": 4
+        },
+        {
+            "id": "Machine Learning",
+            "label": "Machine Learning",
+            "level": 1,
+            "size": 5
+        },
+        {
+            "id": "Classification Techniques",
+            "label": "Classification Techniques",
+            "level": 2,
+            "size": 5
+        },
+        {
+            "id": "Naive Bayes Algorithm",
+            "label": "Naive Bayes Algorithm",
+            "level": 3,
+            "size": 4
+        },
+        {
+            "id": "Multinomial Naive Bayes",
+            "label": "Multinomial Naive Bayes",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Gaussian Naive Bayes",
+            "label": "Gaussian Naive Bayes",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Binomial Naive Bayes",
+            "label": "Binomial Naive Bayes",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Discriminative Naive Bayes",
+            "label": "Discriminative Naive Bayes",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Bayesian Network",
+            "label": "Bayesian Network",
+            "level": 4,
+            "size": 4
+        },
+        {
+            "id": "Hidden Markov Model",
+            "label": "Hidden Markov Model",
+            "level": 4,
+            "size": 4
+        },
+        {
+            "id": "Support Vector Machine",
+            "label": "Support Vector Machine",
+            "level": 4,
+            "size": 4
+        },
+        {
+            "id": "Conditional Independence",
+            "label": "Conditional Independence",
+            "level": 2,
+            "size": 4
+        },
+        {
+            "id": "Independent Events",
+            "label": "Independent Events",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Joint Distribution",
+            "label": "Joint Distribution",
+            "level": 4,
+            "size": 2
+        },
+        {
+            "id": "Dependent Events",
+            "label": "Dependent Events",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Marginal Distribution",
+            "label": "Marginal Distribution",
+            "level": 4,
+            "size": 2
+        },
+        {
+            "id": "Conditional Distribution",
+            "label": "Conditional Distribution",
+            "level": 4,
+            "size": 3
+        },
+        {
+            "id": "Neural Networks",
+            "label": "Neural Networks",
+            "level": 1,
+            "size": 5
+        },
+        {
+            "id": "Activation Functions",
+            "label": "Activation Functions",
+            "level": 2,
+            "size": 4
+        },
+        {
+            "id": "Logistic Function",
+            "label": "Logistic Function",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Logit Function",
+            "label": "Logit Function",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Logit Link Function",
+            "label": "Logit Link Function",
+            "level": 4,
+            "size": 2
+        },
+        {
+            "id": "Regularization",
+            "label": "Regularization",
+            "level": 2,
+            "size": 4
+        },
+        {
+            "id": "L1 Regularization",
+            "label": "L1 Regularization",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "L2 Regularization",
+            "label": "L2 Regularization",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Dropout",
+            "label": "Dropout",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Early Stopping",
+            "label": "Early Stopping",
+            "level": 4,
+            "size": 2
+        },
+        {
+            "id": "Batch Normalization",
+            "label": "Batch Normalization",
+            "level": 4,
+            "size": 2
+        }
+    ],
+    "links": [
+        {
+            "source": "Bayesian Inference",
+            "target": "Bayes Rule",
+            "relation": "contains"
+        },
+        {
+            "source": "Bayesian Inference",
+            "target": "Conditional Probability",
+            "relation": "contains"
+        },
+        {
+            "source": "Bayes Rule",
+            "target": "Prior Probability",
+            "relation": "leads to"
+        },
+        {
+            "source": "Bayes Rule",
+            "target": "Posterior Probability",
+            "relation": "leads to"
+        },
+        {
+            "source": "Bayes Rule",
+            "target": "Evidence",
+            "relation": "requires"
+        },
+        {
+            "source": "Machine Learning",
+            "target": "Classification Techniques",
+            "relation": "includes"
+        },
+        {
+            "source": "Classification Techniques",
+            "target": "Naive Bayes Algorithm",
+            "relation": "employs"
+        },
+        {
+            "source": "Classification Techniques",
+            "target": "Bayesian Network",
+            "relation": "utilizes"
+        },
+        {
+            "source": "Classification Techniques",
+            "target": "Support Vector Machine",
+            "relation": "utilizes"
+        },
+        {
+            "source": "Conditional Independence",
+            "target": "Independent Events",
+            "relation": "discusses"
+        },
+        {
+            "source": "Conditional Independence",
+            "target": "Dependent Events",
+            "relation": "discusses"
+        },
+        {
+            "source": "Dependent Events",
+            "target": "Conditional Independence",
+            "relation": "leads to"
+        },
+        {
+            "source": "Neural Networks",
+            "target": "Activation Functions",
+            "relation": "utilizes"
+        },
+        {
+            "source": "Neural Networks",
+            "target": "Regularization",
+            "relation": "employs"
+        }
+    ]
+}

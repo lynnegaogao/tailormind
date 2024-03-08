@@ -110,18 +110,21 @@ def files():
 
     
 # minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
-historical=True
-# historical=False
+# historical=True
+historical=False
+# material='history'
+# material='Nbayes'
+# material='transformer'
+material='stanford_nlp_1'
 @app.route('/get-customziednotedata', methods=["POST"])
 def sft_chat():
     if historical:
-        with open('./history/8-markdown.md', 'r', encoding='utf-8') as file:
-                content = file.read()
-        return [content]
+        with open('./'+material+'/8-markdown.md', 'r', encoding='utf-8') as file:
+            content = file.read()
+        return [content] 
     else:
         data = request.json
         content=json.dumps(data.get('submitChatData', ''))
-        print(content)
         
         prompt = """
         Please generate summarised and structured notes in markdown form based on multiple rounds of dialogue chats.
@@ -175,6 +178,15 @@ def sft_chat():
         pattern = r'```markdown(.*?)```'
         markdownData = re.findall(pattern, ai_output, re.DOTALL)
         print("markdown data:",markdownData)
+        # 获取文件路径的目录部分
+        file_path='E:/Vis24-TailorMind/tailormind/back/'+material+'/8-markdown.md'
+        directory = os.path.dirname(file_path)
+        # 如果目录不存在，则创建目录
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            print(f'目录{directory}已创建。')
+        with open(file_path,'w',encoding='utf-8') as file:
+            file.write(markdownData[0])
         return markdownData
     
     

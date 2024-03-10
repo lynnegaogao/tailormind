@@ -1,0 +1,111 @@
+{
+    "nodes": [
+        {
+            "id": "Principal Component Analysis",
+            "label": "Principal Component Analysis",
+            "level": 1,
+            "size": 5
+        },
+        {
+            "id": "Linear Regression",
+            "label": "Linear Regression",
+            "level": 3,
+            "size": 4
+        },
+        {
+            "id": "Regression Analysis",
+            "label": "Regression Analysis",
+            "level": 2,
+            "size": 4
+        },
+        {
+            "id": "Multivariate Analysis",
+            "label": "Multivariate Analysis",
+            "level": 3,
+            "size": 4
+        },
+        {
+            "id": "Univariate Analysis",
+            "label": "Univariate Analysis",
+            "level": 3,
+            "size": 3
+        },
+        {
+            "id": "Data Dimensionality Reduction",
+            "label": "Data Dimensionality Reduction",
+            "level": 4,
+            "size": 4
+        },
+        {
+            "id": "Feature Selection",
+            "label": "Feature Selection",
+            "level": 4,
+            "size": 3
+        },
+        {
+            "id": "Data Visualization",
+            "label": "Data Visualization",
+            "level": 5,
+            "size": 4
+        },
+        {
+            "id": "Scatterplot Matrix",
+            "label": "Scatterplot Matrix",
+            "level": 6,
+            "size": 3
+        },
+        {
+            "id": "PCA Plot",
+            "label": "PCA Plot",
+            "level": 6,
+            "size": 3
+        }
+    ],
+    "links": [
+        {
+            "source": "Principal Component Analysis",
+            "target": "Linear Regression",
+            "relation": "3"
+        },
+        {
+            "source": "Principal Component Analysis",
+            "target": "Regression Analysis",
+            "relation": "2"
+        },
+        {
+            "source": "Principal Component Analysis",
+            "target": "Multivariate Analysis",
+            "relation": "3"
+        },
+        {
+            "source": "Principal Component Analysis",
+            "target": "Univariate Analysis",
+            "relation": "3"
+        },
+        {
+            "source": "Principal Component Analysis",
+            "target": "Data Dimensionality Reduction",
+            "relation": "4"
+        },
+        {
+            "source": "Principal Component Analysis",
+            "target": "Feature Selection",
+            "relation": "4"
+        },
+        {
+            "source": "Principal Component Analysis",
+            "target": "Data Visualization",
+            "relation": "5"
+        },
+        {
+            "source": "Principal Component Analysis",
+            "target": "Scatterplot Matrix",
+            "relation": "6"
+        },
+        {
+            "source": "Principal Component Analysis",
+            "target": "PCA Plot",
+            "relation": "6"
+        }
+    ]
+}

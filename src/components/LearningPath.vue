@@ -132,9 +132,9 @@ export default {
     methods: {
         drawLearningPath(learningPathData) {
             d3.selectAll("#learningpath-area svg").remove();
-            console.log("learning path数据：",learningPathData)
+            // console.log("learning path数据：",learningPathData)
             // 预设参数
-            const width = this.isPathContrast?800:1000
+            const width = this.isPathContrast ? 800 : 1000
             const height = 390;
             const offsetX = 20;
             const offsetY = 10;
@@ -323,15 +323,21 @@ export default {
 
                         if (hoveredMilestones.length != 0) {
                             // 创建tooltip组
-                            var tooltipOffsetX = this.isPathContrast?event.pageX +1000:event.pageX - 1170 //数字越大，越靠右
-                            var tooltipOffsetY = event.pageY - 850 //数字越大，越靠下
-                            console.log(tooltipOffsetX, tooltipOffsetY)
-                            if (tooltipOffsetX > 590) {
-                                tooltipOffsetX = tooltipOffsetX - 300
-                            }
-                            if (tooltipOffsetY > 500) {
-                                tooltipOffsetY = tooltipOffsetY - 300
-                            }
+                            // 确定屏幕的宽度和高度
+                            var offsetX = 20;
+                            var offsetY = 20;
+                            var canvasOffsetX = svg.node().getBoundingClientRect().left;
+                            var canvasOffsetY = svg.node().getBoundingClientRect().top;
+
+                            // 计算基于画布的偏移
+                            var tooltipOffsetX = event.pageX - canvasOffsetX + offsetX;
+                            var tooltipOffsetY = event.pageY - canvasOffsetY + offsetY;
+                            // console.log('tooltipOffsetX:', tooltipOffsetX)
+                            // console.log('tooltipOffsetY:', tooltipOffsetY)
+                            // tooltipOffsetX = Math.max(200, Math.min(tooltipOffsetX, 400));
+                            // tooltipOffsetY = Math.max(200, Math.min(tooltipOffsetY, 400));
+
+                        
                             var tooltipGroup = svg.append('g')
                                 .attr('class', 'tooltip-group')
                                 .attr('transform', `translate(${tooltipOffsetX}, ${tooltipOffsetY})`);

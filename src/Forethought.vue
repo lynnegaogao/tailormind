@@ -212,8 +212,8 @@ export default {
       })
       this.cardData = childrenContents
       this.getFileStatus = true
-      console.log(this.getFileStatus)
-      console.log(this.cardData)
+      // console.log(this.getFileStatus)
+      // console.log(this.cardData)
     },
 
     // 对选中节点进行问题推荐
@@ -256,6 +256,7 @@ export default {
     // 获取用户重新定义的learning path数据
     onGetLearningPathDataByUser(data) {
       this.learningPathData = data
+      console.log(this.learningPathData)
     },
 
     // 进入reflection之前对聊天数据进行保存

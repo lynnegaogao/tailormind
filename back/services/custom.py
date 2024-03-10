@@ -11,11 +11,13 @@ from openai import OpenAI
 
 historical=True
 # historical=False
-material='history'
+
+# material='history'
 # material='stanford_nlp_5'
 # material='Nbayes'
-# material='transformer'
+material='transformer'
 # material='stanford_nlp_1'
+# material='cs_unsupervisedlearning'
 file_path = 'E:/Vis24-TailorMind/tailormind/back/'+material+'/1_material_overview.json'
 # 获取文件路径的目录部分
 directory = os.path.dirname(file_path)
@@ -189,7 +191,8 @@ class Custom:
                     learningPath=json.load(file)
             # 用户实际数据
             else:
-                learningPath=self.get_learningpath(mindmap)
+                # learningPath=self.get_learningpath(mindmap)
+                learningPath=self.get_learningpath(fileStructure)
                 with open('E:/Vis24-TailorMind/tailormind/back/'+material+'/6-learning_path.json', 'w') as file:
                     json.dump(learningPath, file) 
                 
@@ -631,7 +634,7 @@ class Custom:
       }]
         sample_str = "```json\n" + json.dumps(sample) + "\n```"
         prompt = """
-        Drawing from the structured knowledge map provided, we propose a self-learning pathway tailored for beginners, comprising approximately 8-10 pivotal milestones. 
+        Drawing from the file structure provided, we propose a self-learning pathway tailored for beginners, comprising approximately 8-10 pivotal milestones. 
         The pathway initiates at a starting point labeled "start" ranging from 0 to 1. 
         Each learning objective is categorized under "level" with a scale from 1 to 8, where each level represents a progressive learning stage as follows:
         {1: "Concept", 2: "Principle / Math formula", 3: "Principle / Math formula", 4: "Implementation", 5: "Significance / Influence", 6: "Related Knowledge", 7: "Contrast Knowledge", 8: "Extended Knowledge"}. 

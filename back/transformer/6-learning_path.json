@@ -1,1 +1,108 @@
-[{"start": 0.0, "level": 1, "milestone": "Understanding Neural Networks", "importance": 5, "subknowledge": [{"level": 1, "knowledge": "Basics of Neural Networks", "importance": 5, "content": "Neural Networks mimic the workings of the human brain to process information, consisting of interconnected nodes or 'neurons'."}, {"level": 2, "knowledge": "Activation Functions", "importance": 4, "content": "Functions that decide whether a neuron should be activated, influencing the network's ability to learn complex patterns."}, {"level": 2, "knowledge": "Normalization Techniques", "importance": 3, "content": "Methods such as Batch and Layer Normalization that help in stabilizing and speeding up the training of neural networks."}]}, {"start": 0.2, "level": 2, "milestone": "Exploring Representations", "importance": 4, "subknowledge": [{"level": 2, "knowledge": "Position Representations", "importance": 4, "content": "Understanding how neural networks incorporate the position of data elements (e.g., words in a sentence) for processing."}, {"level": 2, "knowledge": "Contextual Representations", "importance": 4, "content": "Techniques for capturing the context around data points, crucial for understanding the meaning in languages."}]}, {"start": 0.4, "level": 3, "milestone": "Word Embeddings and Language Models", "importance": 4, "subknowledge": [{"level": 3, "knowledge": "Introduction to Word Embeddings", "importance": 5, "content": "Methods like GloVe and FastText that represent words in dense vector forms, capturing semantic meaning."}, {"level": 3, "knowledge": "Advanced Language Models", "importance": 4, "content": "Learning about models like BERT and ELMo that leverage deep learning for understanding contextual language representations."}]}, {"start": 0.6, "level": 3, "milestone": "Normalization in Depth", "importance": 3, "subknowledge": [{"level": 3, "knowledge": "Normalization Techniques Overview", "importance": 5, "content": "A deeper dive into Batch, Layer, Instance, and Group Normalization, understanding their differences and applications."}]}, {"start": 0.8, "level": 4, "milestone": "Implementing Positional and Contextual Understandings", "importance": 4, "subknowledge": [{"level": 4, "knowledge": "Applying Euclidean and Angular Distance", "importance": 4, "content": "Practical use of distance measures in modeling and representing positions."}, {"level": 4, "knowledge": "Performing Orientation Representation", "importance": 3, "content": "Understanding and implementing techniques to represent orientation in data, crucial for tasks like Pose Estimation."}, {"level": 4, "knowledge": "3D Reconstruction Techniques", "importance": 4, "content": "Learning the principles behind reconstructing three-dimensional models from data."}]}]
+[
+    {
+        "start": 0.0,
+        "level": 1,
+        "milestone": "Transformer Overview",
+        "importance": 5,
+        "subknowledge": [
+            {
+                "level": 5,
+                "knowledge": "Significances",
+                "importance": 5,
+                "content": "The Transformer is a model architecture relying primarily on self-attention mechanisms to process sequential data."
+            },
+            {
+                "level": 3,
+                "knowledge": "Applications",
+                "importance": 4,
+                "content": "Includes self-attention layers, feed-forward layers, multi-head self-attention, layer normalization, residual connections, and attention logit scaling."
+            }
+        ]
+    },
+    {
+        "start": 0.1,
+        "level": 2,
+        "milestone": "Multi-head Self-Attention Mechanism",
+        "importance": 5,
+        "subknowledge": [
+            {
+                "level": 1,
+                "knowledge": "Functionality",
+                "importance": 5,
+                "content": "Allows the model to focus on different parts of the input sequence by applying self-attention multiple times with different transformation of the input."
+            },
+            {
+                "level": 2,
+                "knowledge": "Key-Query-Value",
+                "importance": 5,
+                "content": "Allows the model to focus on different parts of the input sequence by applying self-attention multiple times with different transformation of the input."
+            },
+            {
+                "level": 7,
+                "knowledge": "Categories",
+                "importance": 2,
+                "content": "Allows the model to focus on different parts of the input sequence by applying self-attention multiple times with different transformation of the input."
+            }
+        ]
+    },
+    {
+        "start": 0.5,
+        "level": 4,
+        "milestone": "Key Components in Transformer",
+        "importance": 4,
+        "subknowledge": [
+            {
+                "level": 4,
+                "knowledge": "Layer Norm",
+                "importance": 4,
+                "content": "Reduces uninformative variations between activations, stabilizing the input to subsequent layers and hence improving model performance."
+            },
+            {
+                "level": 4,
+                "knowledge": "Residual Connections",
+                "importance": 2,
+                "content": "Reduces uninformative variations between activations, stabilizing the input to subsequent layers and hence improving model performance."
+            },
+            {
+                "level": 4,
+                "knowledge": "Logit Scaling",
+                "importance": 4,
+                "content": "Reduces uninformative variations between activations, stabilizing the input to subsequent layers and hence improving model performance."
+            }
+        ]
+    },
+    {
+        "start": 0.7,
+        "level": 5,
+        "milestone": "Encoder-Decoder Synergy",
+        "importance": 5,
+        "subknowledge": [
+            {
+                "level": 7,
+                "knowledge": "Encoder-Decoder Integration for Complex Tasks",
+                "importance": 5,
+                "content": "Illustrates how combining the encoder and decoder supports complex understanding and generation tasks, like machine translation."
+            }
+        ]
+    },
+    {
+        "start": 0.8,
+        "level": 8,
+        "milestone": "Transformer Variants",
+        "importance": 3,
+        "subknowledge": [
+            {
+                "level": 8,
+                "knowledge": "BERT",
+                "importance": 2,
+                "content": "Explores various advanced Transformer models like BERT, GPT, and their specific use cases in enhancing natural language processing tasks."
+            },
+            {
+                "level": 8,
+                "knowledge": "GPT",
+                "importance": 2,
+                "content": "Explores various advanced Transformer models like BERT, GPT, and their specific use cases in enhancing natural language processing tasks."
+            }
+        ]
+    }
+]

@@ -1,1 +1,702 @@
-[{"question": "What is the difference between self-attention and traditional attention mechanism?", "knowledgepoint": "Self-attention", "level": 1}, {"question": "What is the difference between self-attention and attention mechanism?", "knowledgepoint": "Self-attention", "level": 2}, {"question": "What is the difference between self-attention and traditional attention mechanism?", "knowledgepoint": "Self-attention", "level": 3}, {"question": "What are the possible issues in implementing self-attention mechanism?", "knowledgepoint": "Self-attention", "level": 4}, {"question": "What is the significance of self-attention in natural language processing?", "knowledgepoint": "Self-attention", "level": 5}, {"question": "What is the difference between self-attention and traditional attention mechanism?", "knowledgepoint": "Self-attention", "level": 6}, {"question": "What is the difference between self-attention and traditional attention mechanism?", "knowledgepoint": "Self-attention", "level": 7}, {"question": "What is the difference between self-attention and traditional attention mechanism?", "knowledgepoint": "Self-attention", "level": 8}, {"question": "What is the difference between Transformer and RNN in terms of processing sequence data?", "knowledgepoint": "Transformer architecture", "level": 1}, {"question": "What is the difference between self-attention and multi-head attention?", "knowledgepoint": "Transformer architecture", "level": 2}, {"question": "What is the difference between Transformer and RNN in terms of processing sequence data?", "knowledgepoint": "Transformer architecture", "level": 3}, {"question": "What is the difference between Transformer and RNN in terms of implementation?", "knowledgepoint": "Transformer architecture", "level": 4}, {"question": "What are the advantages and disadvantages of using Transformer architecture in natural language processing tasks?", "knowledgepoint": "Transformer architecture", "level": 5}, {"question": "What are the advantages and disadvantages of using Transformer architecture in natural language processing tasks?", "knowledgepoint": "Transformer architecture", "level": 6}, {"question": "What is the difference between Transformer and RNN in terms of processing sequence data?", "knowledgepoint": "Transformer architecture", "level": 7}, {"question": "What are the advantages and disadvantages of using Transformer architecture in natural language processing tasks?", "knowledgepoint": "Transformer architecture", "level": 8}, {"question": "What is the difference between recurrent neural networks (RNNs) and convolutional neural networks (CNNs) in NLP tasks? How do they differ from each other in terms of input, output, and training process?", "knowledgepoint": "Neural architectures for NLP", "level": 1}, {"question": "What is the difference between recurrent neural networks and convolutional neural networks in NLP tasks?", "knowledgepoint": "Neural architectures for NLP", "level": 2}, {"question": "What are the most common types of neural networks used in NLP tasks?", "knowledgepoint": "Neural architectures for NLP", "level": 3}, {"question": "How do you choose the right architecture for a specific NLP task, such as text classification or language generation?", "knowledgepoint": "Neural architectures for NLP", "level": 3}, {"question": "How can we choose the right architecture for a specific NLP task?", "knowledgepoint": "Neural architectures for NLP", "level": 4}, {"question": "What are common issues in training and optimizing neural architectures for NLP tasks, and how can we address them?", "knowledgepoint": "Neural architectures for NLP", "level": 4}, {"question": "What are the most significant challenges in designing and implementing neural architectures for NLP?", "knowledgepoint": "Neural architectures for NLP", "level": 5}, {"question": "What are the most common types of neural networks used in natural language processing tasks?", "knowledgepoint": "Neural architectures for NLP", "level": 6}, {"question": "How can we optimize the training process of a neural network for NLP tasks, such as language modeling and text classification?", "knowledgepoint": "Neural architectures for NLP", "level": 6}, {"question": "What are the differences between recurrent neural networks (RNNs) and convolutional neural networks (CNNs) in processing natural language?", "knowledgepoint": "Neural architectures for NLP", "level": 7}, {"question": "What are some common techniques used in neural architectures for NLP?", "knowledgepoint": "Neural architectures for NLP", "level": 8}, {"question": "How can we evaluate the performance of neural architectures for NLP tasks, such as language model, text classification, and sentiment analysis?", "knowledgepoint": "Neural architectures for NLP", "level": 8}, {"question": "What is the difference between key-query-value and key-value in machine learning?", "knowledgepoint": "Key-query-value mechanism", "level": 1}, {"question": "What is the difference between key-query-value and key-value mechanisms in machine learning?", "knowledgepoint": "Key-query-value mechanism", "level": 2}, {"question": "What is the difference between key-query-value and key-value in the context of key-query-value mechanism?", "knowledgepoint": "Key-query-value mechanism", "level": 3}, {"question": "What are the possible issues with key-query-value mechanism in implementation?", "knowledgepoint": "Key-query-value mechanism", "level": 4}, {"question": "What is the significance of key-query-value mechanism in machine learning?", "knowledgepoint": "Key-query-value mechanism", "level": 5}, {"question": "What is the difference between key-query-value mechanism and hash table?", "knowledgepoint": "Key-query-value mechanism", "level": 6}, {"question": "What is the difference between key-query-value mechanism and indexing?", "knowledgepoint": "Key-query-value mechanism", "level": 7}, {"question": "What is the difference between key-query-value and key-value mechanisms in machine learning?", "knowledgepoint": "Key-query-value mechanism", "level": 8}, {"question": "What is the difference between context and context representation in natural language processing?", "knowledgepoint": "Contextual representations", "level": 1}, {"question": "What is the difference between context and representation in context?", "knowledgepoint": "Contextual representations", "level": 2}, {"question": "What are the advantages of using contextually-based representations in applications?", "knowledgepoint": "Contextual representations", "level": 3}, {"question": "What are some common techniques used for contextually representing data in machine learning?", "knowledgepoint": "Contextual representations", "level": 4}, {"question": "What is the significance of context representation in natural language processing tasks?", "knowledgepoint": "Contextual representations", "level": 5}, {"question": "How can we improve the performance of context representation in natural language processing tasks?", "knowledgepoint": "Contextual representations", "level": 5}, {"question": "What are the advantages and disadvantages of using contextually-based representations for machine learning tasks?", "knowledgepoint": "Contextual representations", "level": 6}, {"question": "What are the advantages and disadvantages of using contextual representations in contrast to knowledge-based approaches?", "knowledgepoint": "Contextual representations", "level": 7}, {"question": "What is the difference between context and context-free language?", "knowledgepoint": "Contextual representations", "level": 8}, {"question": "What is the difference between position representations and other types of representations, such as word embeddings?", "knowledgepoint": "Position representations", "level": 1}, {"question": "What is the difference between position encoding and positional encoding?", "knowledgepoint": "Position representations", "level": 2}, {"question": "What are the advantages and disadvantages of using position representations in natural language processing tasks?", "knowledgepoint": "Position representations", "level": 3}, {"question": "How can we improve the performance of position representations for text classification tasks?", "knowledgepoint": "Position representations", "level": 3}, {"question": "How can we use position representations in the context of deep learning?", "knowledgepoint": "Position representations", "level": 4}, {"question": "What are some common techniques used for position representation in NLP tasks, and how do they compare with each other?", "knowledgepoint": "Position representations", "level": 4}, {"question": "What is the significance of position representations in natural language processing?", "knowledgepoint": "Position representations", "level": 5}, {"question": "How can we improve the influence of position representations in natural language processing tasks?", "knowledgepoint": "Position representations", "level": 5}, {"question": "What is the difference between position encoding and positional encoding?", "knowledgepoint": "Position representations", "level": 6}, {"question": "What is the difference between position encoding and position embedding?", "knowledgepoint": "Position representations", "level": 7}, {"question": "What is the difference between position encoding and position embedding?", "knowledgepoint": "Position representations", "level": 8}, {"question": "What is the purpose of multi-head self-attention?", "knowledgepoint": "Multi-head Self-Attention", "level": 1}, {"question": "What is the difference between Multi-Head Attention and Self-Attention?", "knowledgepoint": "Multi-head Self-Attention", "level": 2}, {"question": "What is the purpose of multi-head self-attention in Transformer model?", "knowledgepoint": "Multi-head Self-Attention", "level": 3}, {"question": "What are the possible issues that may occur when implementing multi-head self-attention?", "knowledgepoint": "Multi-head Self-Attention", "level": 4}, {"question": "What is the significance of multi-head self-attention in deep learning?", "knowledgepoint": "Multi-head Self-Attention", "level": 5}, {"question": "What is the purpose of multi-head self-attention in Transformer model?", "knowledgepoint": "Multi-head Self-Attention", "level": 6}, {"question": "What is the purpose of multi-head self-attention in Transformer model?", "knowledgepoint": "Multi-head Self-Attention", "level": 7}, {"question": "What is the difference between Multi-Head Attention and Self-Attention?", "knowledgepoint": "Multi-head Self-Attention", "level": 8}, {"question": "What is the purpose of layer normalization in neural networks?", "knowledgepoint": "Layer normalization", "level": 1}, {"question": "What is the purpose of Layer Normalization in training?", "knowledgepoint": "Layer normalization", "level": 2}, {"question": "What is the purpose of Layer Normalization in deep learning?", "knowledgepoint": "Layer normalization", "level": 3}, {"question": "What is the purpose of layer normalization?", "knowledgepoint": "Layer normalization", "level": 4}, {"question": "What is the significance of layer normalization in deep learning?", "knowledgepoint": "Layer normalization", "level": 5}, {"question": "Why do we need to use layer normalization when training neural networks?", "knowledgepoint": "Layer normalization", "level": 5}, {"question": "What is the purpose of layer normalization in neural networks?", "knowledgepoint": "Layer normalization", "level": 6}, {"question": "What is the purpose of layer normalization in neural networks?", "knowledgepoint": "Layer normalization", "level": 7}, {"question": "What is the purpose of layer normalization in neural networks?", "knowledgepoint": "Layer normalization", "level": 8}, {"question": "What is the purpose of residual connections in neural networks?", "knowledgepoint": "Residual connections", "level": 1}, {"question": "What is the purpose of adding residual connections in neural networks?", "knowledgepoint": "Residual connections", "level": 2}, {"question": "What are the advantages of using residual connections in deep neural networks?", "knowledgepoint": "Residual connections", "level": 3}, {"question": "What is the impact of residual connections on training time and memory usage?", "knowledgepoint": "Residual connections", "level": 4}, {"question": "What is the significance of residual connections in deep learning?", "knowledgepoint": "Residual connections", "level": 5}, {"question": "What is the purpose of adding residual connections in neural networks?", "knowledgepoint": "Residual connections", "level": 6}, {"question": "What is the purpose of adding residual connections in neural networks?", "knowledgepoint": "Residual connections", "level": 7}, {"question": "What are the advantages and disadvantages of using residual connections in neural networks?", "knowledgepoint": "Residual connections", "level": 8}, {"question": "What is the purpose of attention scaling in attention mechanism?", "knowledgepoint": "Attention scaling", "level": 1}, {"question": "What is the purpose of attention scaling in Transformer?", "knowledgepoint": "Attention scaling", "level": 2}, {"question": "What are the potential drawbacks of attention scaling in deep learning?", "knowledgepoint": "Attention scaling", "level": 3}, {"question": "What is the role of attention scaling in attention mechanism?", "knowledgepoint": "Attention scaling", "level": 4}, {"question": "What is the significance of attention scaling in neural networks?", "knowledgepoint": "Attention scaling", "level": 5}, {"question": "Why do we need to scale attention weights when training a neural network?", "knowledgepoint": "Attention scaling", "level": 5}, {"question": "What is the purpose of attention scaling in neural networks?", "knowledgepoint": "Attention scaling", "level": 6}, {"question": "What is the purpose of attention scaling in the context of Transformer models?", "knowledgepoint": "Attention scaling", "level": 7}, {"question": "What is the purpose of attention scaling in neural networks?", "knowledgepoint": "Attention scaling", "level": 8}, {"question": "What is the role of attention mechanism in Transformer Encoder-Decoder?", "knowledgepoint": "Transformer Encoder-Decoder", "level": 1}, {"question": "What is the difference between Transformer Encoder and Decoder?", "knowledgepoint": "Transformer Encoder-Decoder", "level": 2}, {"question": "What is the difference between Transformer Encoder and Transformer Decoder?", "knowledgepoint": "Transformer Encoder-Decoder", "level": 3}, {"question": "What is the difference between Transformer Encoder and Transformer Decoder? How do they work together in the Transformer model?", "knowledgepoint": "Transformer Encoder-Decoder", "level": 4}, {"question": "What is the significance of the attention mechanism in Transformer Encoder-Decoder?", "knowledgepoint": "Transformer Encoder-Decoder", "level": 5}, {"question": "What is the difference between Transformer Encoder and Transformer Decoder?", "knowledgepoint": "Transformer Encoder-Decoder", "level": 6}, {"question": "What is the difference between Transformer Encoder and Transformer Decoder?", "knowledgepoint": "Transformer Encoder-Decoder", "level": 7}, {"question": "What is the difference between Transformer Encoder and Transformer Decoder?", "knowledgepoint": "Transformer Encoder-Decoder", "level": 8}, {"question": "What is the difference between self-attention and cross-attention?", "knowledgepoint": "Cross-Attention", "level": 1}, {"question": "What is the difference between self-attention and cross-attention?", "knowledgepoint": "Cross-Attention", "level": 2}, {"question": "What are the advantages of using cross attention in natural language processing tasks?", "knowledgepoint": "Cross-Attention", "level": 3}, {"question": "What are the possible challenges in implementing cross attention?", "knowledgepoint": "Cross-Attention", "level": 4}, {"question": "What is the significance of using cross attention in natural language processing tasks?", "knowledgepoint": "Cross-Attention", "level": 5}, {"question": "How does cross attention help improve the performance of neural machine translation models?", "knowledgepoint": "Cross-Attention", "level": 5}, {"question": "What is the difference between self-attention and cross-attention in Transformer?", "knowledgepoint": "Cross-Attention", "level": 6}, {"question": "What is the difference between self-attention and cross-attention? How do they affect the performance of the model?", "knowledgepoint": "Cross-Attention", "level": 7}, {"question": "What is the difference between self-attention and cross-attention in Transformer?", "knowledgepoint": "Cross-Attention", "level": 8}]
+[
+    {
+        "question": "What is the purpose of self-attention in neural networks?",
+        "knowledgepoint": "Self-attention",
+        "level": 1
+    },
+    {
+        "question": "What is the relationship between self-attention and convolutional neural networks?",
+        "knowledgepoint": "Self-attention",
+        "level": 2
+    },
+    {
+        "question": "What are the applications of self-attention in natural language processing?",
+        "knowledgepoint": "Self-attention",
+        "level": 3
+    },
+    {
+        "question": "What is the difference between self-attention and traditional attention mechanisms?",
+        "knowledgepoint": "Self-attention",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of self-attention in deep learning?",
+        "knowledgepoint": "Self-attention",
+        "level": 5
+    },
+    {
+        "question": "How does self-attention improve the performance of neural networks?",
+        "knowledgepoint": "Self-attention",
+        "level": 5
+    },
+    {
+        "question": "What is the difference between self-attention and traditional attention mechanism?",
+        "knowledgepoint": "Self-attention",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between self-attention and traditional attention mechanisms?",
+        "knowledgepoint": "Self-attention",
+        "level": 7
+    },
+    {
+        "question": "What is the difference between self-attention and traditional attention mechanism?",
+        "knowledgepoint": "Self-attention",
+        "level": 8
+    },
+    {
+        "question": "What is the purpose of multi-head self-attention in Transformer?",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 1
+    },
+    {
+        "question": "What is the purpose of using multi-head self-attention in Transformer model?",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 2
+    },
+    {
+        "question": "What is the role of multi-head self-attention in improving the performance of Transformer model?",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 3
+    },
+    {
+        "question": "What are the advantages of using multi-head self-attention in comparison with single head attention?",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of multi-head self-attention in deep learning?",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 5
+    },
+    {
+        "question": "Why is multi-head self-attention used in Transformer model instead of other attention mechanisms like Bi-LSTM, CNN, etc.",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 5
+    },
+    {
+        "question": "What is the purpose of multi-head self-attention in Transformer model?",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between Multi-head Self-Attention and Single Head Self-Attention?",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 7
+    },
+    {
+        "question": "What is the role of the key and value in Multi-head Self-Attention?",
+        "knowledgepoint": "Multi-head Self-Attention",
+        "level": 8
+    },
+    {
+        "question": "What is the purpose of Layer Normalization in training?",
+        "knowledgepoint": "Layer Normalization",
+        "level": 1
+    },
+    {
+        "question": "What is the purpose of Layer Normalization in training?",
+        "knowledgepoint": "Layer Normalization",
+        "level": 2
+    },
+    {
+        "question": "What are the advantages of Layer Normalization in deep learning?",
+        "knowledgepoint": "Layer Normalization",
+        "level": 3
+    },
+    {
+        "question": "What are the possible issues that may arise when implementing Layer Normalization?",
+        "knowledgepoint": "Layer Normalization",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of Layer Normalization in deep learning?",
+        "knowledgepoint": "Layer Normalization",
+        "level": 5
+    },
+    {
+        "question": "What is the purpose of Layer Normalization in training?",
+        "knowledgepoint": "Layer Normalization",
+        "level": 6
+    },
+    {
+        "question": "What is the purpose of Layer Normalization in training neural networks?",
+        "knowledgepoint": "Layer Normalization",
+        "level": 7
+    },
+    {
+        "question": "What is the purpose of Layer Normalization in training?",
+        "knowledgepoint": "Layer Normalization",
+        "level": 8
+    },
+    {
+        "question": "What is the difference between ResNet and DenseNet?",
+        "knowledgepoint": "Residual Connections",
+        "level": 1
+    },
+    {
+        "question": "What is the purpose of adding residual connections in ResNet?",
+        "knowledgepoint": "Residual Connections",
+        "level": 2
+    },
+    {
+        "question": "What are the advantages of using residual connections in deep learning?",
+        "knowledgepoint": "Residual Connections",
+        "level": 3
+    },
+    {
+        "question": "What is the difference between residual connections and shortcut connections in ResNet?",
+        "knowledgepoint": "Residual Connections",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of adding residual connections in ResNet?",
+        "knowledgepoint": "Residual Connections",
+        "level": 5
+    },
+    {
+        "question": "What is the purpose of adding residual connections in neural networks?",
+        "knowledgepoint": "Residual Connections",
+        "level": 6
+    },
+    {
+        "question": "What are the advantages and disadvantages of using residual connections in neural networks?",
+        "knowledgepoint": "Residual Connections",
+        "level": 7
+    },
+    {
+        "question": "What is the purpose of using residual connections in neural networks?",
+        "knowledgepoint": "Residual Connections",
+        "level": 8
+    },
+    {
+        "question": "What is the purpose of attention logit scaling in the context of attention mechanism?",
+        "knowledgepoint": "Attention logit scaling",
+        "level": 1
+    },
+    {
+        "question": "What is the purpose of attention logit scaling?",
+        "knowledgepoint": "Attention logit scaling",
+        "level": 2
+    },
+    {
+        "question": "What is the purpose of attention logit scaling?",
+        "knowledgepoint": "Attention logit scaling",
+        "level": 3
+    },
+    {
+        "question": "What are the possible reasons for using attention logit scaling?",
+        "knowledgepoint": "Attention logit scaling",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of attention logit scaling in neural machine translation?",
+        "knowledgepoint": "Attention logit scaling",
+        "level": 5
+    },
+    {
+        "question": "What is the purpose of attention logit scaling in neural machine translation?",
+        "knowledgepoint": "Attention logit scaling",
+        "level": 6
+    },
+    {
+        "question": "What is the purpose of attention logit scaling in the context of contrastive learning?",
+        "knowledgepoint": "Attention logit scaling",
+        "level": 7
+    },
+    {
+        "question": "What is the purpose of attention logit scaling?",
+        "knowledgepoint": "Attention logit scaling",
+        "level": 8
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and RNN Encoder?",
+        "knowledgepoint": "Transformer Encoder",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and RNN?",
+        "knowledgepoint": "Transformer Encoder",
+        "level": 2
+    },
+    {
+        "question": "What are the advantages of Transformer Encoder compared with other encoding methods?",
+        "knowledgepoint": "Transformer Encoder",
+        "level": 3
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and RNN Encoder?",
+        "knowledgepoint": "Transformer Encoder",
+        "level": 4
+    },
+    {
+        "question": "What are the significant/influential aspects of Transformer Encoder?",
+        "knowledgepoint": "Transformer Encoder",
+        "level": 5
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and RNN?",
+        "knowledgepoint": "Transformer Encoder",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and RNN?",
+        "knowledgepoint": "Transformer Encoder",
+        "level": 7
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and RNN Encoder?",
+        "knowledgepoint": "Transformer Encoder",
+        "level": 8
+    },
+    {
+        "question": "What is the role of attention mechanism in Transformer Decoder?",
+        "knowledgepoint": "Transformer Decoder",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between the Transformer Decoder and the Transformer Encoder?",
+        "knowledgepoint": "Transformer Decoder",
+        "level": 2
+    },
+    {
+        "question": "What are the advantages and disadvantages of using Transformer Decoder in specific applications?",
+        "knowledgepoint": "Transformer Decoder",
+        "level": 3
+    },
+    {
+        "question": "What are the possible issues that may occur when training Transformer Decoder?",
+        "knowledgepoint": "Transformer Decoder",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of the attention mechanism in Transformer Decoder?",
+        "knowledgepoint": "Transformer Decoder",
+        "level": 5
+    },
+    {
+        "question": "What is the role of attention mechanism in Transformer Decoder?",
+        "knowledgepoint": "Transformer Decoder",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and Transformer Decoder?",
+        "knowledgepoint": "Transformer Decoder",
+        "level": 7
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and Transformer Decoder?",
+        "knowledgepoint": "Transformer Decoder",
+        "level": 8
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and Transformer Decoder?",
+        "knowledgepoint": "Transformer Encoder-Decoder",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and Transformer Decoder?",
+        "knowledgepoint": "Transformer Encoder-Decoder",
+        "level": 2
+    },
+    {
+        "question": "What are the advantages and disadvantages of using Transformer Encoder-Decoder in natural language processing tasks?",
+        "knowledgepoint": "Transformer Encoder-Decoder",
+        "level": 3
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and Transformer Decoder?",
+        "knowledgepoint": "Transformer Encoder-Decoder",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of using Transformer Encoder-Decoder in NLP tasks?",
+        "knowledgepoint": "Transformer Encoder-Decoder",
+        "level": 5
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and Transformer Decoder?",
+        "knowledgepoint": "Transformer Encoder-Decoder",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and Decoder?",
+        "knowledgepoint": "Transformer Encoder-Decoder",
+        "level": 7
+    },
+    {
+        "question": "What is the difference between Transformer Encoder and Transformer Decoder?",
+        "knowledgepoint": "Transformer Encoder-Decoder",
+        "level": 8
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning?",
+        "knowledgepoint": "Machine Learning",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning?",
+        "knowledgepoint": "Machine Learning",
+        "level": 2
+    },
+    {
+        "question": "What are the most common applications of Machine Learning in industry?",
+        "knowledgepoint": "Machine Learning",
+        "level": 3
+    },
+    {
+        "question": "What is the difference between training and testing in machine learning?",
+        "knowledgepoint": "Machine Learning",
+        "level": 4
+    },
+    {
+        "question": "How can we handle missing values in data when using machine learning algorithms?",
+        "knowledgepoint": "Machine Learning",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of using neural networks in machine learning?",
+        "knowledgepoint": "Machine Learning",
+        "level": 5
+    },
+    {
+        "question": "Neural networks are one of the most significant contributions in machine learning, and they have had a profound impact on various fields such as computer vision, natural language processing, and robotics. They can learn complex patterns from data without being explicitly programmed, and their ability to adapt and improve performance over time makes them particularly useful for solving problems where there is no clear solution.",
+        "knowledgepoint": "Machine Learning",
+        "level": 5
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning?",
+        "knowledgepoint": "Machine Learning",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning?",
+        "knowledgepoint": "Machine Learning",
+        "level": 7
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning?",
+        "knowledgepoint": "Machine Learning",
+        "level": 8
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning?",
+        "knowledgepoint": "Deep Learning",
+        "level": 1
+    },
+    {
+        "question": "How does the use of dropout help prevent overfitting in neural networks?",
+        "knowledgepoint": "Deep Learning",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning?",
+        "knowledgepoint": "Deep Learning",
+        "level": 2
+    },
+    {
+        "question": "What is the most suitable deep learning model for solving a specific problem?",
+        "knowledgepoint": "Deep Learning",
+        "level": 3
+    },
+    {
+        "question": "How can we evaluate and optimize the performance of a deep learning model?",
+        "knowledgepoint": "Deep Learning",
+        "level": 3
+    },
+    {
+        "question": "How can we use the GPU to accelerate training of deep neural networks?",
+        "knowledgepoint": "Deep Learning",
+        "level": 4
+    },
+    {
+        "question": "What are some common techniques used for reducing the computational cost of deep learning models, such as dropout and batch normalization?",
+        "knowledgepoint": "Deep Learning",
+        "level": 4
+    },
+    {
+        "question": "What are the most significant challenges faced by deep learning models?",
+        "knowledgepoint": "Deep Learning",
+        "level": 5
+    },
+    {
+        "question": "What are the advantages and disadvantages of using a pre-trained model in deep learning?",
+        "knowledgepoint": "Deep Learning",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning?",
+        "knowledgepoint": "Deep Learning",
+        "level": 7
+    },
+    {
+        "question": "What is the difference between supervised learning and unsupervised learning? How does this affect the training process of deep learning models?",
+        "knowledgepoint": "Deep Learning",
+        "level": 8
+    },
+    {
+        "question": "What is the role of the first order autoregressive language model in language generation?",
+        "knowledgepoint": "Autoregressive Language Model",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between autoregressive language model and other language models?",
+        "knowledgepoint": "Autoregressive Language Model",
+        "level": 2
+    },
+    {
+        "question": "What is the difference between an autoregressive language model and a language model?",
+        "knowledgepoint": "Autoregressive Language Model",
+        "level": 3
+    },
+    {
+        "question": "What is the difference between the training loss and the validation loss in the context of an autoregressive language model?",
+        "knowledgepoint": "Autoregressive Language Model",
+        "level": 4
+    },
+    {
+        "question": "What are the most significant challenges faced by Autoregressive Language Models in terms of significance and influence?",
+        "knowledgepoint": "Autoregressive Language Model",
+        "level": 5
+    },
+    {
+        "question": "What is the difference between an autoregressive language model and a language model?",
+        "knowledgepoint": "Autoregressive Language Model",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between an autoregressive language model and a language model?",
+        "knowledgepoint": "Autoregressive Language Model",
+        "level": 7
+    },
+    {
+        "question": "What is the difference between autoregressive language model and other language models? How does the autoregressive language model work? What are the advantages and disadvantages of using an autoregressive language model?",
+        "knowledgepoint": "Autoregressive Language Model",
+        "level": 8
+    },
+    {
+        "question": "What is the purpose of using softmax function in the output layer of a neural network?",
+        "knowledgepoint": "Softmax",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between softmax and logistic function?",
+        "knowledgepoint": "Softmax",
+        "level": 2
+    },
+    {
+        "question": "What is the role of softmax in the output layer of a neural network?",
+        "knowledgepoint": "Softmax",
+        "level": 3
+    },
+    {
+        "question": "What are the possible issues that may occur when implementing softmax function?",
+        "knowledgepoint": "Softmax",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of using softmax function in deep learning?",
+        "knowledgepoint": "Softmax",
+        "level": 5
+    },
+    {
+        "question": "What is the purpose of softmax function in neural networks?",
+        "knowledgepoint": "Softmax",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between Softmax and logistic function?",
+        "knowledgepoint": "Softmax",
+        "level": 7
+    },
+    {
+        "question": "What is the difference between softmax and logistic regression?",
+        "knowledgepoint": "Softmax",
+        "level": 8
+    },
+    {
+        "question": "What is the relationship between linear transformation and matrix multiplication?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 1
+    },
+    {
+        "question": "What is the relationship between linear transformation and matrix multiplication?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 2
+    },
+    {
+        "question": "How can we determine if a linear transformation preserves the orientation of a vector space?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 2
+    },
+    {
+        "question": "What is the difference between linear transformation and nonlinear transformation?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 3
+    },
+    {
+        "question": "How can we determine if a linear transformation preserves the orientation of vectors?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 3
+    },
+    {
+        "question": "What is the effect of scaling on linear transformation?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 4
+    },
+    {
+        "question": "How can we determine if a matrix is invertible and what does it mean for a linear transformation?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of linear transformation in machine learning?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 5
+    },
+    {
+        "question": "How can we use linear transformation to improve the performance of machine learning models?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 5
+    },
+    {
+        "question": "What is the relationship between linear transformation and matrix multiplication? How can we use this relationship to solve linear transformation problems?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 6
+    },
+    {
+        "question": "What is the relationship between linear transformation and matrix multiplication?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 7
+    },
+    {
+        "question": "What is the relationship between linear transformation and matrix multiplication?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 8
+    },
+    {
+        "question": "How can we use linear transformation to solve a problem in machine learning?",
+        "knowledgepoint": "Linear Transformation",
+        "level": 8
+    },
+    {
+        "question": "What are the possible challenges of future masking in decoders? How can we address these challenges and improve the performance of future masking in decoders?",
+        "knowledgepoint": "Future Masking in Decoders",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between future masking and past masking?",
+        "knowledgepoint": "Future Masking in Decoders",
+        "level": 2
+    },
+    {
+        "question": "What are the possible applications of Future Masking in decoders?",
+        "knowledgepoint": "Future Masking in Decoders",
+        "level": 3
+    },
+    {
+        "question": "What are the possible challenges of implementing future masking in decoders?",
+        "knowledgepoint": "Future Masking in Decoders",
+        "level": 4
+    },
+    {
+        "question": "What are the potential challenges and limitations of future masking in decoders?",
+        "knowledgepoint": "Future Masking in Decoders",
+        "level": 5
+    },
+    {
+        "question": "What are the possible challenges faced by future masking in decoders?",
+        "knowledgepoint": "Future Masking in Decoders",
+        "level": 6
+    },
+    {
+        "question": "What are the possible challenges of future masking in decoders? How can we overcome these challenges and improve performance?",
+        "knowledgepoint": "Future Masking in Decoders",
+        "level": 7
+    },
+    {
+        "question": "What are the possible challenges faced by future masking in decoders?",
+        "knowledgepoint": "Future Masking in Decoders",
+        "level": 8
+    },
+    {
+        "question": "What is the purpose of using batched softmax operation in neural networks?",
+        "knowledgepoint": "Batched Softmax Operation",
+        "level": 1
+    },
+    {
+        "question": "What is the difference between softmax operation and batched softmax operation?",
+        "knowledgepoint": "Batched Softmax Operation",
+        "level": 2
+    },
+    {
+        "question": "What is the advantage of using batched softmax operation in deep learning?",
+        "knowledgepoint": "Batched Softmax Operation",
+        "level": 3
+    },
+    {
+        "question": "What are the possible memory issues in batched softmax operation? How can we solve them?",
+        "knowledgepoint": "Batched Softmax Operation",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of Batched Softmax operation in training and inference?",
+        "knowledgepoint": "Batched Softmax Operation",
+        "level": 5
+    },
+    {
+        "question": "What is the advantage of using batched softmax operation in training?",
+        "knowledgepoint": "Batched Softmax Operation",
+        "level": 6
+    },
+    {
+        "question": "What is the advantage of using batched softmax operation in training?",
+        "knowledgepoint": "Batched Softmax Operation",
+        "level": 7
+    },
+    {
+        "question": "What is the impact of batch size on the performance of batched softmax operation?",
+        "knowledgepoint": "Batched Softmax Operation",
+        "level": 8
+    },
+    {
+        "question": "What is the purpose of Scaled Dot Product Attention?",
+        "knowledgepoint": "Scaled Dot Product Attention",
+        "level": 1
+    },
+    {
+        "question": "What is the mathematical formula of Scaled Dot Product Attention?",
+        "knowledgepoint": "Scaled Dot Product Attention",
+        "level": 2
+    },
+    {
+        "question": "What are the advantages of using Scaled Dot Product Attention compared to other attention mechanisms?",
+        "knowledgepoint": "Scaled Dot Product Attention",
+        "level": 3
+    },
+    {
+        "question": "What is the time complexity of Scaled Dot Product Attention?",
+        "knowledgepoint": "Scaled Dot Product Attention",
+        "level": 4
+    },
+    {
+        "question": "What is the significance of scaled dot product attention in the context of neural networks?",
+        "knowledgepoint": "Scaled Dot Product Attention",
+        "level": 5
+    },
+    {
+        "question": "What is the difference between Scaled Dot Product Attention and Softmax Attention?",
+        "knowledgepoint": "Scaled Dot Product Attention",
+        "level": 6
+    },
+    {
+        "question": "What is the difference between Scaled Dot Product Attention and Softmax Attention?",
+        "knowledgepoint": "Scaled Dot Product Attention",
+        "level": 7
+    },
+    {
+        "question": "What is the relationship between Scaled Dot Product Attention and the dot product?",
+        "knowledgepoint": "Scaled Dot Product Attention",
+        "level": 8
+    }
+]

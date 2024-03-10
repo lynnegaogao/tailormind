@@ -1,1 +1,18 @@
-["Self-attention", "Transformer architecture", "Neural architectures for NLP", "Key-query-value mechanism", "Contextual representations", "Position representations", "Multi-head Self-Attention", "Layer normalization", "Residual connections", "Attention scaling", "Transformer Encoder-Decoder", "Cross-Attention"]
+[
+    "Self-attention",
+    "Multi-head Self-Attention",
+    "Layer Normalization",
+    "Residual Connections",
+    "Attention logit scaling",
+    "Transformer Encoder",
+    "Transformer Decoder",
+    "Transformer Encoder-Decoder",
+    "Machine Learning",
+    "Deep Learning",
+    "Autoregressive Language Model",
+    "Softmax",
+    "Linear Transformation",
+    "Future Masking in Decoders",
+    "Batched Softmax Operation",
+    "Scaled Dot Product Attention"
+]

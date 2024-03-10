@@ -1,210 +1,199 @@
 {
     "nodes": [
         {
-            "id": "Neural Networks",
-            "label": "Neural Networks",
+            "id": "Self-attention",
+            "label": "Self-attention",
+            "level": 2,
+            "size": 4
+        },
+        {
+            "id": "Attention Mechanism",
+            "label": "Attention Mechanism",
             "level": 1,
             "size": 5
         },
         {
-            "id": "Key-Query-Value Mechanism",
-            "label": "Key-Query-Value Mechanism",
+            "id": "Transformer Model",
+            "label": "Transformer Model",
+            "level": 3,
+            "size": 5
+        },
+        {
+            "id": "Positional Encoding",
+            "label": "Positional Encoding",
+            "level": 4,
+            "size": 3
+        },
+        {
+            "id": "Multi-head Attention",
+            "label": "Multi-head Attention",
             "level": 3,
             "size": 4
         },
         {
-            "id": "Contextual Representations",
-            "label": "Contextual Representations",
-            "level": 2,
-            "size": 4
+            "id": "Heads",
+            "label": "Heads",
+            "level": 7,
+            "size": 2
         },
         {
-            "id": "Position Representations",
-            "label": "Position Representations",
-            "level": 2,
-            "size": 3
-        },
-        {
-            "id": "Normalization Techniques",
-            "label": "Normalization Techniques",
+            "id": "Scaling Factor",
+            "label": "Scaling Factor",
             "level": 2,
             "size": 3
         },
         {
-            "id": "Word Embeddings",
-            "label": "Word Embeddings",
-            "level": 3,
-            "size": 2
-        },
-        {
-            "id": "BERT",
-            "label": "BERT",
-            "level": 3,
-            "size": 2
-        },
-        {
-            "id": "ELMo",
-            "label": "ELMo",
-            "level": 3,
-            "size": 2
-        },
-        {
-            "id": "GloVe",
-            "label": "GloVe",
-            "level": 3,
-            "size": 2
-        },
-        {
-            "id": "FastText",
-            "label": "FastText",
-            "level": 3,
-            "size": 2
-        },
-        {
-            "id": "Euclidean Distance",
-            "label": "Euclidean Distance",
+            "id": "Dropout",
+            "label": "Dropout",
             "level": 4,
-            "size": 1
-        },
-        {
-            "id": "Angular Distance",
-            "label": "Angular Distance",
-            "level": 4,
-            "size": 1
-        },
-        {
-            "id": "Orientation Representation",
-            "label": "Orientation Representation",
-            "level": 4,
-            "size": 1
-        },
-        {
-            "id": "Pose Estimation",
-            "label": "Pose Estimation",
-            "level": 4,
-            "size": 1
-        },
-        {
-            "id": "3D Reconstruction",
-            "label": "3D Reconstruction",
-            "level": 4,
-            "size": 1
+            "size": 3
         },
         {
             "id": "Layer Normalization",
             "label": "Layer Normalization",
-            "level": 3,
+            "level": 4,
+            "size": 4
+        },
+        {
+            "id": "Normalization",
+            "label": "Normalization",
+            "level": 2,
+            "size": 3
+        },
+        {
+            "id": "Input",
+            "label": "Input",
+            "level": 8,
+            "size": 1
+        },
+        {
+            "id": "Output",
+            "label": "Output",
+            "level": 6,
             "size": 2
         },
         {
-            "id": "Batch Normalization",
-            "label": "Batch Normalization",
-            "level": 3,
-            "size": 2
+            "id": "Attention",
+            "label": "Attention",
+            "level": 1,
+            "size": 5
         },
         {
-            "id": "Instance Normalization",
-            "label": "Instance Normalization",
+            "id": "Transformer Encoder",
+            "label": "Transformer Encoder",
             "level": 3,
-            "size": 2
+            "size": 5
         },
         {
-            "id": "Group Normalization",
-            "label": "Group Normalization",
+            "id": "Transformer Decoder",
+            "label": "Transformer Decoder",
             "level": 3,
-            "size": 2
+            "size": 5
+        },
+        {
+            "id": "Machine Learning",
+            "label": "Machine Learning",
+            "level": 1,
+            "size": 5
+        },
+        {
+            "id": "Neural Networks",
+            "label": "Neural Networks",
+            "level": 2,
+            "size": 4
+        },
+        {
+            "id": "Linear Transformation",
+            "label": "Linear Transformation",
+            "level": 2,
+            "size": 3
         }
     ],
     "links": [
         {
-            "source": "Neural Networks",
-            "target": "Key-Query-Value Mechanism",
-            "relation": "enables"
+            "source": "Self-attention",
+            "target": "Attention Mechanism",
+            "relation": "is a type of"
         },
         {
-            "source": "Neural Networks",
-            "target": "Contextual Representations",
-            "relation": "uses"
+            "source": "Attention Mechanism",
+            "target": "Transformer Model",
+            "relation": "used in"
         },
         {
-            "source": "Neural Networks",
-            "target": "Position Representations",
+            "source": "Self-attention",
+            "target": "Positional Encoding",
+            "relation": "enhanced by"
+        },
+        {
+            "source": "Self-attention",
+            "target": "Multi-head Attention",
+            "relation": "extended to"
+        },
+        {
+            "source": "Multi-head Attention",
+            "target": "Heads",
+            "relation": "consists of"
+        },
+        {
+            "source": "Self-attention",
+            "target": "Scaling Factor",
             "relation": "utilizes"
         },
         {
-            "source": "Neural Networks",
-            "target": "Normalization Techniques",
-            "relation": "employs"
+            "source": "Scaling Factor",
+            "target": "Dropout",
+            "relation": "complemented with"
         },
         {
-            "source": "Contextual Representations",
-            "target": "Word Embeddings",
-            "relation": "includes"
-        },
-        {
-            "source": "Contextual Representations",
-            "target": "BERT",
-            "relation": "includes"
-        },
-        {
-            "source": "Contextual Representations",
-            "target": "ELMo",
-            "relation": "includes"
-        },
-        {
-            "source": "Contextual Representations",
-            "target": "GloVe",
-            "relation": "includes"
-        },
-        {
-            "source": "Contextual Representations",
-            "target": "FastText",
-            "relation": "includes"
-        },
-        {
-            "source": "Position Representations",
-            "target": "Euclidean Distance",
-            "relation": "considers"
-        },
-        {
-            "source": "Position Representations",
-            "target": "Angular Distance",
-            "relation": "considers"
-        },
-        {
-            "source": "Position Representations",
-            "target": "Orientation Representation",
-            "relation": "considers"
-        },
-        {
-            "source": "Position Representations",
-            "target": "Pose Estimation",
-            "relation": "involves"
-        },
-        {
-            "source": "Position Representations",
-            "target": "3D Reconstruction",
-            "relation": "involves"
-        },
-        {
-            "source": "Normalization Techniques",
+            "source": "Self-attention",
             "target": "Layer Normalization",
-            "relation": "comprises"
+            "relation": "paired with"
         },
         {
-            "source": "Normalization Techniques",
-            "target": "Batch Normalization",
-            "relation": "comprises"
+            "source": "Layer Normalization",
+            "target": "Normalization",
+            "relation": "a form of"
         },
         {
-            "source": "Normalization Techniques",
-            "target": "Instance Normalization",
-            "relation": "comprises"
+            "source": "Normalization",
+            "target": "Input",
+            "relation": "applied to"
         },
         {
-            "source": "Normalization Techniques",
-            "target": "Group Normalization",
-            "relation": "comprises"
+            "source": "Normalization",
+            "target": "Output",
+            "relation": "leads to"
+        },
+        {
+            "source": "Attention",
+            "target": "Attention Mechanism",
+            "relation": "encompasses"
+        },
+        {
+            "source": "Transformer Encoder",
+            "target": "Transformer Model",
+            "relation": "part of"
+        },
+        {
+            "source": "Transformer Decoder",
+            "target": "Transformer Model",
+            "relation": "part of"
+        },
+        {
+            "source": "Machine Learning",
+            "target": "Neural Networks",
+            "relation": "includes"
+        },
+        {
+            "source": "Neural Networks",
+            "target": "Transformer Model",
+            "relation": "power"
+        },
+        {
+            "source": "Linear Transformation",
+            "target": "Machine Learning",
+            "relation": "foundation for"
         }
     ]
 }

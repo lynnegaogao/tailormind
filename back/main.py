@@ -110,12 +110,13 @@ def files():
 
     
 # minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
-# historical=True
-historical=False
+historical=True
+# historical=False
 # material='history'
 # material='Nbayes'
-# material='transformer'
-material='stanford_nlp_1'
+material='transformer'
+# material='stanford_nlp_1'
+# material='cs_unsupervisedlearning'
 @app.route('/get-customziednotedata', methods=["POST"])
 def sft_chat():
     if historical:
@@ -198,21 +199,25 @@ def generate_wordcloud_data():
     data = request.json
     noteContext = data.get('noteContext', '')
     nodeId=data.get('nodeId','')
-    #text_no_tags = re.sub(r'</?p>|<br>', '', noteContext)
-    #text_no_punctuation = re.sub(r'[^\w\s]', '', text_no_tags)
-    ##print('content来自前端:',noteContext)
-    #words = jieba.lcut(text_no_punctuation)
-    ##print('分词结果:',words)
-    #word_count = Counter(words)
-    #print('词频结果:',word_count)
-    #filtered_word_count = {word: count for word, count in word_count.items() if len(word) > 1 and word not in ['的', '在', '和', '是', '了','这样']}
+    text_no_tags = re.sub(r'</?p>|<br>', '', noteContext)
+    text_no_punctuation = re.sub(r'[^\w\s]', '', text_no_tags)
+    #print('content来自前端:',noteContext)
+    words = jieba.lcut(text_no_punctuation.lower())
+    #print('分词结果:',words)
+    word_count = Counter(words)
+    print('词频结果:',word_count)
     
-    #word_cloud_data = [{'text': word, 'size': count} for word, count in filtered_word_count.items()]
-    with open('wordcloud.json', 'r', encoding='utf-8') as file:
-    # 加载JSON数据
-        word_cloud_data = json.load(file) 
+    # 读取停用词
+    with open('./stopwords.txt', 'r', encoding='utf-8') as f:
+        stopwords = [line.strip() for line in f]
+    
+    filtered_word_count = {word: count for word, count in word_count.items() if len(word) > 1 and word not in stopwords}
+    word_cloud_data = [{'text': word, 'size': count} for word, count in filtered_word_count.items()]
+    # with open('wordcloud.json', 'r', encoding='utf-8') as file:
+    # # 加载JSON数据
+    #     word_cloud_data = json.load(file) 
     sorted_data = sorted(word_cloud_data, key=lambda x: x['size'], reverse=True)
-    top_5_elements = sorted_data[:5]
+    top_5_elements = sorted_data[:8]
 
     return top_5_elements
 

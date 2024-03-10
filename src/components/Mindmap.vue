@@ -194,8 +194,9 @@ export default {
     data() {
         return {
             modalPos: null,
-            cyInstance: null,
-            ur: null,
+            cyInstance: {},
+            ur: {},
+            mindmapdata: {},
             quillInstance: null,
             addNodeModalVisible: false,
             addEdgeModalVisible: false,
@@ -304,6 +305,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        cyInstance: {
+            type: Object,
+            default: function () { return {}; },
+        },
     },
     watch: {
         wordCloudData(newValue, oldValue) {
@@ -317,20 +322,29 @@ export default {
             deep: true,
             handler(newValue, oldValue) {
                 console.log(newValue, oldValue)
+                // if (this.cyInstance) {
+                //     this.cyInstance.destroy(); // 销毁Cytoscape实例
+                //     this.cyInstance = null; // 清理引用
+                // }
                 this.$nextTick(() => {
+                    this.mindmapdata = newValue
                     this.drawMindmap()
-                    this.drawLegend()
-                    this.dragElement(document.getElementById("main-legend"))
+                    console.log(this.cyInstance)
+                    this.$forceUpdate();
+                    // this.dragElement(document.getElementById("main-legend"))
+
                 })
             }
         },
+
         isReflection(newValue, oldValue) {
             console.log(newValue, oldValue)
             if (newValue) {
                 this.$nextTick(() => {
                     this.drawMindmap()
-                    this.drawLegend()
-                    this.dragElement(document.getElementById("main-legend"))
+                    console.log(this.cyInstance)
+                    this.drawMindmap()
+
                 })
             }
 
@@ -341,11 +355,10 @@ export default {
         // this.drawMindmap()
         this.drawLegend()
         this.dragElement(document.getElementById("main-legend"))
-        if (this.isReflection) {
-            this.drawMindmap()
-            this.drawLegend()
-            this.dragElement(document.getElementById("main-legend"))
-        }
+        // if (this.isReflection) {
+        //     this.drawMindmap()
+        //     // this.dragElement(document.getElementById("main-legend"))
+        // }
 
     },
     emits: ['click', 'generateWordCloud', 'getQuestionRmd', 'getLearningPathDataByUser'],
@@ -354,10 +367,10 @@ export default {
         drawMindmap() {
             d3.selectAll("#mindmap-area svg").remove();
 
-            console.log("mindmap数据：", this.mindMapData)
-            const elements = this.transformData(this.mindMapData);
+            console.log("mindmap数据：", this.mindmapdata)
+            const elements = this.transformData(this.mindmapdata);
             // 初始化
-            const cy = cytoscape({
+            this.cyInstance = cytoscape({
                 container: this.$refs.MainMindmap,
                 elements: elements,
                 style: [
@@ -375,7 +388,8 @@ export default {
                             },
 
                         }
-                    }, {
+                    },
+                    {
                         selector: 'edge',
                         style: {
                             'width': 2,
@@ -413,7 +427,7 @@ export default {
             });
 
             // 鼠标悬停在边上时显示标签
-            cy.on('mouseover', 'edge', function (event) {
+            this.cyInstance.on('mouseover', 'edge', function (event) {
                 const edge = event.target;
                 edge.style({
                     'label': edge.data('relation'),
@@ -425,7 +439,7 @@ export default {
             });
 
             // 鼠标移开边时隐藏标签
-            cy.on('mouseout', 'edge', function (event) {
+            this.cyInstance.on('mouseout', 'edge', function (event) {
                 const edge = event.target;
                 edge.style({
                     'label': '',
@@ -482,7 +496,7 @@ export default {
                                 });
                             }
                             // 构造与节点相关的预设文本
-                            var presetText = `Record Something about: ${node.id()} ...Bagging算法，全称为Bootstrap Aggregating，是一种集成学习算法，旨在提高单个预测模型，如决策树，的稳定性和准确性。这种方法通过以下步骤实现：</p><p><br></p><p>1. **自助采样（Bootstrap Sampling）**：从原始数据集中随机选择N个样本，采用放回抽样的方式，这意味着同一个样本可以被多次选择。这样的一个样本集称为一个bootstrap样本。</p><p><br></p><p>2. **构建基学习器**：使用每个bootstrap样本独立训练一个基学习器。在bagging算法中，基学习器通常是决策树，但也可以是任何其他算法。</p><p><br></p><p>3. **聚合**：将所有基学习器的预测结果进行聚合。对于分类问题，通常采用多数投票法；对于回归问题，则通常采用平均法。</p><p><br></p><p>Bagging的关键优势在于它可以减少模型的方差，从而提高模型的稳定性。通过结合多个模型的预测，它可以降低过拟合的风险，并在面对不同的数据子集时表现出更好的泛化能力。Bagging是随机森林算法的基础，随机森林通过在构建决策树时引入更多的随机性来进一步提高模型的性能。.</p>`; // 假设node对象有id()方法获取节点标识
+                            var presetText = `Record Something about: ${node.id()} ...`;
                             // 首先清空编辑器内容
                             this.quillInstance.setText('');
                             // 设置预设文本
@@ -509,18 +523,21 @@ export default {
 
                             // 按下Esc键隐藏编辑器容器
                             document.addEventListener('keydown', (event) => {
+                                console.log('触发笔记生成词云')
                                 if (event.key === "Escape") {
+                                    console.log('触发笔记生成词云')
                                     // 获取编辑器内容
                                     var editorContent = this.quillInstance.root.innerHTML;
                                     if (editorContent != '') {
                                         this.$emit('generateWordCloud', node, editorContent)
+                                        this.$store.dispatch('currentEditNoteNodeId', node.id())
                                     }
                                     // 隐藏编辑器容器
                                     editorContainer.style.display = 'none'
                                     toolbar.style.display = 'none'
                                     editor.style.display = 'none';
                                 }
-                            }, { once: true });
+                            });
 
 
                         },
@@ -528,13 +545,13 @@ export default {
 
                 ],
             };
-            cy.contextMenus(menuOptions);
+            this.cyInstance.contextMenus(menuOptions);
 
             // 监听Del键删除节点或边
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Delete' || event.keyCode === 46) {
                     // 获取当前选中的所有元素（节点和边）
-                    const selectedElements = cy.$(':selected');
+                    const selectedElements = this.cyInstance.$(':selected');
 
                     // 如果没有选中的元素，则直接返回
                     if (selectedElements.length === 0) {
@@ -554,7 +571,7 @@ export default {
 
                     // 定义撤销删除的函数，恢复元素及其相关边
                     const undoFunc = () => {
-                        cy.add(elementsToRemove.jsons());
+                        this.cyInstance.add(elementsToRemove.jsons());
                     };
 
                     // 使用 this.ur.action() 创建一个自定义操作
@@ -567,20 +584,20 @@ export default {
 
 
             // 点击空白处添加node
-            cy.on('cxttap', (event) => {
+            this.cyInstance.on('cxttap', (event) => {
                 const evtTarget = event.target;
-                if (evtTarget === cy) { // 确保是在空白处点击
+                if (evtTarget === this.cyInstance) { // 确保是在空白处点击
                     event.preventDefault(); // 阻止默认的右键菜单
 
                     const pos = event.position || event.cyPosition; // 获取鼠标位置
-                    this.addNode(pos, cy); // 打开模态对话框并且传递位置和cy对象
+                    this.addNode(pos, this.cyInstance); // 打开模态对话框并且传递位置和cy对象
 
                 }
             });
 
             // 动态添加edge
             let selectedNodes = [];
-            cy.on('tap', 'node', (evt) => {
+            this.cyInstance.on('tap', 'node', (evt) => {
                 const node = evt.target;
                 // 检查节点是否已经被选中
                 if (selectedNodes.includes(node)) {
@@ -601,7 +618,7 @@ export default {
                 }
 
                 if (selectedNodes.length === 2) {
-                    this.addEdge(selectedNodes, cy)
+                    this.addEdge(selectedNodes, this.cyInstance)
                 }
             });
 
@@ -615,9 +632,10 @@ export default {
                 removeCustomContainer: false,
                 rerenderDelay: 100
             };
-            cy.navigator(defaults);
-            this.cyInstance = cy
-
+            this.cyInstance.navigator(defaults);
+            // this.cyInstance = { ...this.cyInstance, cy };
+            // console.log("初始化之后的cy：",cy)
+            console.log("初始化之后的cy：", this.cyInstance)
             // 记录用户数据undo-redo
             var options = {
                 isDebug: false,
@@ -626,6 +644,9 @@ export default {
                 stackSizeLimit: undefined,
             }
             this.ur = this.cyInstance.undoRedo(options);
+            console.log(this.ur)
+            this.$store.dispatch('cyInstance', this.cyInstance)
+            this.$store.dispatch('ur', this.ur)
         },
 
         // 添加节点表单
@@ -633,6 +654,7 @@ export default {
             this.modalPos = pos
             this.cyInstance = cy
             this.addNodeModalVisible = true;
+
         },
         handleNodeCancel() {
             this.addNodeModalVisible = false;
@@ -640,6 +662,7 @@ export default {
         handleNodeSubmit() {
             const pos = this.modalPos;
             const cy = this.cyInstance;
+            console.log("提交新节点时的cy：", cy)
             const nodeSize = this.formDataSize[this.formData.size]
             const nodeColor = this.learningLevelColor[this.formData.level]
             const nodeLabel = this.formData.label
@@ -677,7 +700,7 @@ export default {
 
             // 执行自定义操作
             this.ur.do("add-node", customAction);
-
+            this.cyInstance = cy
             this.addNodeModalVisible = false;
             this.formData = {
                 label: '',
@@ -699,6 +722,7 @@ export default {
         handleEdgeSubmit() {
             const selectedNodes = this.selectedNodes
             const cy = this.cyInstance;
+            console.log("提交新边时的cy：", cy)
             const relation = this.formData.relation
             const edgeId = 'edge' + Math.random();
 
@@ -740,11 +764,13 @@ export default {
             // 使用 this.ur.action() 创建一个自定义操作
             const customAction = this.ur.action("add-edge", doFunc, undoFunc);
             this.ur.do("add-edge", customAction);
-
+            this.cyInstance = cy
             this.selectedNodes.forEach(node => node.removeClass('selected'));
             this.selectedNodes = null;
             this.addEdgeModalVisible = false;
         },
+
+
 
         // 选择learning level
         handleLevelCancel() {
@@ -776,7 +802,8 @@ export default {
                 // 如果没有找到，就添加新的对象到数组
                 this.milestonesByUser.push(newMilestone);
             }
-
+            console.log(this.milestonesByUser)
+            this.$store.dispatch('milestonesByUser', this.milestonesByUser)
             // 定义一个redo undo更改颜色的函数
             const doFunc = () => {
                 selectNode.style('background-color', nodeColor);
@@ -798,17 +825,6 @@ export default {
             this.formData.start = '',
                 this.selectedNodes = null;
             this.selectLevelVisible = false;
-        },
-
-        // 更新布局
-        onChangeLayout() {
-            var newLayout = this.layoutOptionDict[this.chartLayout]
-            var cy = this.cyInstance
-            console.log(newLayout)
-
-            // 应用新布局
-            let layout = cy.layout(newLayout);
-            layout.run();
         },
 
         // 图例
@@ -981,71 +997,116 @@ export default {
             var cy = this.cyInstance;
             var updateNode = this.wordCloudData.node;
             var wordCloudData = this.wordCloudData.data;
-            var oldStyle = updateNode.style(); // 保存原始样式以便撤销
+            // console.log("更新背景的节点：", updateNode.id())
+            this.$store.watch((state) => {
+                this.currentEditNoteNodeId = state.currentEditNoteNodeId
+            })
+            // console.log("当前的节点：", this.currentEditNoteNodeId)
+            // 只有当当前编辑笔记的节点和更新的节点一致时才进行渲染
+            if (this.currentEditNoteNodeId == updateNode.id()) {
+                var oldStyle = updateNode.style(); // 保存原始样式以便撤销
 
-            const width = parseInt(updateNode.style().width) * 2.7;  // SVG 宽度
-            const height = parseInt(updateNode.style().height) * 2.7; // SVG 高度
+                const width = parseInt(updateNode.style().width) * 2.7;  // SVG 宽度
+                const height = parseInt(updateNode.style().height) * 2.7; // SVG 高度
 
 
-            // 创建 SVG 元素
-            const svgElement = d3.select("#wordCloud").append("svg")
-                .attr("width", 500)
-                .attr("height", 500)
-                .append("g")
-                .attr("transform", "translate(" + 50 + "," + 200 + ")");
+                // 创建 SVG 元素
+                const svgElement = d3.select("#wordCloud").append("svg")
+                    .attr("width", 500)
+                    .attr("height", 500)
+                    .append("g")
+                    .attr("transform", "translate(" + 50 + "," + 200 + ")");
 
-            // 绘制词云
-            svgElement.selectAll("text")
-                .data(wordCloudData)
-                .enter().append("text")
-                .style("font-size", d => d.size * 15 + "px")
-                .style("font-family", "Arial")
-                .style("fill", 'black')
-                .attr("x", (d, i) => (i % 2) * 180) // 根据需要调整以避免重叠
-                .attr("y", (d, i) => Math.floor(i / 2) * 100) // 根据需要调整以避免重叠
-                .text(d => d.text);
+                // 绘制词云
+                svgElement.selectAll("text")
+                    .data(wordCloudData)
+                    .enter().append("text")
+                    .style("font-size", d => d.size * 50 + "px")
+                    .style("font-family", "Arial")
+                    .style("fill", 'black')
+                    .attr("x", (d, i) => (i % 2) * 250) // 根据需要调整以避免重叠
+                    .attr("y", (d, i) => Math.floor(i / 2) * 50) // 根据需要调整以避免重叠
+                    .text(d => d.text);
 
-            // 获取 SVG 元素并序列化
-            var svgElementNode = document.querySelector('#wordCloud svg');
-            d3.selectAll("#wordCloud svg").remove();
-            var svgData = new XMLSerializer().serializeToString(svgElementNode);
-            var imgSrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
-            console.log(imgSrc)
-            // 更新 Cytoscape 节点的样式
-            var updateNode = cy.$id(updateNode.id())
+                // 获取 SVG 元素并序列化
+                var svgElementNode = document.querySelector('#wordCloud svg');
+                d3.selectAll("#wordCloud svg").remove();
+                var svgData = new XMLSerializer().serializeToString(svgElementNode);
+                var imgSrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+                console.log(imgSrc)
+                // 更新 Cytoscape 节点的样式
+                var updateNode = cy.$id(updateNode.id())
 
-            // undo-redo settings
-            const doFunc = () => {
-                updateNode.style({
-                    'background-image': imgSrc,
-                    'background-fit': 'cover',
-                    'width': width + 'px',
-                    'height': height + 'px',
-                });
-            };
-            const undoFunc = () => {
-                updateNode.style(oldStyle);
-            };
-            const customAction = this.ur.action("update-node-style", doFunc, undoFunc);
-            this.ur.do("update-node-style", customAction);
+                // undo-redo settings
+                const doFunc = () => {
+                    updateNode.style({
+                        'background-image': imgSrc,
+                        'background-fit': 'cover',
+                        'width': width + 'px',
+                        'height': height + 'px',
+                    });
+                };
+                const undoFunc = () => {
+                    updateNode.style(oldStyle);
+                };
+                const customAction = this.ur.action("update-node-style", doFunc, undoFunc);
+                this.ur.do("update-node-style", customAction);
+
+            }
+
         },
 
         undoAction() {
-            console.log(this.ur.actions)
+            this.$store.watch((state) => {
+                this.ur = state.ur
+            })
+            console.log("撤销的操作：", this.ur.actions)
             this.ur.undo();
         },
         redoAction() {
-            console.log(this.ur.actions)
+            this.$store.watch((state) => {
+                this.ur = state.ur
+            })
+            console.log("回退的操作：", this.ur.actions)
             this.ur.redo();
         },
         rollbackAction() {
-            console.log(this.ur.actions)
+            this.$store.watch((state) => {
+                this.ur = state.ur
+            })
+            console.log("重来的操作：", this.ur.actions)
             this.ur.undoAll();
         },
-        submitAction() {
-            if (this.milestonesByUser) {
-                this.$emit('getLearningPathDataByUser', this.milestonesByUser)
+        // 更新布局
+        onChangeLayout() {
+            var newLayout = this.layoutOptionDict[this.chartLayout]
+            this.$store.watch((state) => {
+                this.cyInstance = state.cyInstance
+            })
+
+            // 应用新布局
+            let layout = this.cyInstance.layout(newLayout);
+            try {
+                layout.on('layoutstop', function () {
+                    console.log('布局已完成');
+                });
+
+                layout.run();
+
+            } catch (error) {
+                console.error("布局运行错误：", error);
+
             }
+            // layout.run();
+        },
+        submitAction() {
+            this.$store.watch((state) => {
+                this.milestonesByUser = state.milestonesByUser
+            })
+
+            console.log('用户定义路径：', this.milestonesByUser)
+            this.$emit('getLearningPathDataByUser', this.milestonesByUser)
+
 
         },
 

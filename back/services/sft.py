@@ -4,7 +4,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer,GenerationConfig
 
 class MinderLLM:
     def __init__(self, model_path: str, device: str):
-        self.model_path = "E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0"
+        self.model_path = "E:\\Vis24-TailorMind\\tailormind\\back\\sft_v3.0" 
+        # self.model_path = "E:\\Vis24-TailorMind\\tailormind\\back\\sft_v1.0" 
         self.device = device
         self.dtype = torch.float16
         # 模型加载
@@ -30,10 +31,3 @@ class MinderLLM:
         response = self.model.chat(self.tokenizer,input_prompt)
         return {"text":response}
     
-
-
-
-# query="什么是bagging？"
-# model=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
-# response=model.generate(query)
-# print(response)

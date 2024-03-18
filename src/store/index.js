@@ -10,6 +10,7 @@ export const store = createStore({
         ur:{},
         milestonesByUser:[],
         currentEditNoteNodeId:'',
+        currentTestQuestion:'',
     },
     getters: {},
     mutations: {
@@ -34,6 +35,9 @@ export const store = createStore({
         SET_CURRENT_EDITNOTE_NODEID_DATA(state,data){
             state.currentEditNoteNodeId = data;
         },
+        SET_CURRENT_TEST_QUESTION_DATA(state,data){
+            state.currentTestQuestion = data;
+        },
     },
     actions: {
         submitChatData({ commit }, data) {
@@ -56,6 +60,9 @@ export const store = createStore({
         },
         currentEditNoteNodeId({ commit }, data) {
             commit('SET_CURRENT_EDITNOTE_NODEID_DATA', data);
+        },
+        currentTestQuestion({ commit }, data) {
+            commit('SET_CURRENT_TEST_QUESTION_DATA', data);
         },
     },
     modules: {}

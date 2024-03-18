@@ -1,6 +1,5 @@
 <template>
   <div id="container">
-    <router-view :key="$route.fullPath"></router-view>
     <div class="system-header">
       Tailor-Mind
       <div class="system-introduction"> Advancing Your Self-Regulated Learning Journey </div>
@@ -20,8 +19,9 @@
             <chat @getFileData="onGetFileData" :nodeToQuestionRmd="nodeToQuestionRmd" :getFileStatus="getFileStatus"
               @changeMindmapToDefault="onChangeMindmapToDefault" @submitChatHistory="onSubmitChatHistory"
               :isReflection="isReflection" :testingQuestionList="testingQuestionList"
-              :learningPathData="learningPathData" @changePathContrast="onChangePathContrast" @getAdjustedLearningPathData="onGetAdjustedLearningPathData"
-              :knowledgeCard="knowledgeCard"/>
+              :learningPathData="learningPathData" @changePathContrast="onChangePathContrast"
+              @getAdjustedLearningPathData="onGetAdjustedLearningPathData" :knowledgeCard="knowledgeCard"
+              @startDriver="onStartDriver" @addNewRelationToMindmap="onAddNewRelationToMindmap" />
           </div>
         </div>
       </div>
@@ -42,12 +42,12 @@
             <div class="module-header" v-else>
               <img src="./assets/Note.png" alt="Icon" class="icon" />
               NOTES
-              <Switch :checked="isReflectionShow" @change="toggleView"
+              <Switch id="file-preview-view" :checked="isReflectionShow" @change="toggleView"
                 style="float: right; position: absolute; top:8px;right:10px" size="small" />
             </div>
             <div class="module-component">
               <filePreview v-if="!isReflectionShow" :fileStructureData="fileStructureData" :fileData="fileData"
-                :pdfUrl="pdfUrl" :cardData="cardData" @askKnowledgeCard="onAskKnowledgeCard"/>
+                :pdfUrl="pdfUrl" :cardData="cardData" @askKnowledgeCard="onAskKnowledgeCard" />
               <markdownRenderer v-else style="padding:10px" :markdownData="markdownData" />
             </div>
           </div>
@@ -61,7 +61,8 @@
             <div class="module-component">
               <mindmap style="flex: 4;" :mindMapData='mindMapData' @generateWordCloud='onGenerateWordCloud'
                 :wordCloudData='wordCloudData' :submitNode='submitNode' @getQuestionRmd='onGetQuestionRmd'
-                :rmdMindmapOrNot='rmdMindmapOrNot' @getLearningPathDataByUser='onGetLearningPathDataByUser' />
+                :rmdMindmapOrNot='rmdMindmapOrNot' @getLearningPathDataByUser='onGetLearningPathDataByUser'
+                :newRelationShip="newRelationShip" />
               <noteEditor style="flex: 2;" />
             </div>
           </div>
@@ -89,7 +90,7 @@
               </div>
               <div class="module-component">
                 <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
-                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast"/>
+                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast" />
               </div>
             </div>
           </template>
@@ -101,9 +102,9 @@
                 <img src="./assets/Learningpath.png" alt="Icon" class="icon" />
                 LEARNING PATH -- BEFORE
               </div>
-              <div class="module-component" >
+              <div class="module-component">
                 <learningPath :learningPathData="learningPathData" :rmdMindmapOrNot="rmdMindmapOrNot"
-                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast"/>
+                  @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast" />
               </div>
             </div>
 
@@ -112,7 +113,7 @@
                 <img src="./assets/Learningpath.png" alt="Icon" class="icon" />
                 LEARNING PATH -- AFTER
               </div>
-              <div class="module-component" >
+              <div class="module-component">
                 <learningPathAfter :learningPathData_After="learningPathData_After" :rmdMindmapOrNot="rmdMindmapOrNot"
                   @resetLearningPathData="onResetLearningPathData" :isPathContrast="isPathContrast" />
               </div>
@@ -140,8 +141,9 @@ import markdownRenderer from './components/MarkdownRenderer.vue'
 import learningPathAfter from './components/LearningPathAfter.vue'
 import DataService from "./utils/data-service"
 
-import { Switch } from 'ant-design-vue';
-
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
+import { Switch } from 'ant-design-vue'
 export default {
   name: 'forethought',
   components: {
@@ -169,14 +171,15 @@ export default {
       rmdMindmapOrNot: true,
       questionRmdData: [],
       learningPathData: [],
-      learningPathData_After:[],
+      learningPathData_After: [],
       submitChatData: [],
       isReflection: false,
       isReflectionShow: false,
       markdownData: "",
       testingQuestionList: [],
       isPathContrast: false,
-      knowledgeCard:'',
+      knowledgeCard: '',
+      newRelationShip: [],
     }
   },
   mounted() {
@@ -297,18 +300,113 @@ export default {
     },
 
     // 切换learning path contrast
-    onChangePathContrast(){
-      this.isPathContrast=true
+    onChangePathContrast() {
+      this.isPathContrast = true
     },
 
     // 获取修改之后的learning path
-    onGetAdjustedLearningPathData(data){
-      this.learningPathData_After=data
+    onGetAdjustedLearningPathData(data) {
+      this.learningPathData_After = data
     },
 
     // file preview-从card提问
-    onAskKnowledgeCard(data){
-      this.knowledgeCard=data
+    onAskKnowledgeCard(data) {
+      this.knowledgeCard = data
+    },
+
+    // 获取从answer中提取的relation，添加到mindmap view中
+    onAddNewRelationToMindmap(data) {
+      let inputString = data.replace(/\[|\]/g, '').trim();
+      let itemList = inputString.split(',').map(item => item.trim());
+
+      let [term1, relation, term2] = itemList;
+      let newNode1 = {
+        group: 'nodes',
+        data: { id: term1 + '-1', label: term1 },
+        style: {
+          'width': 15,
+          'height': 15,
+          'content': term1,
+          'background-color': "#eee1c7"
+        }
+      };
+      let newNode2 = {
+        group: 'nodes',
+        data: { id: term2 + '-2', label: term2 },
+        style: {
+          'width': 15,
+          'height': 15,
+          'content': term2,
+          'background-color': "#eee1c7"
+        }
+      };
+      let newEdge = {
+        group: 'edges',
+        data: {
+          id: 'edge' + Math.random(),
+          source: term1 + '-1',
+          target: term2 + '-2',
+          relation: relation
+        }
+      };
+      this.newRelationShip = [newNode1, newNode2, newEdge]
+
+    },
+
+    // 定义引导的步骤
+    onStartDriver() {
+      const driverInstance = driver({
+        showProgress: true,
+        showButtons: [
+          'next',
+          'previous',
+        ],
+        steps: [
+          {
+            element: '#chat-view',
+            popover: {
+              title: 'Chat View',
+              description: "You can ask any questions here with your customed tutor TAILOR-MIND💡. She will guide you through the process of Self-Regulated Learning🎢, so start chatting with her without any reservations!",
+              position: 'bottom'
+            }
+          },
+          {
+            element: '#file-preview-view',
+            popover: {
+              title: 'File Preview',
+              description: 'Here you will find the presentation and overviews of your uploaded learning material📚, and you can also ask Tailor-Mind about the Knowledge Cards!',
+              position: 'bottom'
+            }
+          },
+          {
+            element: '#knowledge-mindmap-view',
+            popover: {
+              title: 'Knowledge Mindmap',
+              description: "Here we will show you the knowledge structure and you can interact with the Mindmap. And don't forget to record your learning on the right side✍🏻!",
+              position: 'bottom'
+            }
+          },
+          {
+            element: '#question-recommendation-view',
+            popover: {
+              title: 'Question Recommendation',
+              description: "If you're not sure how to get started, or aren't inspired to ask questions❔🤔, you can come here for some recommendations!",
+              position: 'bottom'
+            }
+          },
+          {
+            element: '#learning-path-view',
+            popover: {
+              title: 'Learning Path',
+              description: 'Also, Tailor-Mind tutor will customise your learning path for you. We hope you can work hard to complete each milestone🤩!',
+              position: 'bottom'
+            }
+          }
+        ]
+      });
+
+      driverInstance.drive();
+
     },
 
 
@@ -334,7 +432,7 @@ export default {
   font-weight: bold;
   font-size: 18px;
   padding: 5px;
-  flex-grow: 1;
+  /* flex-grow: 1; */
 }
 
 .system-introduction {
@@ -470,11 +568,11 @@ export default {
   flex: 1;
 }
 
-#learning-path-before{
+#learning-path-before {
   flex: 1;
 }
 
-#learning-path-after{
+#learning-path-after {
   flex: 1;
 }
 </style>

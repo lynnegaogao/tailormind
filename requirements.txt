@@ -1,3 +1,9 @@
+flask
 flask_cors
-werkzeug
+jieba
+torch
+transformers
 python-dotenv
+werkzeug
+requests
+

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
     "api": "cd back && python main.py"
@@ -28,11 +28,14 @@
     "d3": "^7.8.5",
     "d3-cloud": "^1.2.7",
     "deep-chat": "^1.4.10",
+    "driver.js": "^1.3.1",
     "echarts": "^5.5.0",
     "echarts-wordcloud": "^2.1.0",
+    "flask": "^0.2.10",
     "install": "^0.13.0",
     "marked": "^12.0.0",
     "npm": "^10.4.0",
+    "openai": "^4.28.4",
     "quill": "^1.3.7",
     "vue": "^3.3.11",
     "vue-beautiful-chat": "^2.5.0",

@@ -309,6 +309,10 @@ export default {
             type: Object,
             default: function () { return {}; },
         },
+        newRelationShip: {
+            type: Array,
+            default: function () { return []; },
+        },
     },
     watch: {
         wordCloudData(newValue, oldValue) {
@@ -336,7 +340,15 @@ export default {
                 })
             }
         },
-
+        'newRelationShip': {
+            deep: true,
+            handler(newValue, oldValue) {
+                console.log(newValue, oldValue)
+                this.$nextTick(() => {
+                    this.addNewRelationshipFromUser(newValue)
+                })
+            }
+        },
         isReflection(newValue, oldValue) {
             console.log(newValue, oldValue)
             if (newValue) {
@@ -822,9 +834,45 @@ export default {
 
             this.formData.level = '';
             this.formData.start = 0;
-            this.formData.start = '',
-                this.selectedNodes = null;
+            this.formData.start = '';
+            this.selectedNodes = null;
             this.selectLevelVisible = false;
+        },
+
+        // 添加从answer中提取的relation
+        addNewRelationshipFromUser(data) {
+            this.$store.watch((state) => {
+                this.cyInstance = state.cyInstance
+            })
+            // this.cyInstance.add(data);
+            // 触发重新布局
+            let layout = this.cyInstance.layout({
+                name: 'cose',
+                animate: true,
+                addNodeMoanimationDuration: 1000,
+                animationEasing: 'ease-out',
+            });
+            layout.run(); // 运行布局
+            // 执行添加操作的函数
+            const doFunc = () => {
+                this.cyInstance.add(data); // 添加节点和边到图中
+            };
+
+            // 撤销添加操作的函数
+            const undoFunc = () => {
+                // 移除刚才添加的节点和边
+                data.forEach(item => {
+                    if (item.data && item.data.id) {
+                        this.cyInstance.getElementById(item.data.id).remove();
+                    }
+                });
+            };
+
+            // 定义一个自定义操作，用于添加节点和边
+            const customAction = this.ur.action("add-elements", doFunc, undoFunc);
+
+            // 执行添加操作并存储到撤销/重做堆栈中
+            this.ur.do("add-elements", customAction);
         },
 
         // 图例

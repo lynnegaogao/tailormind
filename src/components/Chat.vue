@@ -16,6 +16,8 @@ import { ref } from "vue";
 import { Textarea } from 'ant-design-vue';
 import { Button } from 'ant-design-vue';
 import 'deep-chat';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 
 export default {
     name: 'ChatComponent',
@@ -32,7 +34,7 @@ export default {
             reflectionHistoryMessages: [],
             newMessage: '',
             requestConfig: {
-                url: "http://127.0.0.1:5000/files",
+                url: "http://10.222.213.92:5000/files",
                 method: "POST",
             },
             introMessage: {},
@@ -65,7 +67,7 @@ export default {
             type: Array,
             default: function () { return []; },
         },
-        knowledgeCard:{
+        knowledgeCard: {
             type: String,
             default: function () { return ''; },
         }
@@ -111,7 +113,7 @@ export default {
         this.setupRequestInterceptor();
         this.setupResponseInterceptor()
     },
-    emits: ['getFileData', 'changeMindmapToDefault', 'submitChatHistory', 'changePathContrast','getAdjustedLearningPathData'],
+    emits: ['getFileData', 'changeMindmapToDefault', 'submitChatHistory', 'changePathContrast', 'getAdjustedLearningPathData', 'startDriver','addNewRelationToMindmap'],
     methods: {
         // 初始化
         initializeChat() {
@@ -125,7 +127,9 @@ export default {
               <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 5px">What is Self-Regulated Learning (SRL)?</button><br>
               <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 6px">What does each view of Tailor-Mind do?</button><br>
               <button class="deep-chat-button deep-chat-suggestion-button" style="margin-top: 6px">How can I start my SRL journey?</button>
-            </div>`,
+            </div>`
+                    // html:`The <span style="background-color: #f3b94555;">significance</span> of self-attention in deep learning lies in its ability to capture context and relationships within a sequence. <span style="background-color: #f3b94555;"><br>Key knowledge points</span> include understanding that self-attention allows models to focus on different parts of the input data, which can improve performance on tasks like language translation or image captioning where context is crucial. <span style="background-color: #f3b94555;"><br>For example</span>, in image captioning, self-attention helps the model to understand the importance of different regions of an image for generating a coherent description. <span style="background-color: #f3b94555;"><br>In conclusion</span>, self-attention is significant because it enables models to better understand and process sequential data by focusing on relevant aspects.`
+                    ,
                     role: 'ai',
                 },
             ];
@@ -161,6 +165,7 @@ export default {
                 this.historyMessages.push(message)
             } else {
                 this.reflectionHistoryMessages.push(message)
+                console.log(this.reflectionHistoryMessages)
             }
 
         },
@@ -206,7 +211,20 @@ export default {
                 }
                 // 拦截是否继续出选择题
                 if (historyMessages[historyMessages.length - 1] && historyMessages[historyMessages.length - 1].message.text && this.startsWithABCD(historyMessages[historyMessages.length - 1].message.text) && this.milestoneNum < this.learningPathData.length) {
-                    // console.log(requestDetails)
+                    requestDetails.body.messages[0].text = 'finish select'
+                    this.$store.watch((state) => {
+                        requestDetails.body.currentTestQuestion = state.currentTestQuestion
+                    })
+
+                }
+                if (historyMessages[historyMessages.length - 1]
+                    && historyMessages[historyMessages.length - 1].message.text
+                    && historyMessages[historyMessages.length - 3]
+                    && historyMessages[historyMessages.length - 3].message.text
+                    && this.startsWithABCD(historyMessages[historyMessages.length - 3].message.text)
+                    && historyMessages[historyMessages.length - 1].message.text == '🪄Get it!'
+                    && this.milestoneNum < this.learningPathData.length) {
+                    console.log(requestDetails)
                     requestDetails.body.messages[0].text = 'continue asking selections'
                     requestDetails.body.milestone = this.learningPathData[this.milestoneNum].milestone
                     this.milestoneNum += 1
@@ -217,8 +235,21 @@ export default {
                         requestDetails.body.milestone = this.learningPathData[this.milestoneNum].milestone
                     }
                 }
+
                 //拦截是否继续出判断题
                 if (historyMessages[historyMessages.length - 1] && historyMessages[historyMessages.length - 1].message.text && this.startsWithTrueOrFalse(historyMessages[historyMessages.length - 1].message.text) && this.milestoneNum < this.learningPathData.length) {
+                    requestDetails.body.messages[0].text = 'finish judge'
+                    this.$store.watch((state) => {
+                        requestDetails.body.currentTestQuestion = state.currentTestQuestion
+                    })
+                }
+                if (historyMessages[historyMessages.length - 1]
+                    && historyMessages[historyMessages.length - 1].message.text
+                    && historyMessages[historyMessages.length - 3]
+                    && historyMessages[historyMessages.length - 3].message.text
+                    && this.startsWithTrueOrFalse(historyMessages[historyMessages.length - 3].message.text)
+                    && historyMessages[historyMessages.length - 1].message.text == '🪄Get it!'
+                    && this.milestoneNum < this.learningPathData.length) {
                     requestDetails.body.messages[0].text = 'continue asking TRUE OR FALSE judgement'
                     requestDetails.body.milestone = this.learningPathData[this.milestoneNum].milestone
                     this.milestoneNum += 1
@@ -230,8 +261,17 @@ export default {
                         console.log(requestDetails)
                         this.$emit('changePathContrast')
                     }
-
                 }
+
+                // 拦截向mindmap中添加node-link-node
+                if(historyMessages[historyMessages.length - 1]
+                    && historyMessages[historyMessages.length - 1].message.text
+                    && historyMessages[historyMessages.length - 1].message.text.startsWith('[')
+                    && historyMessages[historyMessages.length - 1].message.text.endsWith(']')){
+                        this.$emit('addNewRelationToMindmap',historyMessages[historyMessages.length - 1].message.text)
+                    }
+
+
                 return requestDetails
             }
 
@@ -266,8 +306,15 @@ export default {
                     this.$emit('submitChatHistory', this.historyMessages)
                 }
                 // 获取反馈之后的adjusted learning path数据
-                if(response['reflection']&&response['learningpath']){
-                    this.$emit('getAdjustedLearningPathData',response['learningpath'])
+                if (response['reflection'] && response['learningpath']) {
+                    this.$emit('getAdjustedLearningPathData', response['learningpath'])
+                }
+                if (response['chatdata'] && response['chatdata']['text'] == '🎈Some guidances will be coming...') {
+
+                    this.$emit('startDriver')
+                }
+                if (response['testquestion']) {
+                    this.$store.dispatch('currentTestQuestion', response['testquestion'])
                 }
                 return response['chatdata']
             }
@@ -304,9 +351,9 @@ export default {
         },
 
         // interat with file preview: 提问knowledgeCard
-        setupAskKnowledgeCard(knowledgeCard){
+        setupAskKnowledgeCard(knowledgeCard) {
             const chatElementRef = this.$refs.chatElementRef;
-            chatElementRef.submitUserMessage({ 'text': "Please explain the following context:"+knowledgeCard });
+            chatElementRef.submitUserMessage({ 'text': "Please explain the following context:" + knowledgeCard });
         }
     }
 }
@@ -361,5 +408,6 @@ export default {
 
 .my-message {
     text-align: right;
+    background-color: #f3b94555
 }
 </style>

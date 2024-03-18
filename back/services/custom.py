@@ -7,6 +7,7 @@ import os
 from flask import Response
 from flask import jsonify
 from .sft import MinderLLM
+from .llama import Llama
 from openai import OpenAI
 
 historical=True
@@ -27,8 +28,9 @@ if not os.path.exists(directory):
     print(f'目录{directory}已创建。')
     
 OPENAI_API_KEY="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"
-minderllm=MinderLLM(model_path='E:\Vis24-TailorMind\sftmodel\llama_factory\sft_v1.0',device='cuda:0')
-
+# minderllm=MinderLLM(model_path='E:\\Vis24-TailorMind\\tailormind\\back\\sft_v1.0',device='cuda:0')
+minderllm=MinderLLM(model_path='E:\\Vis24-TailorMind\\tailormind\\back\\sft_v3.0',device='cuda:0')
+# minderllm=Llama(model_path='E:\\Vis24-TailorMind\\tailormind\\back\\sft_v2.0',device='cuda:0')
 
 knowledgeLevel=["Concept","Principle / Math formula","Application","Implementation","Significance / Influence","Related Knowledge","Contrast Knowledge","Extended Knowledge"]
 class Custom:
@@ -126,18 +128,8 @@ class Custom:
             # 用户实际数据
             else:
                 for knowledge in knowledgeList:
-                    prompt='''
-                    For a given AI-related knowledge point, generate a triad of knowledge points associated with it. 
-                    Each triad should be expressed in the form of [Topic,Relationship,Object] as a way to form a complete knowledge representation. 
-                    Topic is the given knowledge point, object is the extended knowledge point related to the topic, 
-                    and relation is the logical relationship between topic and object. 
-                    For example, 
-                    [["Neural Networks", "Backpropagation", "Gradient Descent"], 
-                    ["Neural Networks", "Activation Functions", "Sigmoid Function"], 
-                    ["Neural Networks", "Activation Functions", "ReLU Function"], 
-                    ["Neural Networks", "Activation Functions", "Tanh Function"], 
-                    ["Neural Networks", "Activation Functions", "Softmax Function"]]. The knowledge point is:
-                    '''
+                    # prompt="For a given AI-related knowledge point, generate a triad of knowledge points associated with it.Each triad should be expressed in the form of [Topic,Relationship,Object] as a way to form a complete knowledge representation. Topic is the given knowledge point, object is the extended knowledge point related to the topic, and relation is the logical relationship between topic and object. The knowledge point is: "
+                    prompt="For a given AI-related knowledge point, generate a triad of knowledge points associated with it. Each triad should be expressed in the form of [Topic,Relationship,Object] as a way to form a complete knowledge representation. The Relationship should be one of the following types: Concept, Principle/Math Formula, Application, Implementation, Significance, Related Knowledge, Extended Knowledge, Contrast Knowledge. The knowledge point is:"
                     body=prompt+knowledge
                     print("正在处理：",knowledge)
                     response=minderllm.generate(query=body)
@@ -222,7 +214,8 @@ class Custom:
                 response={"text":"🥳**Upload your learning material** and start your SRL journey!"}
             # 问题推荐
             elif body.startswith("Recommend some questions"):
-                response=minderllm.generate(query=body)
+                response=minderllm.generate(query="Recommend some questions about Transformer Decoder for learning.")
+                print(response)
                 # 需要删除，暂时使用
                 # response={"text":"1. What is Self-Regulated Learning (SRL)?\n2. What does each view of Tailor-Mind do?\n3. How can I start my SRL journey?"}
                 html_response=self.convert_rmdText_to_html(response)
@@ -263,12 +256,17 @@ class Custom:
                     "text": "👻Will you finish your reviewing? \nAnd ready to do any tests?💯",
                     "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">Yes</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">No</button></div>",
                 }
-            # 生成选择测试题
+            # 生成选择测试题以及对应的解答
             elif body=='start testing!' or body=='continue asking selections':
-                selection_query="Give a multiple choice question on "+request.json['milestone']+" in single choice questions."
+                selection_query="Give a multiple choice question on "+request.json['milestone']+"."
+                print(selection_query)
                 selection_rmd=minderllm.generate(query=selection_query)["text"]
                 print("selections from sft:",selection_rmd)
                 response=self.convert_selections_to_html(selection_rmd)
+                return {
+                    'chatdata':response,
+                    'testquestion':selection_rmd
+                }
             elif body=='continue asking TRUE OR FALSE judgement':
                 judgement_query="Give me a TRUE OR FALSE judgement question on "+request.json['milestone']+". Do not give answers."
                 judgement_rmd=minderllm.generate(query=judgement_query)["text"]
@@ -276,6 +274,32 @@ class Custom:
                 response={
                     "text":judgement_rmd,
                     "html": "<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid green; margin-right: 10px\">True</button><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid #d80000\">False</button></div>",
+                }
+                return {
+                    'chatdata':response,
+                    'testquestion':judgement_rmd
+                }
+            elif body=='finish select':
+                correct_answer_query=request.json['currentTestQuestion']+'Please give the correct option.'
+                answer_explain_query=request.json['currentTestQuestion']+'Please explain each option.'
+                # correct_answer=minderllm.generate(query=correct_answer_query)["text"]
+                # print(correct_answer)
+                answer_explain=minderllm.generate(query=answer_explain_query)["text"]
+                print(answer_explain)
+                response={
+                    "text": answer_explain,
+                    "html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid rgb(108, 118, 141); margin-right: 10px\">🪄Get it!</button></div>",
+                }
+            elif body=='finish judge':
+                correct_answer_query=request.json['currentTestQuestion']+'Please give the correct option.'
+                answer_explain_query=request.json['currentTestQuestion']+'True or False? Please explain the answer.'
+                # correct_answer=minderllm.generate(query=correct_answer_query)["text"]
+                # print(correct_answer)
+                answer_explain=minderllm.generate(query=answer_explain_query)["text"]
+                print(answer_explain)
+                response={
+                    "text": answer_explain,
+                    "html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"border: 1px solid rgb(108, 118, 141); margin-right: 10px\">🪄Get it!</button></div>",
                 }
             # 生成feedback
             elif body=='test finished':  
@@ -304,9 +328,18 @@ class Custom:
             # 其他正常问答
             else:
                 response=minderllm.generate(query=body)
-                # 需要删除，暂时使用
-                # response={"text":"Some guidances will be coming...","html":"<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">What does each view of Tailor-Mind do?</button><br><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">How can I start my SRL journey?</button></div>"}
-
+                relation_extraction=minderllm.generate(query="Create a ternary relationship format [Term1, Relation, Term2] from your answer. The Relation should be one of the following types: Concept, Principle/Math Formula, Application, Implementation, Significance, Related Knowledge, Extended Knowledge, Contrast Knowledge."+response['text'])
+                print("Response:",response)
+                print("relation_extraction:",relation_extraction)
+                relation_extraction_html=self.convert_relations_to_html(relation_extraction['text'])
+                if relation_extraction_html:
+                    print("Response:",response)
+                    response={
+                        'text':response['text'],
+                        'html':relation_extraction_html
+                    }
+                else:
+                    print("Response:",response)
             print("Response:",response)
             return {'chatdata':response}
 
@@ -841,21 +874,61 @@ class Custom:
         return ai_output_json
     
     def convert_rmdText_to_html(self, response):
-        questions = response['text'].split('\n')
+        questions = response['text'].split('?')
+        print(questions)
         html_str = '<div class="deep-chat-temporary-message">'
         # 遍历所有问题，将每个问题添加到HTML字符串中
         for question in questions:
             # 删除问题编号
-            question_text = re.sub(r"^\d+\.\s*", "", question)
-            button_html = f'<button class="deep-chat-button deep-chat-suggestion-button" style="text-align: left; margin-top: 6px;">{question_text}</button><br>'
-            html_str += button_html
+            if question:
+                question_text = re.sub(r"^\d+\.\s*", "", question)
+                print(question_text+'?')
+                button_html = f'<button class="deep-chat-button deep-chat-suggestion-button" style="text-align: left; margin-top: 6px;">{question_text}?</button><br>'
+                html_str += button_html
         html_str += '</div>'
 
         return {'html': html_str}
     
     def convert_selections_to_html(self,response):
-        text, options = response.split('\n', 1)
-        options_formatted = ''.join([f'<div class=\"deep-chat-temporary-message\"><button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">{option}</button>' for option in options.split('\n')])
-           
-        return  {"text": text, "html": options_formatted}
+        split_text = re.split(r"\s(?=[A-D]\.)", response)  
+        question = split_text[0]
+        options = split_text[1:]
+        options_formatted='<div class=\"deep-chat-temporary-message\">'
+        for option in options:
+            options_formatted +=f'<button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">{option}</button>'
+        options_formatted+='</div>'
+        return  {"text": question, "html": options_formatted}
     
+    def convert_relations_to_html(self,response):
+        colors=['#d4a1b1c4','#d6a78bb9','#e1c796c2','#bfc69bbf','#899e7fd4','#8a9d9dc4','#949eb9ba','#a59ac6bc']
+        knowledgeLevel=["Concept",
+                        "Principle/Math Formula",
+                        "Application",
+                        "Implementation",
+                        "Significance",
+                        "Related Knowledge",
+                        "Contrast Knowledge",
+                        "Extended Knowledge"]
+        
+        try:
+            response = response.replace("'", '"')
+            relations=json.loads(response)
+            
+            buttons_html='<div class=\"deep-chat-temporary-message\">'
+            for item in relations:
+                object=item[0]
+                relation=item[1]
+                subject=item[2]
+                if relation in knowledgeLevel:
+                    index = knowledgeLevel.index(relation)
+                    highlightColor=colors[index]
+                else: 
+                    highlightColor='#cccccc9d'
+                button=f'<button class=\"deep-chat-button deep-chat-suggestion-button\" style=\"margin-top: 6px\">[ {object}, <span style="background-color:{highlightColor} ; border-radius: 5px; padding: 3px 3px;">{relation}</span>, {subject} ]</button>'
+                buttons_html+=button
+            buttons_html+='</div>'
+            print(buttons_html)
+            return buttons_html
+        except Exception as e:
+            print(f"maybe has no relations: {e}")
+            return None
